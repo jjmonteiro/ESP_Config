@@ -1,0 +1,19 @@
+<html>
+<head>
+  <title>Simple client</title>
+  <script src="main.js"></script>
+</head>
+<body onload="init();">
+  <form onsubmit="onSubmit(); return false;" autocomplete="off">
+    <input type="text" id="status"><br>
+    <input type="text" id="speed"><br>
+    <input type="text" id="sensor_1"><br>
+    <input type="text" id="sensor_2"><br>
+    <br>
+    <input type="text" id="input">
+    <input type="submit" value="Send">
+    <button onclick="onCloseClick(); return false;">close</button>
+  </form>
+  <div id="log"></div>
+</body>
+</html>
