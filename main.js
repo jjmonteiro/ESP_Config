@@ -1,10 +1,17 @@
 
 var ws;
+let mountains = [
+  { name: "Monte Falco", height: 1658, place: "Parco Foreste Casentinesi" },
+  { name: "Monte Falterona", height: 1654, place: "Parco Foreste Casentinesi" },
+  { name: "Poggio Scali", height: 1520, place: "Parco Foreste Casentinesi" },
+  { name: "Pratomagno", height: 1592, place: "Parco Foreste Casentinesi" },
+  { name: "Monte Amiata", height: 1738, place: "Siena" }];
+
 
 function init() {
   var timer1;
   var timer2;
-
+  
   // Connect to Web Socket
   ws = new WebSocket("ws://localhost:81/");
   
@@ -15,8 +22,21 @@ function init() {
       output("reply: " + e.data);
       var obj = JSON.parse(e.data);
 
-      document.getElementById("text2").value = obj.type;
-      document.getElementById("text3").value = obj.value;
+      switch (obj.type){
+        case 0:
+          document.getElementById("text2").value = obj.value;
+        break;
+        case 1:
+          document.getElementById("text3").value = obj.value;
+        break;
+        case 2:
+          document.getElementById("text4").value = obj.value;
+        break;
+        case 3:
+          updateTable();
+        break;
+        default:
+      }
     }
   };
 
@@ -44,6 +64,7 @@ function sleep(milliseconds) {
 }
 
 function updateFields(){
+
   ws.send("s1");
   output("auto request: s1");
 }
@@ -94,4 +115,35 @@ function output(str) {
   var escaped = str.replace(/&/, "&amp;").replace(/</, "&lt;").
     replace(/>/, "&gt;").replace(/"/, "&quot;"); // "
   log.innerHTML = escaped + "<br>" + log.innerHTML;
+}
+
+
+
+function generateTableHead(table, data) {
+  let thead = table.createTHead();
+  let row = thead.insertRow();
+  for (let key of data) {
+    let th = document.createElement("th");
+    let text = document.createTextNode(key);
+    th.appendChild(text);
+    row.appendChild(th);
+  }
+}
+
+function generateTable(table, data) {
+  for (let element of data) {
+    let row = table.insertRow();
+    for (key in element) {
+      let cell = row.insertCell();
+      let text = document.createTextNode(element[key]);
+      cell.appendChild(text);
+    }
+  }
+}
+
+function updateTable(){
+  let table = document.querySelector("table");
+  let data = Object.keys(mountains[0]);
+  generateTable(table, mountains);
+  generateTableHead(table, data);  
 }
