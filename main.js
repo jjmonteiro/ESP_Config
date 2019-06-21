@@ -1,30 +1,37 @@
 
 var ws;
-var speed = 0;
 
 function init() {
-  setInterval(updateSpeed, 1000);
+  var timer1;
+  var timer2;
+
   // Connect to Web Socket
   ws = new WebSocket("ws://localhost:81/");
   
   ws.onmessage = function(e) {
-    speed++;
 
-    sleep(2);//to limit cpu stress
-
-    ws.send('0');
     // e.data contains received string.
     if (e.data != '0'){
       output("reply: " + e.data);
       var obj = JSON.parse(e.data);
 
-      document.getElementById("sensor_1").value = obj.type;
-      document.getElementById("sensor_2").value = obj.value;
+      document.getElementById("text2").value = obj.type;
+      document.getElementById("text3").value = obj.value;
     }
-
-
   };
 
+  ws.onopen = function(e) {
+    timer1 = setInterval(checkConnection, 5000);
+    timer2 = setInterval(updateFields, 5000);
+    checkConnection();
+    document.getElementById("button1").innerHTML = "Close";
+  };
+  ws.onclose = function(e) {
+    //clearInterval(timer1);
+    clearInterval(timer2);
+    checkConnection();
+    document.getElementById("button1").innerHTML = "Open";
+  };
 }
 
 function sleep(milliseconds) {
@@ -36,29 +43,50 @@ function sleep(milliseconds) {
   }
 }
 
-function updateSpeed(){
-  var stt = document.getElementById("status");
-  var spd = document.getElementById("speed");
-  spd.value = speed;
-  if (speed){
-    stt.value = "Connected.";
-  }else{
-    stt.value = "Disconnected.";
+function updateFields(){
+  ws.send("s1");
+  output("auto request: s1");
+}
+
+function checkConnection(){
+
+  var status = document.getElementById("text1");
+  var reply;
+
+  switch (ws.readyState){
+    case 0:
+      reply = "Connecting.."
+    break;
+    case 1:
+      reply = "Connected."
+    break;
+    case 2:
+      reply = "Disconnecting.."
+    break;
+    case 3:
+      reply = "Disconnected."
+    break;
+    default:
+      reply = "Unknown Status."
   }
-  speed = 0;
+  status.value = reply;
 }
 
 function onSubmit() {
-  var input = document.getElementById("input");
-  // You can send message to the Web Socket using ws.send.
+  var input = document.getElementById("text5");
+
   ws.send(input.value);
   output("request: " + input.value);
   input.value = "";
   input.focus();
 }
 
-function onCloseClick() {
-  ws.close();
+function onClick() {
+  if (ws.readyState == 1){
+    ws.close();
+  }else{
+    init();
+  }
 }
 
 function output(str) {

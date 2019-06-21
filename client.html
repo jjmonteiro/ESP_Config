@@ -5,14 +5,19 @@
 </head>
 <body onload="init();">
   <form onsubmit="onSubmit(); return false;" autocomplete="off">
-    <input type="text" id="status"><br>
-    <input type="text" id="speed"><br>
-    <input type="text" id="sensor_1"><br>
-    <input type="text" id="sensor_2"><br>
+    <input type="text" id="text1"><br>
     <br>
-    <input type="text" id="input">
+    <table>
+    <!-- here goes our data! -->
+    </table>
+    <br>
+    <input type="text" id="text2"><br>
+    <input type="text" id="text3"><br>
+    <input type="text" id="text4"><br>
+    <br>
+    <input type="text" id="text5">
     <input type="submit" value="Send">
-    <button onclick="onCloseClick(); return false;">close</button>
+    <button onclick="onClick(); return false;">Close</button>
   </form>
   <div id="log"></div>
 </body>

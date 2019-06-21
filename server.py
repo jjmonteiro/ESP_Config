@@ -1,4 +1,6 @@
 from websocket_server import WebsocketServer
+from random import randint
+
 
 # Called for every client connecting (after handshake)
 def new_client(client, server):
@@ -20,12 +22,13 @@ def message_received(client, server, message):
 	if (message != '0'):
 		print("Client(%d) said: %s" % (client['id'], message))
 
-		if (message == "sensor1"):
+		if (message == "s1"):
 			#server.send_message(client['id'], "pong")
-			server.send_message_to_all("{\"type\":\"111\", \"value\":\"1111\"}");
+			nr = randint(10, 99)
+			server.send_message_to_all('{"type":'+str(nr)+ ', "value":'+str(nr*5)+'}');
 
-		if (message == "sensor2"):
-			server.send_message_to_all("{\"type\":\"222\", \"value\":\"2222\"}");
+		if (message == "s2"):
+			server.send_message_to_all('{"type":22, "value":43423}');
 
 
 
