@@ -2,11 +2,11 @@ from websocket_server import WebsocketServer
 from random import randint
 
 
-mountains = """{ name: "Monte Falco", height: 1658, place: "Parco Foreste Casentinesi" },
+mountains = """[{ name: "Monte Falco", height: 1658, place: "Parco Foreste Casentinesi" },
   { name: "Monte Falterona", height: 1654, place: "Parco Foreste Casentinesi" },
-  { name: "Poggio Scali", height: 1520, place: "Parco Foreste Casentinesi" },
-  { name: "Pratomagno", height: 1592, place: "Parco Foreste Casentinesi" },
-  { name: "Monte Amiata", height: 1738, place: "Siena" }"""
+  { name: "Poggio Scali", height: 1111, place: "Parco Foreste Casentinesi" },
+  { name: "Pratomagno", height: 2222, place: "Parco Foreste Casentinesi" },
+  { name: "Monte Amiata", height: 3333, place: "Siena" }]"""
 
 # Called for every client connecting (after handshake)
 def new_client(client, server):
@@ -31,22 +31,22 @@ def message_received(client, server, message):
 		if (message == "s0"):
 			#server.send_message(client['id'], "pong")
 			nr = randint(10, 99)
-			server.send_message_to_all('{"type":0, "value":'+str(nr*5)+'}');
+			server.send_message_to_all('{ "type":0, "value":' +str(nr*5)+ '}');
 		
 		if (message == "s1"):
 			#server.send_message(client['id'], "pong")
 			nr = randint(10, 99)
-			server.send_message_to_all('{"type":1, "value":'+str(nr*5)+'}');
+			server.send_message_to_all('{ "type":1, "value":' +str(nr*5)+ '}');
 		
 		if (message == "s2"):
 			#server.send_message(client['id'], "pong")
 			nr = randint(10, 99)
 			#server.send_message_to_all('{"type":3, "value":'+mountains+'}');
-			server.send_message_to_all('{"type":2, "value":'+str(nr*5)+'}');
+			server.send_message_to_all('{ "type":2, "value":' +str(nr*5)+ '}');
 		
 		if (message == "s3"):
 			nr = randint(10, 99)
-			server.send_message_to_all('{"type":3, "value":'+str(nr*5)+'}');
+			server.send_message_to_all('{ "type":3, "value":[{"a":45,"b":12,"c":10},{"a":33,"b":20,"c":44}] }');
 
 
 PORT=81

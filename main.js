@@ -8,10 +8,15 @@ let mountains = [
   { name: "Monte Amiata", height: 1738, place: "Siena" }];
 
 
+
 function init() {
   var timer1;
   var timer2;
   
+
+  let list = [{name:12, height:1658, place:22},{name:54, height:1233, place:566}];
+  updateTable(list);
+
   // Connect to Web Socket
   ws = new WebSocket("ws://localhost:81/");
   
@@ -33,7 +38,11 @@ function init() {
           document.getElementById("text4").value = obj.value;
         break;
         case 3:
-          updateTable();
+          //var data = '{"a":23}';
+          //let test = JSON.parse(data);
+          output("obj: " + obj.value);
+          updateTable(obj.value);
+
         break;
         default:
       }
@@ -64,7 +73,7 @@ function sleep(milliseconds) {
 }
 
 function updateFields(){
-
+  return;
   ws.send("s1");
   output("auto request: s1");
 }
@@ -141,9 +150,10 @@ function generateTable(table, data) {
   }
 }
 
-function updateTable(){
-  let table = document.querySelector("table");
-  let data = Object.keys(mountains[0]);
-  generateTable(table, mountains);
+function updateTable(list){
+  let table = document.getElementById("table1");
+  table.innerHTML = "";
+  let data = Object.keys(list[0]);
+  generateTable(table, list);
   generateTableHead(table, data);  
 }
