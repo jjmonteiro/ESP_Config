@@ -1,12 +1,14 @@
 from websocket_server import WebsocketServer
 from random import randint
+import json
 
 
-mountains = """[{ name: "Monte Falco", height: 1658, place: "Parco Foreste Casentinesi" },
-  { name: "Monte Falterona", height: 1654, place: "Parco Foreste Casentinesi" },
-  { name: "Poggio Scali", height: 1111, place: "Parco Foreste Casentinesi" },
-  { name: "Pratomagno", height: 2222, place: "Parco Foreste Casentinesi" },
-  { name: "Monte Amiata", height: 3333, place: "Siena" }]"""
+networks = [
+	{"SSID":"454csdf",		"RSSI":"-12",	"CH":1,		"AUTH":3},
+	{"SSID":"router_45tsf", "RSSI":"-78",	"CH":2,		"AUTH":2},
+	{"SSID":"wqesdf",		"RSSI":"-21",	"CH":12,	"AUTH":2},
+	{"SSID":"iphone2323",	"RSSI":"-34",	"CH":4,		"AUTH":1},
+	{"SSID":"netgear3324",	"RSSI":"-14",	"CH":6,		"AUTH":0}]
 
 # Called for every client connecting (after handshake)
 def new_client(client, server):
@@ -22,32 +24,58 @@ def client_left(client, server):
 # Called when a client sends a message
 def message_received(client, server, message):
 	#server.send_message_to_all("Client(%d) said: %s" % (client['id'], message))
+	print("Client(%d) said: %s" % (client['id'], message))
 
-	server.send_message_to_all('0')	
+	try:
+		obj = json.loads(message)
+	except:
+		print("error: bad json request")
+	else:
+		if isinstance(obj, dict) and "type" in obj:
 
-	if (message != '0'):
-		print("Client(%d) said: %s" % (client['id'], message))
+			cmd = obj["type"]
+			x = {
+				  "type" : cmd,
+				  "value": 0,
+				}
 
-		if (message == "s0"):
-			#server.send_message(client['id'], "pong")
-			nr = randint(10, 99)
-			server.send_message_to_all('{ "type":0, "value":' +str(nr*5)+ '}');
-		
-		if (message == "s1"):
-			#server.send_message(client['id'], "pong")
-			nr = randint(10, 99)
-			server.send_message_to_all('{ "type":1, "value":' +str(nr*5)+ '}');
-		
-		if (message == "s2"):
-			#server.send_message(client['id'], "pong")
-			nr = randint(10, 99)
-			#server.send_message_to_all('{"type":3, "value":'+mountains+'}');
-			server.send_message_to_all('{ "type":2, "value":' +str(nr*5)+ '}');
-		
-		if (message == "s3"):
-			nr = randint(10, 99)
-			server.send_message_to_all('{ "type":3, "value":[{"a":45,"b":12,"c":10},{"a":33,"b":20,"c":44}] }');
+			if (cmd == 0):
+				#server.send_message(client['id'], "pong")
+				x = {
+					  "type" : cmd,
+					  "value": "pong"
+					}
 
+			
+			elif (cmd == 1):
+				#server.send_message(client['id'], "pong")
+				x = {
+					  "type" : cmd,
+					  "value": randint(10000, 99999)
+					}
+			
+			elif (cmd == 2):
+				x = {
+					  "type" : cmd,
+					  "name": "John",
+					  "age": 30,
+					  "married": True,
+					  "divorced": False,
+					  "children": ("Ann","Billy"),
+					  "pets": None,
+					  "cars": [
+					    {"model": "BMW 230", "mpg": 27.5},
+					    {"model": "Ford Edge", "mpg": 24.1}
+					  ]
+					}
+			
+			elif (cmd == 3):
+				x = {
+					  "type" : cmd,
+					  "value": networks
+				}
+
+		server.send_message_to_all(json.dumps(x));
 
 PORT=81
 server = WebsocketServer(PORT)

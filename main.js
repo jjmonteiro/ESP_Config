@@ -1,21 +1,10 @@
 
 var ws;
-let mountains = [
-  { name: "Monte Falco", height: 1658, place: "Parco Foreste Casentinesi" },
-  { name: "Monte Falterona", height: 1654, place: "Parco Foreste Casentinesi" },
-  { name: "Poggio Scali", height: 1520, place: "Parco Foreste Casentinesi" },
-  { name: "Pratomagno", height: 1592, place: "Parco Foreste Casentinesi" },
-  { name: "Monte Amiata", height: 1738, place: "Siena" }];
-
+var debug = true;
 
 
 function init() {
   var timer1;
-  var timer2;
-  
-
-  let list = [{name:12, height:1658, place:22},{name:54, height:1233, place:566}];
-  updateTable(list);
 
   // Connect to Web Socket
   ws = new WebSocket("ws://localhost:81/");
@@ -23,41 +12,19 @@ function init() {
   ws.onmessage = function(e) {
 
     // e.data contains received string.
-    if (e.data != '0'){
+    if (e.data){
       output("reply: " + e.data);
-      var obj = JSON.parse(e.data);
-
-      switch (obj.type){
-        case 0:
-          document.getElementById("text2").value = obj.value;
-        break;
-        case 1:
-          document.getElementById("text3").value = obj.value;
-        break;
-        case 2:
-          document.getElementById("text4").value = obj.value;
-        break;
-        case 3:
-          //var data = '{"a":23}';
-          //let test = JSON.parse(data);
-          output("obj: " + obj.value);
-          updateTable(obj.value);
-
-        break;
-        default:
-      }
+      jsonRX(e.data);
     }
   };
 
   ws.onopen = function(e) {
-    timer1 = setInterval(checkConnection, 5000);
-    timer2 = setInterval(updateFields, 5000);
+    timer1 = setInterval(checkConnection, 10000);
     checkConnection();
     document.getElementById("button1").innerHTML = "Close";
   };
   ws.onclose = function(e) {
     //clearInterval(timer1);
-    clearInterval(timer2);
     checkConnection();
     document.getElementById("button1").innerHTML = "Open";
   };
@@ -73,9 +40,7 @@ function sleep(milliseconds) {
 }
 
 function updateFields(){
-  return;
-  ws.send("s1");
-  output("auto request: s1");
+  jsonTX(JSON.stringify({"type":0,"value":"ping"}));
 }
 
 function checkConnection(){
@@ -83,12 +48,14 @@ function checkConnection(){
   var status = document.getElementById("text1");
   var reply;
 
+
   switch (ws.readyState){
     case 0:
       reply = "Connecting.."
     break;
     case 1:
       reply = "Connected."
+      //updateFields();
     break;
     case 2:
       reply = "Disconnecting.."
@@ -105,8 +72,8 @@ function checkConnection(){
 function onSubmit() {
   var input = document.getElementById("text5");
 
-  ws.send(input.value);
-  output("request: " + input.value);
+  jsonTX(input.value);
+
   input.value = "";
   input.focus();
 }
@@ -120,40 +87,10 @@ function onClick() {
 }
 
 function output(str) {
+  if (!debug) return;
   var log = document.getElementById("log");
   var escaped = str.replace(/&/, "&amp;").replace(/</, "&lt;").
     replace(/>/, "&gt;").replace(/"/, "&quot;"); // "
   log.innerHTML = escaped + "<br>" + log.innerHTML;
 }
 
-
-
-function generateTableHead(table, data) {
-  let thead = table.createTHead();
-  let row = thead.insertRow();
-  for (let key of data) {
-    let th = document.createElement("th");
-    let text = document.createTextNode(key);
-    th.appendChild(text);
-    row.appendChild(th);
-  }
-}
-
-function generateTable(table, data) {
-  for (let element of data) {
-    let row = table.insertRow();
-    for (key in element) {
-      let cell = row.insertCell();
-      let text = document.createTextNode(element[key]);
-      cell.appendChild(text);
-    }
-  }
-}
-
-function updateTable(list){
-  let table = document.getElementById("table1");
-  table.innerHTML = "";
-  let data = Object.keys(list[0]);
-  generateTable(table, list);
-  generateTableHead(table, data);  
-}
