@@ -14,12 +14,15 @@
     <!-- here goes our data! -->
     </table>
     <br>
+    <button onclick="openFile(dispFile)">Open a file</button>
+    <br>
     <input type="text" id="text2"><br>
     <input type="text" id="text3"><br>
     <input type="text" id="text4"><br>
     <br>
     <input type="text" id="text5">
-    <input type="submit" value="Send">
+
+    <button id="submit1" onclick="onSubmit();" disabled="false">Send</button>
     <button id="button1" onclick="onClick(); return false;">Close</button>
   </form>
   <div id="log"></div>

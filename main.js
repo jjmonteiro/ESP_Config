@@ -10,16 +10,17 @@ function init() {
   ws = new WebSocket("ws://localhost:81/");
   
   ws.onmessage = function(e) {
-
+    
     // e.data contains received string.
     if (e.data){
+      toggleGrey("submit1");
       output("reply: " + e.data);
       jsonRX(e.data);
     }
   };
 
   ws.onopen = function(e) {
-    timer1 = setInterval(checkConnection, 10000);
+    timer1 = setInterval(checkConnection, 5000);
     checkConnection();
     document.getElementById("button1").innerHTML = "Close";
   };
@@ -70,6 +71,7 @@ function checkConnection(){
 }
 
 function onSubmit() {
+  toggleGrey("submit1");
   var input = document.getElementById("text5");
 
   jsonTX(input.value);
@@ -94,3 +96,8 @@ function output(str) {
   log.innerHTML = escaped + "<br>" + log.innerHTML;
 }
 
+
+function toggleGrey(elementid){
+  var status = document.getElementById(elementid);
+  status.disabled = !status.disabled;
+}

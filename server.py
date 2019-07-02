@@ -1,7 +1,7 @@
 from websocket_server import WebsocketServer
 from random import randint
 import json
-
+import time
 
 networks = [
 	{"SSID":"454csdf",		"RSSI":"-12",	"CH":1,		"AUTH":3},
@@ -25,38 +25,39 @@ def client_left(client, server):
 def message_received(client, server, message):
 	#server.send_message_to_all("Client(%d) said: %s" % (client['id'], message))
 	print("Client(%d) said: %s" % (client['id'], message))
+	time.sleep(5)
+
+	x = {
+		  "type" : 0,
+		  "value": 0,
+		}
 
 	try:
 		obj = json.loads(message)
+
 	except:
-		print("error: bad json request")
+		err = "error: bad json request"
+		x["value"] = err
+		print(err)
+
 	else:
 		if isinstance(obj, dict) and "type" in obj:
 
 			cmd = obj["type"]
-			x = {
-				  "type" : cmd,
-				  "value": 0,
-				}
+
 
 			if (cmd == 0):
 				#server.send_message(client['id'], "pong")
-				x = {
-					  "type" : cmd,
-					  "value": "pong"
-					}
+				x["value"] = "pong"
 
 			
 			elif (cmd == 1):
 				#server.send_message(client['id'], "pong")
-				x = {
-					  "type" : cmd,
-					  "value": randint(10000, 99999)
-					}
+				x["value"] = randint(10000, 99999)
+
 			
 			elif (cmd == 2):
-				x = {
-					  "type" : cmd,
+				x["value"] = [{
 					  "name": "John",
 					  "age": 30,
 					  "married": True,
@@ -67,15 +68,16 @@ def message_received(client, server, message):
 					    {"model": "BMW 230", "mpg": 27.5},
 					    {"model": "Ford Edge", "mpg": 24.1}
 					  ]
-					}
+					}]
 			
 			elif (cmd == 3):
-				x = {
-					  "type" : cmd,
-					  "value": networks
-				}
+				x["value"] = networks
+		else:
+			err = "error: unknown json request"
+			x["value"] = err
+			print(err)	
 
-		server.send_message_to_all(json.dumps(x));
+	server.send_message_to_all(json.dumps(x));
 
 PORT=81
 server = WebsocketServer(PORT)

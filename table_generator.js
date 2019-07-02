@@ -1,15 +1,15 @@
 
-function updateTable(tableId, dataArray){
+function updateTable(tableId, jsonData){
 
   var tableHTML = "<tr>";
-  for (var headers in dataArray[0]) {
+  for (var headers in jsonData[0]) {
     tableHTML += "<th>" + headers + "</th>";
   }
   tableHTML += "</tr>";
   
-  for (var eachItem in dataArray) {
+  for (var eachItem in jsonData) {
     tableHTML += "<tr>";
-    var dataObj = dataArray[eachItem];
+    var dataObj = jsonData[eachItem];
     for (var eachValue in dataObj){
       tableHTML += "<td>" + dataObj[eachValue] + "</td>";
     }
