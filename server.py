@@ -33,7 +33,7 @@ def message_received(client, server, message):
 		}
 
 	try:
-		obj = json.loads(message)
+		x = json.loads(message)
 
 	except:
 		err = "error: bad json request"
@@ -41,10 +41,9 @@ def message_received(client, server, message):
 		print(err)
 
 	else:
-		if isinstance(obj, dict) and "type" in obj:
+		if isinstance(x, dict) and "type" in x:
 
-			cmd = obj["type"]
-
+			cmd = x["type"]
 
 			if (cmd == 0):
 				#server.send_message(client['id'], "pong")
@@ -72,6 +71,13 @@ def message_received(client, server, message):
 			
 			elif (cmd == 3):
 				x["value"] = networks
+
+			elif (cmd == 5):
+				x["value"] = True
+				with open("received_file.dat", "wb") as binary_file:
+					binary_file.write(obj["value"])
+					binary_file.close()
+
 		else:
 			err = "error: unknown json request"
 			x["value"] = err
@@ -81,7 +87,10 @@ def message_received(client, server, message):
 
 PORT=81
 server = WebsocketServer(PORT)
-server.set_fn_new_client(new_client)
-server.set_fn_client_left(client_left)
-server.set_fn_message_received(message_received)
-server.run_forever()
+if isinstance(server, WebsocketServer):
+	server.set_fn_new_client(new_client)
+	server.set_fn_client_left(client_left)
+	server.set_fn_message_received(message_received)
+	server.run_forever()
+else:
+	print("failed open websocket.")

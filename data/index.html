@@ -1,0 +1,33 @@
+<html>
+<head>
+  <title>Simple client</title>
+  <script src="table_generator.js"></script> 
+  <script src="json_handler.js"></script>
+  <script src="main.js"></script>
+
+</head>
+<body onload="init();">
+  <form onsubmit="onSubmit(); return false;" autocomplete="off">
+    <input type="text" id="text1"><br>
+    <br>
+    <table id="table1">
+    <!-- here goes our data! -->
+    </table>
+    <br>
+    <form method="post" enctype="multipart/form-data">
+      <input type="file" name="name">
+      <input class="button" type="submit" value="Upload">
+    </form>
+    <br>
+    <input type="text" id="text2"><br>
+    <input type="text" id="text3"><br>
+    <input type="text" id="text4"><br>
+    <br>
+    <input type="text" id="text5">
+
+    <button id="submit1" onclick="onSubmit();" disabled="false">Send</button>
+    <button id="button1" onclick="onClick(); return false;">Close</button>
+  </form>
+  <div id="log"></div>
+</body>
+</html>
