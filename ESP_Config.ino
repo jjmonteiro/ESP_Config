@@ -7,6 +7,7 @@
 #include <EEPROM.h>
 #include <WiFi.h>
 #include "ESPAsyncWebServer.h"
+
 #include "FS.h"
 #include "SPIFFS.h"
 #include <rom/rtc.h>
@@ -37,6 +38,10 @@ enum debugTypes {
     t_FAIL
 };
 
+
+
+
+
 const char* ssid = "(-_-)";
 const char* psk = "monteiro";
 //***************************************************//
@@ -55,6 +60,7 @@ TaskHandle_t Task1, Task11, Task2;
 
 WiFiClient espClient;
 AsyncWebServer server(80);
+AsyncWebSocket ws("/ws"); // access at ws://[esp ip]/ws
 
 //EEPROM_CRC system_memory;
 //***************************************************//
@@ -75,12 +81,11 @@ void setup() {
     printBootupInfo();
     createTasks();
 
-    spiffsManager();
-
 
 
     wifiManager();
-    webManager();
+
+    webManager(spiffsManager());
 
 
 }

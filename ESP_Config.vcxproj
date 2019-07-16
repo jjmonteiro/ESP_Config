@@ -114,6 +114,12 @@
     <None Include="ESP_Config.ino">
       <FileType>CppCode</FileType>
     </None>
+    <None Include="pageFail.ino">
+      <FileType>CppCode</FileType>
+    </None>
+    <None Include="socketManager.ino">
+      <FileType>CppCode</FileType>
+    </None>
     <None Include="spiffsManager.ino">
       <FileType>CppCode</FileType>
     </None>

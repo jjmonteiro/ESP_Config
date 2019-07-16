@@ -7,7 +7,7 @@ function init() {
   var timer1;
 
   // Connect to Web Socket
-  ws = new WebSocket("ws://%IPADDR%:81/");
+  ws = new WebSocket("ws://%IPADDR%/ws");
   
   ws.onmessage = function(e) {
     

@@ -23,6 +23,8 @@
     <None Include="webManager.ino" />
     <None Include="spiffsManager.ino" />
     <None Include="debugManager.ino" />
+    <None Include="pageFail.ino" />
+    <None Include="socketManager.ino" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="__vm\.ESP_Config.vsarduino.h">

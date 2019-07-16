@@ -110,6 +110,8 @@ typedef long __PTRDIFF_TYPE__;
 #include "bootupInfo.ino"
 #include "debugManager.ino"
 #include "eepromCRC.ino"
+#include "pageFail.ino"
+#include "socketManager.ino"
 #include "spiffsManager.ino"
 #include "taskManager.ino"
 #include "webManager.ino"

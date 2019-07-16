@@ -1,12 +1,20 @@
-//create a task that will be executed in the Task1code() function, with priority 1 and executed on core 0
-//xTaskCreatePinnedToCore(
-//    Task1code,   /* Task function. */
-//    "Task1",     /* name of task. */
-//    10000,       /* Stack size of task */
-//    NULL,        /* parameter of the task */
-//    1,           /* priority of the task */
-//    &Task1,      /* Task handle to keep track of created task */
-//    0);          /* pin task to core 0 */
+//***************************************************//
+//Module:   taskManager
+//Created:  08-Nov-18 12:44:00
+//Author:   Joaquim Monteiro
+//Brief:    Provides multi-tasking features with CPU core selection
+//
+//Usage:
+//    create a task that will be executed in the Task1code() function, with priority 1 and executed on core 0
+//    xTaskCreatePinnedToCore(
+//      Task1code,   /* Task function. */
+//      "Task1",     /* name of task. */
+//      10000,       /* Stack size of task */
+//      NULL,        /* parameter of the task */
+//      1,           /* priority of the task */
+//      &Task1,      /* Task handle to keep track of created task */
+//      0);          /* pin task to core 0 */
+//***************************************************//
 
 
 void createTasks() { 
@@ -19,7 +27,7 @@ void createTasks() {
     delay(200);
 }
 
-//Task1code: blinks an LED every 1000 ms
+//Task1code: executes every 1000 ms
 void Task1code(void* pvParameters) {
     Debug("Task1 running on core " + String(xPortGetCoreID()), t_INFO);
 
