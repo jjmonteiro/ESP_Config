@@ -18,13 +18,13 @@
     <None Include="wifiManager.ino" />
     <None Include="bootupInfo.ino" />
     <None Include="ESP_Config.ino" />
-    <None Include="eepromCRC.ino" />
     <None Include="taskManager.ino" />
     <None Include="webManager.ino" />
     <None Include="spiffsManager.ino" />
     <None Include="debugManager.ino" />
     <None Include="pageFail.ino" />
     <None Include="socketManager.ino" />
+    <None Include="eepromManager.ino" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="__vm\.ESP_Config.vsarduino.h">

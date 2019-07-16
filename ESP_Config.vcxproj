@@ -108,7 +108,7 @@
     <None Include="debugManager.ino">
       <FileType>CppCode</FileType>
     </None>
-    <None Include="eepromCRC.ino">
+    <None Include="eepromManager.ino">
       <FileType>CppCode</FileType>
     </None>
     <None Include="ESP_Config.ino">
