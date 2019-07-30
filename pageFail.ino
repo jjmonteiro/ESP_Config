@@ -1,31 +1,48 @@
 const char PAGEFAIL[] PROGMEM = R"=====(
 <!DOCTYPE html>
 <html>
+<title>ESP32 Configurator</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <head>
 <style>
 body {
-  font-family: arial;  
-  background-color: lightblue;
-  margin: 10%;
+  font-family: arial;
+  font-size: 16px;
+  background: lightblue;
+  margin: 0;
 }
-h1 {
-  font-size: 100px;
-  text-align: center;
+header {
+  background-color: #333;
 }
-h2 {
-  font-size: 20px;
+a {
+  display: inline-block;
+  color: white;
+  padding: 14px 16px;
+  text-decoration: none;
 }
-p, a {
-  font-size: 14px;
+a:hover {
+  background-color: red;
+}
+h1{
+  font-size: 120px;
+}
+h3, p{
+  margin-left: 10%;
 }
 </style>
 </head>
 <body>
-<h1>:(</h1>
+<header>
+<a href="#">Status</a>
+<a href="#">Power</a>
+</header>
+<article>
 <br>
-<h2>Couldn't load default webpage!</h2>
-<br>
-<p>Make sure you've uploaded all 'data' folder contents into SPIFFS memory.</p>
+<h1><center>:(</center></h1>
+<h3>Default webpage not found.</h3>
+<p>Make sure all the contents of data folder are loaded into SPIFFS memory.</p>
+</article>
 </body>
 </html>
 )=====";
