@@ -1,11 +1,11 @@
 
 function updateTable(tableId, jsonData){
 
-  var tableHTML = "<tr>";
+  var tableHTML = "<thead><tr class='w3-black'>";
   for (var headers in jsonData[0]) {
     tableHTML += "<th>" + headers + "</th>";
   }
-  tableHTML += "</tr>";
+  tableHTML += "</tr></thead>";
   
   for (var eachItem in jsonData) {
     tableHTML += "<tr>";

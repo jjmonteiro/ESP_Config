@@ -24,6 +24,8 @@ function jsonTX(json_data){
 
 function jsonRX(json_data){
 
+	output("< " + json_data);
+
 	if (!IsJsonString(json_data)){return;}
 
 	var obj = JSON.parse(json_data);
@@ -36,15 +38,13 @@ function jsonRX(json_data){
 		  //document.getElementById("text3").value = obj.value;
 		break;
 		case 2:
+			updateValues(obj.value);
 		  //document.getElementById("text4").value = obj.value;
 		break;
 		case 3:
-		  updateTable("wifi-table", obj.value);
+			updateTable("wifi-table", obj.value);
 
 		break;
 		default:
 	}
 }
-
-
-

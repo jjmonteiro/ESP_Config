@@ -1,35 +1,42 @@
 
 var ws;
 var debug = true;
+var myIP = "%IPADDR%";
 
 function init() {
-  var timer1;
+  var timer1 = setInterval(checkConnection, 5000);
 
-  ws = new WebSocket("ws://localhost:81");
-  //ws = new WebSocket("ws://%IPADDR%/ws");
+  if (isValidIP(myIP)){
+    ws = new WebSocket("ws://" + myIP + "/ws");
+  }else{
+    ws = new WebSocket("ws://localhost:81");
+  }
   
   ws.onmessage = function(e) {
     
     // e.data contains received string.
     if (e.data){
-      output("reply: " + e.data);
+      
       jsonRX(e.data);
     }
   };
 
   ws.onopen = function(e) {
-    timer1 = setInterval(checkConnection, 5000);
-    checkConnection();
-    //document.getElementById("button1").innerHTML = "Close";
+    
+    //checkConnection();
   };
   ws.onclose = function(e) {
     //clearInterval(timer1);
-    checkConnection();
-    //document.getElementById("button1").innerHTML = "Open";
+    //checkConnection();
   };
 }
 
-
+function isValidIP(ipaddress) {  
+  if (/^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/.test(ipaddress)) {  
+    return true; 
+  }   
+  return false; 
+}  
 
 function updateFields(){
   jsonTX(JSON.stringify({"type":0,"value":"ping"}));
@@ -37,9 +44,7 @@ function updateFields(){
 
 function checkConnection(){
 
-  var status = document.getElementById("ter-main");
   var reply;
-
 
   switch (ws.readyState){
     case 0:
@@ -54,18 +59,26 @@ function checkConnection(){
     break;
     case 3:
       reply = "Disconnected."
-        document.getElementById("ter-main");
         ws.close();
+
         init();
     break;
     default:
       reply = "Unknown Status."
   }
+  //just for debug, this function will later update an icon
   //output(reply);
 }
 
 function onSend() {
   var input = document.getElementById("ter-input");
+  
+
+  if(ws.readyState!=1){
+    output("not connected!");
+    return;
+  }
+
   jsonTX(input.value);
   input.value = "";
 }
@@ -91,7 +104,57 @@ function toggleGrey(elementid){
 }
 
 function runScript(e) {
-    if (e.which == 13) {
-        onSend();
+    if (e.which === 13) {
+      onSend();
     }
+    if (e.which === 27) {
+      onClear();
+    }
+}
+
+function myFunction() {
+  var x = document.getElementById("navDemo");
+  if (x.className.indexOf("w3-show") == -1) {
+    x.className += " w3-show";
+  } else { 
+    x.className = x.className.replace(" w3-show", "");
+  }
+}
+
+function myAccFunc() {
+  var x = document.getElementById("demoAcc");
+  if (x.className.indexOf("w3-show") == -1) {
+    x.className += " w3-show";
+    x.previousElementSibling.className += " w3-light-grey";
+  } else { 
+    x.className = x.className.replace(" w3-show", "");
+    x.previousElementSibling.className = 
+    x.previousElementSibling.className.replace(" w3-light-grey", "");
+  }
+}
+
+
+function showOnly(id) {
+  var x = document.getElementsByClassName("page");
+  for (i = 0; i < x.length; i++) {
+      document.getElementById(x[i].id).style.display = 'none';
+  }
+  document.getElementById(id).style.display = 'block';
+}
+
+function powerMenu(){
+  
+  alert("Sure to power off?");
+}
+
+
+function updateValues(dataValues){
+  myObj = dataValues[0];
+  for (key in myObj) {
+    var value = myObj[key]+"%";
+    var elem = document.getElementById("bar-"+key);
+    
+    elem.innerHTML = value;
+    elem.style.width = value;
+  }
 }

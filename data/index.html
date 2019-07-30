@@ -1,88 +1,126 @@
 <!DOCTYPE html>
-<html lang="en" >
+<html>
+<title>ESP32 Configurator</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 
-<head>
-  <meta charset="UTF-8">
-  <link rel="stylesheet" type="text/css" href="style.css">
-  <title>ESP32 Configurator</title>
-  <script src="iconify.min.js"></script>
-  <script src="table_generator.js"></script> 
-  <script src="json_handler.js"></script>
-  <script src="main.js"></script>
-  
-</head>
-<body onload="init();">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="w3.css">
 
-<div class="ct" id="t1">
-  <div class="ct" id="t2">
-    <div class="ct" id="t3">
-      <div class="ct" id="t4">
-        <div class="ct" id="t5">
-          <div class="ct" id="t6">
-            <ul id="menu">
-              <a href="#t1"><li class="icon" id="_1"><span class="iconify" data-icon="fa-solid:bolt"></span></li></a>
-              <a href="#t2"><li class="icon" id="_2"><span class="iconify" data-icon="fa-solid:wifi"></span></li></a>
-              <a href="#t3"><li class="icon" id="_3"><span class="iconify" data-icon="fa-solid:keyboard"></span></li></a>
-              <a href="#t4"><li class="icon" id="_4"><span class="iconify" data-icon="fa-solid:rocket"></span></li></a>
-              <a href="#t5"><li class="icon" id="_5"><span class="iconify" data-icon="fa-solid:cog"></span></li></a>
-              <a href="#t6"><li class="icon" id="_6"><span class="iconify" data-icon="fa-solid:plus-circle"></span></li></a>
-            </ul>
-            <div class="page" id="p1">
-                <section class="icon">
-                  <span class="iconify" data-icon="fa-solid:bolt"></span>
-                </section>
+<script src="https://code.iconify.design/1/1.0.3/iconify.min.js"></script>
+<script src="iconify.min.js"></script>
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
+<link rel="stylesheet" type="text/css" href="style.css">
+<script src="table_generator.js"></script> 
+<script src="json_handler.js"></script>
+<script src="main.js"></script>
+
+<body onload="showOnly('p1'); init();">
+
+<header>
+<!-- Navbar -->
+<div class="w3-top">
+  <div class="w3-bar w3-black w3-card">
+    <a class="w3-bar-item w3-button w3-padding-large w3-hide-medium w3-hide-large w3-right" href="javascript:void(0)" onclick="myFunction()" title="Toggle Navigation Menu"><i class="iconify" data-icon="oi:menu"></i></a>
+    <a href="#" onclick="showOnly('p1');" class="w3-bar-item w3-button w3-padding-large">STATUS</a>
+    <a href="#" onclick="showOnly('p2');" class="w3-bar-item w3-button w3-padding-large w3-hide-small">WIFI</a>
+    <a href="#" onclick="showOnly('p3');" class="w3-bar-item w3-button w3-padding-large w3-hide-small">CONSOLE</a>
+    <div class="w3-dropdown-hover w3-hide-small">
+      <button class="w3-padding-large w3-button" title="More" style="outline: none;">MORE <i class="iconify" data-icon="ic:sharp-keyboard-arrow-down"></i></button>     
+      <div class="w3-dropdown-content w3-bar-block w3-card-4">
+        <a href="#" onclick="showOnly('p4');" class="w3-bar-item w3-button">Ports</a>
+        <a href="#" onclick="showOnly('p5');" class="w3-bar-item w3-button">Files</a>
+        <a href="#" onclick="showOnly('p6');" class="w3-bar-item w3-button">Settings</a>
+      </div>
+    </div>
+    <a href="#" onclick="powerMenu();" class="w3-padding-large w3-hover-red w3-hide-small w3-right"><i class="iconify" data-icon="fa:bolt"></i></a>
+  </div>
+</div>
+
+<!-- Navbar on small screens (remove the onclick attribute if you want the navbar to always show on top of the content when clicking on the links) -->
+<div id="navDemo" class="w3-bar-block w3-black w3-hide w3-hide-large w3-hide-medium w3-top" style="margin-top:46px">
+  <a href="#" onclick="showOnly('p2');" class="w3-bar-item w3-button w3-padding-large" onclick="myFunction()">WIFI</a>
+  <a href="#" onclick="showOnly('p3');"class="w3-bar-item w3-button w3-padding-large" onclick="myFunction()">CONSOLE</a>
+
+
+      <button class="w3-bar-item w3-button w3-padding-large"  onclick="myAccFunc()">MORE <i class="fa fa-caret-down" ></i></button>     
+      <div id="demoAcc" class="w3-dropdown-content w3-hide w3-bar-item w3-card-4">
+        <a href="#" onclick="showOnly('p4');" class="w3-bar-item w3-button" onclick="myFunction()">Ports</a>
+        <a href="#" onclick="showOnly('p5');" class="w3-bar-item w3-button" onclick="myFunction()">Files</a>
+        <a href="#" onclick="showOnly('p6');" class="w3-bar-item w3-button" onclick="myFunction()">Settings</a>
+        <a href="#" onclick="powerMenu();" class="w3-bar-item w3-button" onclick="myFunction()">Power</a>
+      </div>
+
+    
+</div>
+</header>
+<!-- navbar end -->
+
+<article>
+
+            <div class="page w3-display-topmiddle" id="p1">
+              <div class="w3-display-middle" style="width:50%">
+                <h3>battery:</h3>
+                <div class="w3-light-grey w3-round-large">
+                  <div id="bar-battery" class="w3-container w3-indigo w3-round-large" style="width:0%">0%</div>
+                </div>
+
+                <h3>memory:</h3>
+                <div class="w3-light-grey w3-round-large">
+                  <div id="bar-memory" class="w3-container w3-indigo w3-round-large" style="width:0%">0%</div>
+                </div>
+
+                <h3>storage:</h3>
+                <div class="w3-light-grey w3-round-large">
+                  <div id="bar-storage" class="w3-container w3-indigo w3-round-large" style="width:0%">0%</div>
+                </div><br>
+              </div>
             </div>
-            <div class="page" id="p2">
-                <section class="icon">
-                  <span class="iconify" data-icon="fa-solid:wifi"></span>
-                </section>
-                <div class="sub-div">
-                    <table id="wifi-table" class="elem-border table-style">
-                      <!-- here goes the table data -->
+            
+            <div class="page w3-display-topmiddle" id="p2">
+               <div class="w3-display-middle table-container">
+                    <table id="wifi-table" class="w3-table-all w3-striped w3-hoverable">
+                      <thead>
+                        <tr class="w3-black">
+                          <th>NO DATA</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td>NO DATA</td>
+                        </tr>
+                      </tbody>
                     </table>
                 </div>
             </div>
-            <div class="page" id="p3">
-              <section class="icon">
-                <span class="iconify" data-icon="fa-solid:keyboard"></span>
-              </section>
-              <div class="sub-div">
-                <textarea id="ter-main" class="elem-border ter-style ter-window" readonly>
-                </textarea>
-                <br><br>
-                <input id="ter-input" type="text" class="elem-border ter-style ter-input" onkeypress="return runScript(event)">
-                <button id="btn-send" class="elem-border ter-style ter-button" onclick="onSend();">Send</button>
-                <button class="elem-border ter-style ter-button" onclick="onClear();">Clear</button>
-              </div>
+            
+            <div class="page w3-display-topmiddle" id="p3">
+                <div class="w3-display-middle console-container">
+                    <textarea id="ter-main" class="console-style console-window" readonly spellcheck="false"></textarea>
+                    <br><br>
+                    <input id="ter-input" type="text" class="console-style" onkeypress="runScript(event)" autocomplete="off" spellcheck="false">
+                </div>
             </div>  
-            <div class="page" id="p4">
-              <section class="icon"><span class="iconify" data-icon="fa-solid:rocket"></span>
+            
+            <div class="page w3-display-topmiddle" id="p4">
 
-              </section>
             </div>
-            <div class="page" id="p5">
-              <section class="icon"><span class="iconify" data-icon="fa-solid:cog"></span>
+            <div class="page w3-display-topmiddle" id="p5">
 
-              </section>
             </div> 
-            <div class="page" id="p6">
-              <section class="icon"><span class="iconify" data-icon="fa-solid:plus-circle"></span>
-
-              </section>
+            <div class="page w3-display-topmiddle" id="p6">
+ 
             </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-  
-  
+
+    
+    
+</article>   
 
 
-
-
+  <footer class="w3-small w3-display-bottomleft w3-padding-large">
+    Powered by <a href="https://www.w3schools.com/w3css/default.asp" target="_blank">w3.css</a>
+  </footer>
 
 </body>
-
 </html>
