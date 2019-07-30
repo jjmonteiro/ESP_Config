@@ -2,18 +2,16 @@
 var ws;
 var debug = true;
 
-
 function init() {
   var timer1;
 
-  // Connect to Web Socket
-  ws = new WebSocket("ws://%IPADDR%/ws");
+  ws = new WebSocket("ws://localhost:81");
+  //ws = new WebSocket("ws://%IPADDR%/ws");
   
   ws.onmessage = function(e) {
     
     // e.data contains received string.
     if (e.data){
-      toggleGrey("submit1");
       output("reply: " + e.data);
       jsonRX(e.data);
     }
@@ -22,23 +20,16 @@ function init() {
   ws.onopen = function(e) {
     timer1 = setInterval(checkConnection, 5000);
     checkConnection();
-    document.getElementById("button1").innerHTML = "Close";
+    //document.getElementById("button1").innerHTML = "Close";
   };
   ws.onclose = function(e) {
     //clearInterval(timer1);
     checkConnection();
-    document.getElementById("button1").innerHTML = "Open";
+    //document.getElementById("button1").innerHTML = "Open";
   };
 }
 
-function sleep(milliseconds) {
-  var start = new Date().getTime();
-  for (var i = 0; i < 1e7; i++) {
-    if ((new Date().getTime() - start) > milliseconds){
-      break;
-    }
-  }
-}
+
 
 function updateFields(){
   jsonTX(JSON.stringify({"type":0,"value":"ping"}));
@@ -46,7 +37,7 @@ function updateFields(){
 
 function checkConnection(){
 
-  var status = document.getElementById("text1");
+  var status = document.getElementById("ter-main");
   var reply;
 
 
@@ -63,41 +54,44 @@ function checkConnection(){
     break;
     case 3:
       reply = "Disconnected."
+        document.getElementById("ter-main");
+        ws.close();
+        init();
     break;
     default:
       reply = "Unknown Status."
   }
-  status.value = reply;
+  //output(reply);
 }
 
-function onSubmit() {
-  toggleGrey("submit1");
-  var input = document.getElementById("text5");
-
+function onSend() {
+  var input = document.getElementById("ter-input");
   jsonTX(input.value);
-
   input.value = "";
-  input.focus();
 }
 
-function onClick() {
-  if (ws.readyState == 1){
-    ws.close();
-  }else{
-    init();
-  }
+
+function onClear() {
+  var log = document.getElementById("ter-main");
+  log.innerHTML = "";
 }
 
 function output(str) {
-  if (!debug) return;
-  var log = document.getElementById("log");
-  var escaped = str.replace(/&/, "&amp;").replace(/</, "&lt;").
-    replace(/>/, "&gt;").replace(/"/, "&quot;"); // "
-  log.innerHTML = escaped + "<br>" + log.innerHTML;
+  var log = document.getElementById("ter-main");
+  //var escaped = str.replace(/&/, "&amp;").replace(/</, "&lt;").
+  //replace(/>/, "&gt;").replace(/"/, "&quot;"); // "
+  log.innerHTML += str + '\n';
+  log.scrollTop = log.scrollHeight;
 }
 
 
 function toggleGrey(elementid){
   var status = document.getElementById(elementid);
   status.disabled = !status.disabled;
+}
+
+function runScript(e) {
+    if (e.which == 13) {
+        onSend();
+    }
 }

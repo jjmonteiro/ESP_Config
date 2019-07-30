@@ -1,33 +1,88 @@
-<html>
+<!DOCTYPE html>
+<html lang="en" >
+
 <head>
-  <title>Simple client</title>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" type="text/css" href="style.css">
+  <title>ESP32 Configurator</title>
+  <script src="iconify.min.js"></script>
   <script src="table_generator.js"></script> 
   <script src="json_handler.js"></script>
   <script src="main.js"></script>
-
+  
 </head>
 <body onload="init();">
-  <form onsubmit="onSubmit(); return false;" autocomplete="off">
-    <input type="text" id="text1"><br>
-    <br>
-    <table id="table1">
-    <!-- here goes our data! -->
-    </table>
-    <br>
-    <form method="post" enctype="multipart/form-data">
-      <input type="file" name="name">
-      <input class="button" type="submit" value="Upload">
-    </form>
-    <br>
-    <input type="text" id="text2"><br>
-    <input type="text" id="text3"><br>
-    <input type="text" id="text4"><br>
-    <br>
-    <input type="text" id="text5">
 
-    <button id="submit1" onclick="onSubmit();" disabled="false">Send</button>
-    <button id="button1" onclick="onClick(); return false;">Close</button>
-  </form>
-  <div id="log"></div>
+<div class="ct" id="t1">
+  <div class="ct" id="t2">
+    <div class="ct" id="t3">
+      <div class="ct" id="t4">
+        <div class="ct" id="t5">
+          <div class="ct" id="t6">
+            <ul id="menu">
+              <a href="#t1"><li class="icon" id="_1"><span class="iconify" data-icon="fa-solid:bolt"></span></li></a>
+              <a href="#t2"><li class="icon" id="_2"><span class="iconify" data-icon="fa-solid:wifi"></span></li></a>
+              <a href="#t3"><li class="icon" id="_3"><span class="iconify" data-icon="fa-solid:keyboard"></span></li></a>
+              <a href="#t4"><li class="icon" id="_4"><span class="iconify" data-icon="fa-solid:rocket"></span></li></a>
+              <a href="#t5"><li class="icon" id="_5"><span class="iconify" data-icon="fa-solid:cog"></span></li></a>
+              <a href="#t6"><li class="icon" id="_6"><span class="iconify" data-icon="fa-solid:plus-circle"></span></li></a>
+            </ul>
+            <div class="page" id="p1">
+                <section class="icon">
+                  <span class="iconify" data-icon="fa-solid:bolt"></span>
+                </section>
+            </div>
+            <div class="page" id="p2">
+                <section class="icon">
+                  <span class="iconify" data-icon="fa-solid:wifi"></span>
+                </section>
+                <div class="sub-div">
+                    <table id="wifi-table" class="elem-border table-style">
+                      <!-- here goes the table data -->
+                    </table>
+                </div>
+            </div>
+            <div class="page" id="p3">
+              <section class="icon">
+                <span class="iconify" data-icon="fa-solid:keyboard"></span>
+              </section>
+              <div class="sub-div">
+                <textarea id="ter-main" class="elem-border ter-style ter-window" readonly>
+                </textarea>
+                <br><br>
+                <input id="ter-input" type="text" class="elem-border ter-style ter-input" onkeypress="return runScript(event)">
+                <button id="btn-send" class="elem-border ter-style ter-button" onclick="onSend();">Send</button>
+                <button class="elem-border ter-style ter-button" onclick="onClear();">Clear</button>
+              </div>
+            </div>  
+            <div class="page" id="p4">
+              <section class="icon"><span class="iconify" data-icon="fa-solid:rocket"></span>
+
+              </section>
+            </div>
+            <div class="page" id="p5">
+              <section class="icon"><span class="iconify" data-icon="fa-solid:cog"></span>
+
+              </section>
+            </div> 
+            <div class="page" id="p6">
+              <section class="icon"><span class="iconify" data-icon="fa-solid:plus-circle"></span>
+
+              </section>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+  
+  
+
+
+
+
+
 </body>
+
 </html>

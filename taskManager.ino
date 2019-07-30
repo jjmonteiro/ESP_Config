@@ -19,46 +19,49 @@
 
 void createTasks() { 
 
-    xTaskCreatePinnedToCore(Task1code,  "Task1",  10000, NULL, 1, &Task1,  0);
-    delay(200);
-    xTaskCreatePinnedToCore(Task11code, "Task11", 10000, NULL, 1, &Task11, 0);
-    delay(200);
-    xTaskCreatePinnedToCore(Task2code,  "Task2",  10000, NULL, 1, &Task2,  1);
-    delay(200);
+    xTaskCreatePinnedToCore(Task1code, "tID_0001",  10000, NULL, 1, &Task1,  0);
+    delay(100);
+
+    xTaskCreatePinnedToCore(Task11code, "tID_0011", 10000, NULL, 1, &Task11, 0);
+    delay(100);
+
+    xTaskCreatePinnedToCore(Task2code, "tID_0002",  10000, NULL, 1, &Task2,  1);
+    delay(100);
 }
 
-//Task1code: executes every 1000 ms
+
 void Task1code(void* pvParameters) {
-    Debug("Task1 running on core " + String(xPortGetCoreID()), t_INFO);
+    String taskName = String(pcTaskGetTaskName(pvParameters));
+    Debug(taskName + " started on CPU_" + String(xPortGetCoreID()), t_INFO);
+    const TickType_t xDelay = 1000 / portTICK_PERIOD_MS;
 
     while (true) {
-        Debug("task_1 on", t_TIME);
-        delay(1000);
-        Debug("task_1 off", t_TIME);
-        delay(1000);
+        Debug(taskName, t_TIME);
+        vTaskDelay(xDelay);
     }
 }
 
-//Task1code: blinks an LED every 1000 ms
+
 void Task11code(void* pvParameters) {
-    Debug("Task11 running on core " + String(xPortGetCoreID()), t_INFO);
+    String taskName = String(pcTaskGetTaskName(pvParameters));
+    Debug(taskName + " started on CPU_" + String(xPortGetCoreID()), t_INFO);
+    const TickType_t xDelay = 5000 / portTICK_PERIOD_MS;
 
     while (true) {
-        Debug("task_11 on", t_TIME);
-        delay(5000);
-        Debug("task_11 off", t_TIME);
-        delay(5000);
+        Debug(taskName, t_TIME);
+        wifiManager();
+        vTaskDelay(xDelay);
     }
 }
 
-//Task2code: blinks an LED every 700 ms
+
 void Task2code(void* pvParameters) {
-    Debug("Task2 running on core " + String(xPortGetCoreID()), t_INFO);
+    String taskName = String(pcTaskGetTaskName(pvParameters));
+    Debug(taskName + " started on CPU_" + String(xPortGetCoreID()), t_INFO);
+    const TickType_t xDelay = 2000 / portTICK_PERIOD_MS;
 
     while (true) {
-        Debug("task_2 on", t_TIME);
-        delay(2000);
-        Debug("task_2 off", t_TIME);
-        delay(2000);
+        Debug(taskName, t_TIME);
+        vTaskDelay(xDelay);
     }
 }

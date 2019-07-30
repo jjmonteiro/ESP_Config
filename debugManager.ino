@@ -1,39 +1,39 @@
 
 
 void Debug(String dbgMessage, int Type) {
-    String message;
+    String msgHeader;
     String time = String(millis()) + "            ";
 
     switch (Type) {
     case t_TIME:
         time.remove(11, time.length());
-        message = "[" + time + "] ";
+        msgHeader = "[" + time + "] ";
         break;
     case t_INFO:
-        message = "[   INFO    ] ";
+        msgHeader = "[   INFO    ] ";
         
         break;
     case t_WARN:
-        message = "[  WARNING  ] ";
+        msgHeader = "[  WARNING  ] ";
         break;
 
     case t_ERROR:
-        message = "[   ERROR   ] ";
+        msgHeader = "[   ERROR   ] ";
         break;
 
     case t_OK:
-        message = "[    OK     ] ";
+        msgHeader = "[    OK     ] ";
         break;
 
     case t_FAIL:
-        message = "[   FAIL    ] ";
+        msgHeader = "[   FAIL    ] ";
         break;
 
     default:
-        message = "[   DEBUG   ] ";
+        msgHeader = "[   DEBUG   ] ";
         break;
     }
 
-    Serial.println(message += dbgMessage);
+    Serial.print(msgHeader + dbgMessage + "\r\n");
 }
 

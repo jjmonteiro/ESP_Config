@@ -24,10 +24,15 @@
     <None Include="debugManager.ino" />
     <None Include="pageFail.ino" />
     <None Include="socketManager.ino" />
-    <None Include="eepromManager.ino" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="__vm\.ESP_Config.vsarduino.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="eepromCRC.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="system_cli_handler.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

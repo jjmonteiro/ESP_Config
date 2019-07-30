@@ -1,6 +1,14 @@
 void webManager(bool spiffs) {
     String dbgName = "webManager() ";
 
+        /// enumerator.js
+        /// iconify.min.js
+        /// index.html
+        /// json_handler.js
+        /// main.js
+        /// style.css
+        /// table_generator.js
+
     if (spiffs) {
         Debug("SPIFFS server instructions loaded.", t_INFO);
 
@@ -22,6 +30,15 @@ void webManager(bool spiffs) {
         server.on("/table_generator.js", HTTP_GET, [](AsyncWebServerRequest* request) {
             request->send(SPIFFS, "/table_generator.js");
             });
+
+        server.on("/style.css", HTTP_GET, [](AsyncWebServerRequest* request) {
+            request->send(SPIFFS, "/style.css");
+            });
+
+        server.on("/iconify.min.js", HTTP_GET, [](AsyncWebServerRequest* request) {
+            request->send(SPIFFS, "/iconify.min.js");
+            });
+
     }else{
         Debug("PROGMEM server instructions loaded.", t_INFO);
         server.on("/", HTTP_GET, [](AsyncWebServerRequest* request) {

@@ -109,7 +109,6 @@ typedef long __PTRDIFF_TYPE__;
 #include "ESP_Config.ino"
 #include "bootupInfo.ino"
 #include "debugManager.ino"
-#include "eepromManager.ino"
 #include "pageFail.ino"
 #include "socketManager.ino"
 #include "spiffsManager.ino"
