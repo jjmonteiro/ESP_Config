@@ -143,7 +143,7 @@ function showOnly(id) {
 }
 
 function powerMenu(){
-  
+
   alert("Sure to power off?");
 }
 

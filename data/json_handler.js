@@ -24,7 +24,7 @@ function jsonTX(json_data){
 
 function jsonRX(json_data){
 
-	output("< " + json_data);
+	output(json_data);
 
 	if (!IsJsonString(json_data)){return;}
 

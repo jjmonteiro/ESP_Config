@@ -19,102 +19,142 @@
 <body onload="showOnly('p1'); init();">
 
 <header>
-<!-- Navbar -->
-<div class="w3-top">
-  <div class="w3-bar w3-black w3-card">
-    <a class="w3-bar-item w3-button w3-padding-large w3-hide-medium w3-hide-large w3-right" href="javascript:void(0)" onclick="myFunction()" title="Toggle Navigation Menu"><i class="iconify" data-icon="oi:menu"></i></a>
-    <a href="#" onclick="showOnly('p1');" class="w3-bar-item w3-button w3-padding-large">STATUS</a>
-    <a href="#" onclick="showOnly('p2');" class="w3-bar-item w3-button w3-padding-large w3-hide-small">WIFI</a>
-    <a href="#" onclick="showOnly('p3');" class="w3-bar-item w3-button w3-padding-large w3-hide-small">CONSOLE</a>
-    <div class="w3-dropdown-hover w3-hide-small">
-      <button class="w3-padding-large w3-button" title="More" style="outline: none;">MORE <i class="iconify" data-icon="ic:sharp-keyboard-arrow-down"></i></button>     
-      <div class="w3-dropdown-content w3-bar-block w3-card-4">
-        <a href="#" onclick="showOnly('p4');" class="w3-bar-item w3-button">Ports</a>
-        <a href="#" onclick="showOnly('p5');" class="w3-bar-item w3-button">Files</a>
-        <a href="#" onclick="showOnly('p6');" class="w3-bar-item w3-button">Settings</a>
+  <!-- Navbar -->
+  <div class="w3-top">
+    <div class="w3-bar w3-card navstyle">
+      <a class="w3-bar-item w3-button w3-padding-large w3-hide-medium w3-hide-large w3-right" href="javascript:void(0)" onclick="toggleMenu()" title="Toggle Navigation Menu"><i class="iconify ic-navbar" data-icon="simple-line-icons:menu"></i></a>
+      <a href="#" onclick="showOnly('p1');" class="w3-bar-item w3-button w3-padding-large">STATUS</a>
+      <a href="#" onclick="showOnly('p2');" class="w3-bar-item w3-button w3-padding-large w3-hide-small">WIFI</a>
+      <a href="#" onclick="showOnly('p3');" class="w3-bar-item w3-button w3-padding-large w3-hide-small">CONSOLE</a>
+      <div class="w3-dropdown-hover w3-hide-small">
+        <button class="w3-padding-large w3-button" title="More" style="outline: none;">MORE <i class="iconify" data-icon="ic:sharp-keyboard-arrow-down"></i></button>     
+        <div class="w3-dropdown-content w3-bar-block w3-card-4">
+          <a href="#" onclick="showOnly('p4');" class="w3-bar-item w3-button">Ports</a>
+          <a href="#" onclick="showOnly('p5');" class="w3-bar-item w3-button">Files</a>
+          <a href="#" onclick="showOnly('p6');" class="w3-bar-item w3-button">Settings</a>
+        </div>
       </div>
+      <a href="#" onclick="powerMenu();" class="w3-padding-large w3-hover-red w3-hide-small w3-right"><i class="iconify" data-icon="fa-solid:power-off"></i></a>
+      <div class="w3-padding-large w3-right"><i id="ic-wifi" class="iconify ic-navbar" data-icon="ic:round-wifi-off"></i></div>
+      <div class="w3-padding-large w3-right"><i id="ic-www" class="iconify ic-navbar" data-icon="ic:sync-disabled"></i></div>
     </div>
-    <a href="#" onclick="powerMenu();" class="w3-padding-large w3-hover-red w3-hide-small w3-right"><i class="iconify" data-icon="fa:bolt"></i></a>
   </div>
-</div>
 
-<!-- Navbar on small screens (remove the onclick attribute if you want the navbar to always show on top of the content when clicking on the links) -->
-<div id="navDemo" class="w3-bar-block w3-black w3-hide w3-hide-large w3-hide-medium w3-top" style="margin-top:46px">
-  <a href="#" onclick="showOnly('p2');" class="w3-bar-item w3-button w3-padding-large" onclick="myFunction()">WIFI</a>
-  <a href="#" onclick="showOnly('p3');"class="w3-bar-item w3-button w3-padding-large" onclick="myFunction()">CONSOLE</a>
+  <!-- Navbar on small screens (remove the onclick attribute if you want the navbar to always show on top of the content when clicking on the links) -->
+  <div id="navDemo" class="w3-bar-block navstyle w3-hide w3-hide-large w3-hide-medium w3-top" style="margin-top:46px">
+    <a href="#" onclick="showOnly('p2'); toggleMenu();" class="w3-bar-item w3-button w3-padding-large" >WIFI</a>
+    <a href="#" onclick="showOnly('p3'); toggleMenu();" class="w3-bar-item w3-button w3-padding-large" >CONSOLE</a>
 
 
-      <button class="w3-bar-item w3-button w3-padding-large"  onclick="myAccFunc()">MORE <i class="fa fa-caret-down" ></i></button>     
-      <div id="demoAcc" class="w3-dropdown-content w3-hide w3-bar-item w3-card-4">
-        <a href="#" onclick="showOnly('p4');" class="w3-bar-item w3-button" onclick="myFunction()">Ports</a>
-        <a href="#" onclick="showOnly('p5');" class="w3-bar-item w3-button" onclick="myFunction()">Files</a>
-        <a href="#" onclick="showOnly('p6');" class="w3-bar-item w3-button" onclick="myFunction()">Settings</a>
-        <a href="#" onclick="powerMenu();" class="w3-bar-item w3-button" onclick="myFunction()">Power</a>
-      </div>
-
-    
-</div>
+        <button class="w3-bar-item w3-button w3-padding-large"  onclick="toggleSubMenu()">MORE <i class="fa fa-caret-down" ></i></button>     
+        <div id="demoAcc" class="w3-dropdown-content w3-hide w3-bar-item w3-card-4">
+          <a href="#" onclick="showOnly('p4'); toggleMenu();" class="w3-bar-item w3-button" >Ports</a>
+          <a href="#" onclick="showOnly('p5'); toggleMenu();" class="w3-bar-item w3-button" >Files</a>
+          <a href="#" onclick="showOnly('p6'); toggleMenu();" class="w3-bar-item w3-button" >Settings</a>
+          <a href="#" onclick="powerMenu(); toggleMenu();" class="w3-bar-item w3-button"    >Power</a>
+        </div>
+  </div>
+  <!-- navbar end --> 
 </header>
-<!-- navbar end -->
+
 
 <article>
 
-            <div class="page w3-display-topmiddle" id="p1">
-              <div class="w3-display-middle" style="width:50%">
-                <h3>battery:</h3>
-                <div class="w3-light-grey w3-round-large">
-                  <div id="bar-battery" class="w3-container w3-indigo w3-round-large" style="width:0%">0%</div>
-                </div>
+  <div class="page w3-display-topmiddle" id="p1">
+    <div class="w3-display-topleft w3-round-large" style="width:30%; margin:15%">
+      <h4>battery:</h4>
+        <div class="w3-light-grey w3-round-large">
+          <div class="w3-container w3-indigo w3-round-large" style="width:50%">50%</div>
+        </div>
 
-                <h3>memory:</h3>
-                <div class="w3-light-grey w3-round-large">
-                  <div id="bar-memory" class="w3-container w3-indigo w3-round-large" style="width:0%">0%</div>
-                </div>
+      <h4>memory:</h4>
+        <div class="w3-light-grey w3-round-large">
+          <div class="w3-container w3-indigo w3-round-large" style="width:50%">50%</div>
+        </div>
 
-                <h3>storage:</h3>
-                <div class="w3-light-grey w3-round-large">
-                  <div id="bar-storage" class="w3-container w3-indigo w3-round-large" style="width:0%">0%</div>
-                </div><br>
-              </div>
-            </div>
-            
-            <div class="page w3-display-topmiddle" id="p2">
-               <div class="w3-display-middle table-container">
-                    <table id="wifi-table" class="w3-table-all w3-striped w3-hoverable">
-                      <thead>
-                        <tr class="w3-black">
-                          <th>NO DATA</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr>
-                          <td>NO DATA</td>
-                        </tr>
-                      </tbody>
-                    </table>
-                </div>
-            </div>
-            
-            <div class="page w3-display-topmiddle" id="p3">
-                <div class="w3-display-middle console-container">
-                    <textarea id="ter-main" class="console-style console-window" readonly spellcheck="false"></textarea>
-                    <br><br>
-                    <input id="ter-input" type="text" class="console-style" onkeypress="runScript(event)" autocomplete="off" spellcheck="false">
-                </div>
-            </div>  
-            
-            <div class="page w3-display-topmiddle" id="p4">
+      <h4>storage:</h4>
+        <div class="w3-light-grey w3-round-large">
+          <div class="w3-container w3-indigo w3-round-large" style="width:50%">50%</div>
+        </div>
+      <br>
+    </div>
 
-            </div>
-            <div class="page w3-display-topmiddle" id="p5">
+    <div class="w3-display-topright" style="width:30%; margin:15%">
+      <h4>battery:</h4>
+        <div class="w3-light-grey w3-round-large">
+          <div id="bar-battery" class="w3-container w3-indigo w3-round-large" style="width:50%">50%</div>
+        </div>
 
-            </div> 
-            <div class="page w3-display-topmiddle" id="p6">
- 
-            </div>
+      <h4>memory:</h4>
+        <div class="w3-light-grey w3-round-large">
+          <div id="bar-memory" class="w3-container w3-indigo w3-round-large" style="width:50%">50%</div>
+        </div>
 
-    
-    
+      <h4>storage:</h4>
+        <div class="w3-light-grey w3-round-large">
+          <div id="bar-storage" class="w3-container w3-indigo w3-round-large" style="width:50%">50%</div>
+        </div>
+      <br>
+    </div>
+
+    <div class="w3-display-middle" style="width:50%; margin-top:15%">
+      <h4>battery:</h4>
+        <div class="w3-light-grey w3-round-large">
+          <div class="w3-container w3-indigo w3-round-large" style="width:50%">50%</div>
+        </div>
+
+      <h4>memory:</h4>
+        <div class="w3-light-grey w3-round-large">
+          <div class="w3-container w3-indigo w3-round-large" style="width:50%">50%</div>
+        </div>
+
+      <h4>storage:</h4>
+        <div class="w3-light-grey w3-round-large">
+          <div class="w3-container w3-indigo w3-round-large" style="width:50%">50%</div>
+        </div>
+      <br>
+    </div>
+  </div>
+
+  <div class="page w3-display-topmiddle" id="p2">
+     <div class="w3-display-middle table-container">
+          <table id="wifi-table" class="w3-table-all w3-striped w3-hoverable">
+            <thead>
+              <tr class="w3-black">
+                <th>NO DATA</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>NO DATA</td>
+              </tr>
+              <tr>
+                <td>NO DATA</td>
+              </tr>
+            </tbody>
+          </table>
+      </div>
+  </div>
+
+  <div class="page w3-display-topmiddle" id="p3">
+      <div class="w3-display-middle console-container">
+          <textarea id="ter-main" class="console-style console-window" readonly spellcheck="false"></textarea>
+          <br><br>
+          <input id="ter-input" type="text" class="console-style" onkeypress="return runScript(event)" autocomplete="off" spellcheck="false">
+      </div>
+  </div>  
+
+  <div class="page w3-display-topmiddle" id="p4">
+
+  </div>
+
+  <div class="page w3-display-topmiddle" id="p5">
+
+  </div> 
+
+  <div class="page w3-display-topmiddle" id="p6">
+
+  </div>    
 </article>   
 
 
