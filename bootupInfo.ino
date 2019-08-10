@@ -5,8 +5,8 @@ void printBootupInfo() {
     LOG("Serial Initialized @ " + String(SERIAL_BAUDRATE));
     LOG("EEPROM Size: " + String(EEPROM_SIZE));
     LOG("Reboot reason: ");
-    LOG("CPU0: " + print_reset_reason(rtc_get_reset_reason(0)));
-    LOG("CPU1: " + print_reset_reason(rtc_get_reset_reason(1)));
+    LOG("CPU0: " + get_reset_reason(rtc_get_reset_reason(0)));
+    LOG("CPU1: " + get_reset_reason(rtc_get_reset_reason(1)));
     LOG(separator);
 
     LOG("Chip Rev: " + String(ESP.getChipRevision()));
@@ -30,7 +30,7 @@ void printBootupInfo() {
 }
 
 
-String print_reset_reason(RESET_REASON reason)
+String get_reset_reason(RESET_REASON reason)
 {
     switch (reason)
     {

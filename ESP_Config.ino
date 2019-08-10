@@ -48,24 +48,24 @@ struct eepromData {
 //*************************************************//
 
 TaskHandle_t    Task1, Task11, Task2;
-eepromManager   myeeprom;
+eepromManager   eeprom;
 AsyncWebServer  server(80);
 AsyncWebSocket  ws("/ws");
-StaticJsonDocument<200> jsonBuffer;
+//StaticJsonDocument<200> jsonBuffer;//using stack
+DynamicJsonDocument jsonBuffer(2048);//using heap
 
 void setup() {
 
     Serial.begin(SERIAL_BAUDRATE);
     printBootupInfo();
 
-    myeeprom.init();
-    myeeprom.readEepromData(&mydata);
+    eeprom.init();
+    eeprom.readEepromData(&mydata);
     
-    createTasks();
+    //createTasks();
 
     WiFi.onEvent(WiFiEvent);
-
-    WiFi.mode(WIFI_MODE_APSTA);
+    WiFi.mode(WIFI_MODE_STA);
     
     webManager(spiffsManager());
 
@@ -75,7 +75,8 @@ void setup() {
 
 void loop() {
 
-
+    wifiManager();
+    delay(5000);
 }
 
 

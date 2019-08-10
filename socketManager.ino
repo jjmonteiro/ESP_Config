@@ -1,13 +1,17 @@
 void onWsEvent(AsyncWebSocket* server, AsyncWebSocketClient* client, AwsEventType type, void* arg, uint8_t* data, size_t len) {
     String dbgName = "socketManager() ";
+    String cliendID = "CLIENT_" + String(client->id()) + ": ";
+
+    dbgName += cliendID;
+
     if (type == WS_EVT_CONNECT) {
-        Debug("WS_EVT_CONNECT " + String(client->id()), t_INFO);
+        Debug(dbgName +  "WS_EVT_CONNECT " + String(client->id()), t_INFO);
         //Serial.printf("ws[%s][%u] connect\n", server->url(), client->id());
         //client->printf("Hello Client %u :)", client->id());
         //client->ping();
     }
     else if (type == WS_EVT_DISCONNECT) {
-        Debug("WS_EVT_DISCONNECT " + String(client->id()), t_INFO);
+        Debug(dbgName + "WS_EVT_DISCONNECT " + String(client->id()), t_INFO);
     }
     else if (type == WS_EVT_ERROR) {
         Debug("WS_EVT_ERROR " + String(client->id()) + " Code: " + String(*((uint16_t*)arg)) + " Error Data: " + String((char*)data), t_ERROR);
@@ -15,6 +19,8 @@ void onWsEvent(AsyncWebSocket* server, AsyncWebSocketClient* client, AwsEventTyp
     else if (type == WS_EVT_DATA) {
         AwsFrameInfo* info = (AwsFrameInfo*)arg;
         String msg = "";
+        String reply = "";
+        jsonBuffer.clear();
 
         if (info->final && info->index == 0 && info->len == len) {
             //the whole message is in a single frame and we got all of it's data
@@ -33,7 +39,7 @@ void onWsEvent(AsyncWebSocket* server, AsyncWebSocketClient* client, AwsEventTyp
                 }
             }
 
-            Debug("WS_EVT_DATA " + String(client->id()) + " Message: " + String(msg.c_str()), t_INFO);
+            Debug("WS_EVT_DATA " + String(client->id()) + " Request: " + String(msg.c_str()), t_INFO);
             ////Serial.printf("%s\n", msg.c_str());
 
             //if (info->opcode == WS_TEXT)
@@ -41,7 +47,6 @@ void onWsEvent(AsyncWebSocket* server, AsyncWebSocketClient* client, AwsEventTyp
             //else
             //    client->binary("I got your binary message");
 
-            msg = "";
             jsonBuffer["type"] = 2;
 
             JsonArray value = jsonBuffer.createNestedArray("value");
@@ -50,8 +55,9 @@ void onWsEvent(AsyncWebSocket* server, AsyncWebSocketClient* client, AwsEventTyp
             key["memory"] = 30;
             key["storage"] = 83;
 
-            serializeJson(jsonBuffer, msg);
-            client->text(msg);
+            serializeJson(jsonBuffer, reply);
+            Debug("WS_EVT_DATA " + String(client->id()) + " Reply: " + reply, t_INFO);
+            client->text(reply);
 
         }
     }

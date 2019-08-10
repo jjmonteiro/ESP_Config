@@ -1,7 +1,7 @@
 //***************************************************//
 //Module:   taskManager
 //Created:  08-Nov-18 12:44:00
-//Author:   Joaquim Monteiro
+//Author:   jmonteiro
 //Brief:    Provides multi-tasking features with CPU core selection
 //
 //Usage:
@@ -49,7 +49,7 @@ void Task11code(void* pvParameters) {
 
     while (true) {
         Debug(taskName, t_TIME);
-        wifiManager();
+        
         vTaskDelay(xDelay);
     }
 }

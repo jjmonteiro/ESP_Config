@@ -20,7 +20,7 @@ void webManager(bool spiffs) {
             });
 
         server.on("/main.js", HTTP_GET, [](AsyncWebServerRequest* request) {
-            request->send(SPIFFS, "/main.js", String(), false, processor);
+            request->send(SPIFFS, "/main.js", String(), false, processor);//updates main.js with current ip address
             });
 
         server.on("/json_handler.js", HTTP_GET, [](AsyncWebServerRequest* request) {
@@ -49,9 +49,16 @@ void webManager(bool spiffs) {
     server.begin();
 }
 
+
+/*this helper function fetches current ip address to update the remote main.js file*/
 String processor(const String& var) {
-    Serial.println(var);
+
     if (var == "IPADDR") {
-        return WiFi.localIP().toString();
+        if (WiFi.getMode() == WIFI_MODE_STA) {
+            return WiFi.localIP().toString();
+        }
+        else {
+            return WiFi.softAPIP().toString();
+        }
     }
 }
