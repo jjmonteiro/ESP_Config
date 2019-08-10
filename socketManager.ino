@@ -43,7 +43,12 @@ void onWsEvent(AsyncWebSocket* server, AsyncWebSocketClient* client, AwsEventTyp
 
             msg = "";
             jsonBuffer["type"] = 2;
-            jsonBuffer["value"] = "[{'battery':77, 'memory':30, 'storage':83}]";
+
+            JsonArray value = jsonBuffer.createNestedArray("value");
+            JsonObject key = value.createNestedObject();
+            key["battery"] = 77;
+            key["memory"] = 30;
+            key["storage"] = 83;
 
             serializeJson(jsonBuffer, msg);
             client->text(msg);
