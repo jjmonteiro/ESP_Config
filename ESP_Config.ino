@@ -10,6 +10,7 @@
 #include "FS.h"
 #include "SPIFFS.h"
 #include "eepromCRC.h"
+#include <ArduinoJson.h>
 #include <rom/rtc.h>
 
 //***************************************************//
@@ -50,7 +51,7 @@ TaskHandle_t    Task1, Task11, Task2;
 eepromManager   myeeprom;
 AsyncWebServer  server(80);
 AsyncWebSocket  ws("/ws");
-
+StaticJsonDocument<200> jsonBuffer;
 
 void setup() {
 

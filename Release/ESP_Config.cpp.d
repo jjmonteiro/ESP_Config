@@ -191,6 +191,8 @@ C:\Users\quimm\AppData\Local\Temp\VMBuilds\ESP_Config\esp32_esp32\Release\ESP_Co
  C:\Users\quimm\AppData\Local\arduino15\packages\esp32\hardware\esp32\1.0.3-rc1\libraries\SPIFFS\src/SPIFFS.h \
  C:\Users\quimm\AppData\Local\Temp\VMBuilds\ESP_Config\esp32_esp32\Release\eepromCRC.h \
  C:\Users\quimm\AppData\Local\arduino15\packages\esp32\hardware\esp32\1.0.3-rc1\libraries\EEPROM\src/EEPROM.h \
+ C:\Users\quimm\OneDrive\Documentos\Arduino\libraries\ArduinoJson\src/ArduinoJson.h \
+ C:\Users\quimm\OneDrive\Documentos\Arduino\libraries\ArduinoJson\src/ArduinoJson.hpp \
  C:\Users\quimm\AppData\Local\arduino15\packages\esp32\hardware\esp32\1.0.3-rc1/tools/sdk/include/esp32/rom/rtc.h \
  C:\Users\quimm\AppData\Local\arduino15\packages\esp32\hardware\esp32\1.0.3-rc1/tools/sdk/include/esp32/rom/ets_sys.h \
  C:\Users\quimm\AppData\Local\arduino15\packages\esp32\hardware\esp32\1.0.3-rc1/tools/sdk/include/esp32/esp_wifi.h \
