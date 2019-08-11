@@ -61,9 +61,9 @@ def message_received(client, server, message):
 			
 			elif (cmd == 2):
 				x["value"] = [{
-					  "battery":77,
-					  "memory": 30,
-					  "storage": 83,
+					  "battery":randint(0, 100),
+					  "memory": randint(0, 100),
+					  "storage": randint(0, 100),
 					}]
 			
 			elif (cmd == 3):

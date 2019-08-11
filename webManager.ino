@@ -1,3 +1,8 @@
+
+void notFound(AsyncWebServerRequest* request) {
+    request->send(404, "text/plain", "Not found");
+}
+
 void webManager(bool spiffs) {
     String dbgName = "webManager() ";
 
@@ -45,7 +50,9 @@ void webManager(bool spiffs) {
             request->send_P(200, "text/html", PAGEFAIL);
             });
     }
-    // Start server
+
+    server.onNotFound(notFound);
+
     server.begin();
 }
 

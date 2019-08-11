@@ -21,6 +21,7 @@
 #define HW_REVISION         1
 
 #define SERIAL_BAUDRATE	115200
+#define WEBSERVER_PORT  80
 #define LOG(x) Serial.println(x)
 typedef enum debugTypes {
     t_TIME,
@@ -49,7 +50,7 @@ struct eepromData {
 
 TaskHandle_t    Task1, Task11, Task2;
 eepromManager   eeprom;
-AsyncWebServer  server(80);
+AsyncWebServer  server(WEBSERVER_PORT);
 AsyncWebSocket  ws("/ws");
 //StaticJsonDocument<200> jsonBuffer;//using stack
 DynamicJsonDocument jsonBuffer(2048);//using heap

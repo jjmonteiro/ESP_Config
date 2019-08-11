@@ -51,9 +51,9 @@ void onWsEvent(AsyncWebSocket* server, AsyncWebSocketClient* client, AwsEventTyp
 
             JsonArray value = jsonBuffer.createNestedArray("value");
             JsonObject key = value.createNestedObject();
-            key["battery"] = 77;
-            key["memory"] = 30;
-            key["storage"] = 83;
+            key["battery"] = random(100);
+            key["memory"] = (ESP.getFreeHeap()/ESP.getHeapSize())*100;
+            key["storage"] = random(100);
 
             serializeJson(jsonBuffer, reply);
             Debug("WS_EVT_DATA " + String(client->id()) + " Reply: " + reply, t_INFO);
