@@ -4,7 +4,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 <link rel="stylesheet" href="w3.css">
 
 <script src="https://code.iconify.design/1/1.0.3/iconify.min.js"></script>
@@ -22,7 +21,7 @@
   <!-- Navbar -->
   <div class="w3-top">
     <div class="w3-bar w3-card navstyle">
-      <a class="w3-bar-item w3-button w3-padding-large w3-hide-medium w3-hide-large w3-right" href="javascript:void(0)" onclick="toggleMenu()" title="Toggle Navigation Menu"><i class="iconify ic-navbar" data-icon="simple-line-icons:menu"></i></a>
+      <a class="w3-bar-item w3-button w3-padding-large w3-hide-medium w3-hide-large w3-right" href="javascript:void(0)" onclick="toggleMenu()" title="Toggle Navigation Menu"><i class="iconify ic-navbar" data-icon="oi:menu"></i></a>
       <a href="#" onclick="showOnly('p1');" class="w3-bar-item w3-button w3-padding-large">STATUS</a>
       <a href="#" onclick="showOnly('p2');" class="w3-bar-item w3-button w3-padding-large w3-hide-small">WIFI</a>
       <a href="#" onclick="showOnly('p3');" class="w3-bar-item w3-button w3-padding-large w3-hide-small">CONSOLE</a>
@@ -36,7 +35,6 @@
       </div>
       <a href="#" onclick="powerMenu();" class="w3-padding-large w3-hover-red w3-hide-small w3-right"><i class="iconify" data-icon="fa-solid:power-off"></i></a>
       <div class="w3-padding-large w3-right"><i id="ic-wifi" class="iconify ic-navbar" data-icon="ic:round-wifi-off"></i></div>
-      <div class="w3-padding-large w3-right"><i id="ic-www" class="iconify ic-navbar" data-icon="ic:sync-disabled"></i></div>
     </div>
   </div>
 
@@ -56,105 +54,112 @@
   </div>
   <!-- navbar end --> 
 </header>
+  
+<div class="w3-bar" style="margin-top: 40px;"></div>
 
+<article class="content">
 
-<article>
+            <div class="page" id="p1">
+              
+             <div class="w3-bar" style="margin-top: 40px;"></div>
 
-  <div class="page w3-display-topmiddle" id="p1">
-    <div class="w3-display-topleft w3-round-large" style="width:30%; margin:15%">
-      <h4>battery:</h4>
-        <div class="w3-light-grey w3-round-large">
-          <div class="w3-container w3-indigo w3-round-large" style="width:50%">50%</div>
-        </div>
+                
+               <div class="w3-col l6" >
+                  <div class="dashboard" >
+                    <p style="text-align:left;"><b><font size="7">IP</font><font size="6" style="margin-left:30px;">192.168.10.5</font></b></p>
 
-      <h4>memory:</h4>
-        <div class="w3-light-grey w3-round-large">
-          <div class="w3-container w3-indigo w3-round-large" style="width:50%">50%</div>
-        </div>
+                    <h4>memory:</h4>
+                    <div id="bar-memory" class="w3-light-grey w3-round-large">
+                      <div class="w3-container w3-indigo w3-round-large" style="width:50%">50%</div>
+                    </div>
 
-      <h4>storage:</h4>
-        <div class="w3-light-grey w3-round-large">
-          <div class="w3-container w3-indigo w3-round-large" style="width:50%">50%</div>
-        </div>
-      <br>
-    </div>
+                    <h4>storage:</h4>
+                    <div id="bar-storage" class="w3-light-grey w3-round-large">
+                      <div class="w3-container w3-indigo w3-round-large" style="width:50%">50%</div>
+                    </div>
 
-    <div class="w3-display-topright" style="width:30%; margin:15%">
-      <h4>battery:</h4>
-        <div class="w3-light-grey w3-round-large">
-          <div id="bar-battery" class="w3-container w3-indigo w3-round-large" style="width:50%">50%</div>
-        </div>
+                  </div>
+               </div>
+               
+               <div class="w3-col l6" >
+                  <div class="dashboard">
+                    <p style="text-align:left;"><b><font size="7" id="val-battery">50%</font><font size="4" style="margin-left:30px;">Battery</font></b></p>
+                    <div class="w3-light-grey w3-round-large" style="min-height:5px">
+                      <div id="bar-battery" class="w3-container w3-indigo w3-round-large" style="width:50%; min-height:5px"></div>
+                    </div>
 
-      <h4>memory:</h4>
-        <div class="w3-light-grey w3-round-large">
-          <div id="bar-memory" class="w3-container w3-indigo w3-round-large" style="width:50%">50%</div>
-        </div>
+                    <p style="text-align:left;"><b><font size="7" id="val-memory">50%</font><font size="4" style="margin-left:30px;">Memory</font></b></p>
+                    <div class="w3-light-grey w3-round-large" style="min-height:5px">
+                      <div id="bar-memory" class="w3-container w3-indigo w3-round-large" style="width:50%; min-height:5px"></div>
+                    </div>
 
-      <h4>storage:</h4>
-        <div class="w3-light-grey w3-round-large">
-          <div id="bar-storage" class="w3-container w3-indigo w3-round-large" style="width:50%">50%</div>
-        </div>
-      <br>
-    </div>
+                    <p style="text-align:left;"><b><font size="7" id="val-storage">50%</font><font size="4" style="margin-left:30px;">Storage</font></b></p>
+                    <div class="w3-light-grey w3-round-large" style="min-height:5px">
+                      <div id="bar-storage" class="w3-container w3-indigo w3-round-large" style="width:50%; min-height:5px"></div>
+                    </div>
+                  </div>
+               </div>
 
-    <div class="w3-display-middle" style="width:50%; margin-top:15%">
-      <h4>battery:</h4>
-        <div class="w3-light-grey w3-round-large">
-          <div class="w3-container w3-indigo w3-round-large" style="width:50%">50%</div>
-        </div>
+               <div class="w3-col l12" >
+                  <div class="dashboard">
+                    <p style="text-align:left;"><b><font size="7" id="val-battery">50%</font><font size="4" style="margin-left:30px;">Battery</font></b></p>
+                    <div class="w3-light-grey w3-round-large" style="min-height:5px">
+                      <div id="bar-battery" class="w3-container w3-indigo w3-round-large" style="width:50%; min-height:5px"></div>
+                    </div>
 
-      <h4>memory:</h4>
-        <div class="w3-light-grey w3-round-large">
-          <div class="w3-container w3-indigo w3-round-large" style="width:50%">50%</div>
-        </div>
+                    <p style="text-align:left;"><b><font size="7" id="val-memory">50%</font><font size="4" style="margin-left:30px;">Memory</font></b></p>
+                    <div class="w3-light-grey w3-round-large" style="min-height:5px">
+                      <div id="bar-memory" class="w3-container w3-indigo w3-round-large" style="width:50%; min-height:5px"></div>
+                    </div>
 
-      <h4>storage:</h4>
-        <div class="w3-light-grey w3-round-large">
-          <div class="w3-container w3-indigo w3-round-large" style="width:50%">50%</div>
-        </div>
-      <br>
-    </div>
-  </div>
+                    <p style="text-align:left;"><b><font size="7" id="val-storage">50%</font><font size="4" style="margin-left:30px;">Storage</font></b></p>
+                    <div class="w3-light-grey w3-round-large" style="min-height:5px">
+                      <div id="bar-storage" class="w3-container w3-indigo w3-round-large" style="width:50%; min-height:5px"></div>
+                    </div>
+                  </div>
+               </div>
+                
+                
+              </div>
+             </div><!--end of page_1 -->
+  
+            <div class="page w3-display-topmiddle" id="p2">
+               <div class="w3-display-topmiddle w3-round-large table-container">
+                    <table id="wifi-table" class="w3-table-all w3-striped w3-hoverable">
+                      <thead>
+                        <tr class="w3-black">
+                          <th>NO DATA</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td>NO DATA</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <div class="page w3-display-topmiddle" id="p3">
+                <div class="w3-display-topmiddle console-container">
+                    <textarea id="ter-main" class="w3-round console-style console-window" readonly spellcheck="false"></textarea>
+                    <br><br>
+                    <input id="ter-input" type="text" class="w3-round console-style" onkeypress="return runScript(event)" autocomplete="off" spellcheck="false">
+                </div>
+            </div>  
+            
+            <div class="page w3-display-topmiddle" id="p4">
 
-  <div class="page w3-display-topmiddle" id="p2">
-     <div class="w3-display-middle table-container">
-          <table id="wifi-table" class="w3-table-all w3-striped w3-hoverable">
-            <thead>
-              <tr class="w3-black">
-                <th>NO DATA</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>NO DATA</td>
-              </tr>
-              <tr>
-                <td>NO DATA</td>
-              </tr>
-            </tbody>
-          </table>
-      </div>
-  </div>
+            </div>
+            <div class="page w3-display-topmiddle" id="p5">
 
-  <div class="page w3-display-topmiddle" id="p3">
-      <div class="w3-display-middle console-container">
-          <textarea id="ter-main" class="console-style console-window" readonly spellcheck="false"></textarea>
-          <br><br>
-          <input id="ter-input" type="text" class="console-style" onkeypress="return runScript(event)" autocomplete="off" spellcheck="false">
-      </div>
-  </div>  
+            </div> 
+            <div class="page w3-display-topmiddle" id="p6">
+ 
+            </div>
 
-  <div class="page w3-display-topmiddle" id="p4">
-
-  </div>
-
-  <div class="page w3-display-topmiddle" id="p5">
-
-  </div> 
-
-  <div class="page w3-display-topmiddle" id="p6">
-
-  </div>    
+            <div class="w3-bar" style="margin-top: 200px;"></div>
+    
 </article>   
 
 

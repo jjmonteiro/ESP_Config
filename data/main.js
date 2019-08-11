@@ -153,8 +153,8 @@ function updateValues(dataValues){
   for (key in myObj) {
     var value = myObj[key]+"%";
     var elem = document.getElementById("bar-"+key);
-    
-    elem.innerHTML = value;
     elem.style.width = value;
+    var elem = document.getElementById("val-"+key);
+    elem.innerHTML = value;
   }
 }
