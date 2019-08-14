@@ -47,12 +47,13 @@ void onWsEvent(AsyncWebSocket* server, AsyncWebSocketClient* client, AwsEventTyp
             //else
             //    client->binary("I got your binary message");
 
+
             jsonBuffer["type"] = 2;
 
             JsonArray value = jsonBuffer.createNestedArray("value");
             JsonObject key = value.createNestedObject();
             key["battery"] = random(100);
-            key["memory"] = long((ESP.getFreeHeap()/ESP.getHeapSize())*100);
+            key["memory"] = map(ESP.getFreeHeap(), 0, ESP.getHeapSize(), 0, 100);
             key["storage"] = random(100);
 
             serializeJson(jsonBuffer, reply);

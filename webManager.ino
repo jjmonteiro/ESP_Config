@@ -53,7 +53,6 @@ void webManager(bool spiffs) {
 }
 
 
-/*this helper function fetches current ip address to update the remote main.js file*/
 String processor(const String& var) {
 
     if (var == "IPADDR") {
