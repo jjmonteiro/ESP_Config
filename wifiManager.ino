@@ -94,7 +94,7 @@ void wifiManager() {
     String dbgName = "wifiManager() ";
 
     if (!WiFi.isConnected()) {
-
+        
         size_t wifi_list_max = sizeof mydata.ssid / sizeof mydata.ssid[0];
 
         for (size_t index = 0; ((!WiFi.isConnected()) && (index < wifi_list_max)); index++) {

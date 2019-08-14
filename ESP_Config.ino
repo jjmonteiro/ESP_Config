@@ -58,6 +58,10 @@ DynamicJsonDocument jsonBuffer(2048);//using heap
 void setup() {
 
     Serial.begin(SERIAL_BAUDRATE);
+    WiFi.mode(WIFI_MODE_STA);
+    WiFi.setAutoConnect(false);
+    WiFi.setAutoReconnect(false);
+
     printBootupInfo();
 
     eeprom.init();
@@ -66,7 +70,6 @@ void setup() {
     //createTasks();
 
     WiFi.onEvent(WiFiEvent);
-    WiFi.mode(WIFI_MODE_STA);
     
     webManager(spiffsManager());
 

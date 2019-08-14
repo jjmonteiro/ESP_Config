@@ -26,3 +26,9 @@ void listDir(char* dir) {
         file = root.openNextFile();
     }
 }
+
+//void addFileToServer(String file) {
+//    server.on(file.c_str(), HTTP_GET, [](AsyncWebServerRequest* request) {
+//        request->send(SPIFFS, [&file](String a) {a = file; });
+//        });
+//}

@@ -28,12 +28,8 @@ void webManager(bool spiffs) {
             request->send(SPIFFS, "/main.js", String(), false, processor);//updates main.js with current ip address
             });
 
-        server.on("/json_handler.js", HTTP_GET, [](AsyncWebServerRequest* request) {
-            request->send(SPIFFS, "/json_handler.js");
-            });
-
-        server.on("/table_generator.js", HTTP_GET, [](AsyncWebServerRequest* request) {
-            request->send(SPIFFS, "/table_generator.js");
+        server.on("/w3.css", HTTP_GET, [](AsyncWebServerRequest* request) {
+            request->send(SPIFFS, "/w3.css");
             });
 
         server.on("/style.css", HTTP_GET, [](AsyncWebServerRequest* request) {
