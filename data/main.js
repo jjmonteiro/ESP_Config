@@ -3,14 +3,11 @@ var ws;
 var debug = true;
 var myIP = "%IPADDR%";
 
-var CHECK_CONNECTION_INTERVAL = 5000;
 var UPDATE_VALUES_INTERVAL = 2000;
-
 
 function init() {
   var host;
 
-  setInterval(checkConnection, CHECK_CONNECTION_INTERVAL);
 
   if (isValidIP(myIP)){
     host = "ws://" + myIP + "/ws";
@@ -32,14 +29,11 @@ function init() {
   };
 
   ws.onopen = function(e) {
-    updateStatus.run = setInterval(updateStatus, UPDATE_VALUES_INTERVAL);
-    //checkConnection();
-    //document.getElementById("button1").innerHTML = "Close";
+    checkConnection();
   };
   ws.onclose = function(e) {
-    clearInterval(updateStatus.run);
-    //checkConnection();
-    //document.getElementById("button1").innerHTML = "Open";
+    checkConnection();
+    stopScripts();
   };
 }
 
@@ -48,11 +42,6 @@ function isValidIP(ipaddress) {
     return true; 
   }   
   return false; 
-}  
-
-
-function updateStatus(){
-  jsonTX(JSON.stringify({"type":2}));
 }
 
 function checkConnection(){
@@ -67,7 +56,8 @@ function checkConnection(){
     break;
     case 1:
       reply = "connected."
-      
+      wifiOnIcon();
+      startScript(1);
       //updateFields();
     break;
     case 2:
@@ -75,6 +65,8 @@ function checkConnection(){
     break;
     case 3:
       reply = "disconnected."
+      wifiOffIcon();
+      stopScripts();
       ws.close();
       init();
     break;
@@ -82,7 +74,6 @@ function checkConnection(){
       reply = "unknown status."
   }
   status.innerHTML = reply;
-  //output(reply);
 }
 
 function onSend() {
@@ -169,21 +160,46 @@ function showOnly(id) {
   var x = document.getElementsByClassName("page");
   for (i = 0; i < x.length; i++) {
       document.getElementById(x[i].id).style.display = 'none';
+      if (x[i].id == id){
+        startScript(i+1)
+      }
   }
   document.getElementById(id).style.display = 'block';
+  closeMenu();
+}
+
+function startScript(id){
+  stopScripts();
+  switch(id){
+    case 1:
+      updateStatus.run = setInterval(updateStatus, UPDATE_VALUES_INTERVAL);
+      break;
+    case 2:
+    break;
+    case 3:
+    break;
+    case 4:
+    break;
+    case 5:
+    break;
+    case 6:
+    break;
+  }
+}
+
+function stopScripts(){
+  clearInterval(updateStatus.run);
 }
 
 function powerMenu(){
   
   alert("Sure to power off?");
   
-  var x = document.getElementById("ic-wifi");
-  
   //test for icon update
   // if (x.hasAttribute("data-icon")) {
   //   x.setAttribute("data-icon", "ic:round-wifi");
   // }
-  
+  closeMenu();
 }
 
 function updateValues(dataValues){
@@ -199,6 +215,9 @@ function updateValues(dataValues){
   }
 }
 
+function updateStatus(){
+  jsonTX(JSON.stringify({"type":2}));
+}
 
 function updateTable(tableId, jsonData){
 
@@ -267,3 +286,12 @@ function jsonRX(json_data){
   }
 }
 
+function wifiOffIcon(){
+  var t1 = document.getElementById("ic-wifi");
+  t1.innerHTML = '<i class="iconify ic-navbar" data-icon="ic:round-wifi-off"></i>'
+}
+
+function wifiOnIcon(){
+  var t1 = document.getElementById("ic-wifi");
+  t1.innerHTML = '<i class="iconify ic-navbar" data-icon="ic:round-wifi"></i>'
+}

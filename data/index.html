@@ -20,34 +20,34 @@
   <div class="w3-top">
     <div class="w3-bar w3-card navstyle">
       <a class="w3-bar-item w3-button w3-padding-large w3-hide-medium w3-hide-large w3-right" href="javascript:void(0)" onclick="toggleMenu()" title="Toggle Navigation Menu"><i class="iconify ic-navbar" data-icon="oi:menu"></i></a>
-      <a href="#" onclick="showOnly('p1'); closeMenu();" class="w3-bar-item w3-button w3-padding-large">STATUS</a>
-      <a href="#" onclick="showOnly('p2');" class="w3-bar-item w3-button w3-padding-large w3-hide-small">WIFI</a>
-      <a href="#" onclick="showOnly('p3');" class="w3-bar-item w3-button w3-padding-large w3-hide-small">CONSOLE</a>
+      <a href="#" onclick="showOnly('p1')" class="w3-bar-item w3-button w3-padding-large">HOME</a>
+      <a href="#" onclick="showOnly('p2')" class="w3-bar-item w3-button w3-padding-large w3-hide-small">WIFI</a>
+      <a href="#" onclick="showOnly('p3')" class="w3-bar-item w3-button w3-padding-large w3-hide-small">CONSOLE</a>
       <div class="w3-dropdown-hover w3-hide-small">
         <button class="w3-padding-large w3-button" title="More" style="outline: none;">MORE <i class="iconify" data-icon="ic:sharp-keyboard-arrow-down"></i></button>     
         <div class="w3-dropdown-content w3-bar-block w3-card-4">
-          <a href="#" onclick="showOnly('p4');" class="w3-bar-item w3-button">Ports</a>
-          <a href="#" onclick="showOnly('p5');" class="w3-bar-item w3-button">Files</a>
-          <a href="#" onclick="showOnly('p6');" class="w3-bar-item w3-button">Settings</a>
+          <a href="#" onclick="showOnly('p4')" class="w3-bar-item w3-button">Ports</a>
+          <a href="#" onclick="showOnly('p5')" class="w3-bar-item w3-button">Files</a>
+          <a href="#" onclick="showOnly('p6')" class="w3-bar-item w3-button">Settings</a>
         </div>
       </div>
-      <a href="#" onclick="powerMenu(); " class="w3-padding-large w3-hover-red w3-hide-small w3-right"><i class="iconify" data-icon="fa-solid:power-off"></i></a>
-      <div class="w3-padding-large w3-right"><i id="ic-wifi" class="iconify ic-navbar" data-icon="ic:round-wifi-off"></i></div>
+      <a href="#" onclick="powerMenu()" class="w3-padding-large w3-hover-red w3-hide-small w3-right"><i class="iconify" data-icon="fa-solid:power-off"></i></a>
+      <a id="ic-wifi" href="#" class="w3-padding-large w3-hover-grey w3-hide-small w3-right"><i class="iconify ic-navbar" data-icon="ic:round-wifi-off"></i></a>
     </div>
   </div>
 
   <!-- Navbar on small screens (remove the onclick attribute if you want the navbar to always show on top of the content when clicking on the links) -->
   <div id="navDemo" class="w3-bar-block navstyle w3-hide w3-hide-large w3-hide-medium w3-top" style="margin-top:46px">
-    <a href="#" onclick="showOnly('p2'); closeMenu();" class="w3-bar-item w3-button w3-padding-large" >WIFI</a>
-    <a href="#" onclick="showOnly('p3'); closeMenu();" class="w3-bar-item w3-button w3-padding-large" >CONSOLE</a>
+    <a href="#" onclick="showOnly('p2')" class="w3-bar-item w3-button w3-padding-large" >WIFI</a>
+    <a href="#" onclick="showOnly('p3')" class="w3-bar-item w3-button w3-padding-large" >CONSOLE</a>
 
 
         <button class="w3-bar-item w3-button w3-padding-large"  onclick="toggleSubMenu()">MORE <i class="fa fa-caret-down" ></i></button>     
         <div id="demoAcc" class="w3-dropdown-content w3-hide w3-bar-item w3-card-4">
-          <a href="#" onclick="showOnly('p4'); closeMenu();" class="w3-bar-item w3-button" >Ports</a>
-          <a href="#" onclick="showOnly('p5'); closeMenu();" class="w3-bar-item w3-button" >Files</a>
-          <a href="#" onclick="showOnly('p6'); closeMenu();" class="w3-bar-item w3-button" >Settings</a>
-          <a href="#" onclick="powerMenu(); closeMenu();" class="w3-bar-item w3-button"    >Power</a>
+          <a href="#" onclick="showOnly('p4')" class="w3-bar-item w3-button" >Ports</a>
+          <a href="#" onclick="showOnly('p5')" class="w3-bar-item w3-button" >Files</a>
+          <a href="#" onclick="showOnly('p6')" class="w3-bar-item w3-button" >Settings</a>
+          <a href="#" onclick="powerMenu()" class="w3-bar-item w3-button"    >Power</a>
         </div>
   </div>
   <!-- navbar end --> 
@@ -81,17 +81,18 @@
      
      <div class="w3-col l6" >
         <div class="dashboard">
-          <p style="text-align:left;"><b><font size="7" id="val-battery">50%</font><font size="4" style="margin-left:30px;">Battery</font></b></p>
+          <p style="text-align:left;"><b><font size="6" id="val-battery">50%</font><font size="4" style="margin-left:30px;">Battery</font></b></p>
           <div class="w3-light-grey w3-round-large" style="min-height:5px">
             <div id="bar-battery" class="w3-container w3-indigo w3-round-large" style="width:50%; min-height:5px"></div>
           </div>
 
-          <p style="text-align:left;"><b><font size="7" id="val-memory">50%</font><font size="4" style="margin-left:30px;">Memory</font></b></p>
+          <p style="text-align:left;"><b><font size="6" id="val-memory">50%</font><font size="4" style="margin-left:30px;">Memory</font></b></p>
           <div class="w3-light-grey w3-round-large" style="min-height:5px">
             <div id="bar-memory" class="w3-container w3-indigo w3-round-large" style="width:50%; min-height:5px"></div>
           </div>
-
-          <p style="text-align:left;"><b><font size="7" id="val-storage">50%</font><font size="4" style="margin-left:30px;">Storage</font></b></p>
+          <div>
+          <p style="text-align:left;"><b><font size="6" id="val-storage">50%</font><font size="4" style="margin-left:30px;text-align:right">Storage</font></b></p>
+          </div>
           <div class="w3-light-grey w3-round-large" style="min-height:5px">
             <div id="bar-storage" class="w3-container w3-indigo w3-round-large" style="width:50%; min-height:5px"></div>
           </div>
