@@ -5,7 +5,7 @@ void onWsEvent(AsyncWebSocket* server, AsyncWebSocketClient* client, AwsEventTyp
     dbgName += cliendID;
 
     if (type == WS_EVT_CONNECT) {
-        Debug(dbgName +  "WS_EVT_CONNECT " + String(client->id()), t_INFO);
+        Debug(dbgName + "WS_EVT_CONNECT " + String(client->id()), t_INFO);
         //Serial.printf("ws[%s][%u] connect\n", server->url(), client->id());
         //client->printf("Hello Client %u :)", client->id());
         //client->ping();
@@ -14,13 +14,14 @@ void onWsEvent(AsyncWebSocket* server, AsyncWebSocketClient* client, AwsEventTyp
         Debug(dbgName + "WS_EVT_DISCONNECT " + String(client->id()), t_INFO);
     }
     else if (type == WS_EVT_ERROR) {
-        Debug("WS_EVT_ERROR " + String(client->id()) + " Code: " + String(*((uint16_t*)arg)) + " Error Data: " + String((char*)data), t_ERROR);
+        Debug(dbgName + "WS_EVT_ERROR " + String(client->id()) + " Code: " + String(*((uint16_t*)arg)) + " Error Data: " + String((char*)data), t_ERROR);
     }
     else if (type == WS_EVT_DATA) {
         AwsFrameInfo* info = (AwsFrameInfo*)arg;
         String msg = "";
         String reply = "";
-        jsonBuffer.clear();
+        jsonReceiveBuffer.clear();
+        jsonSendBuffer.clear();
 
         if (info->final && info->index == 0 && info->len == len) {
             //the whole message is in a single frame and we got all of it's data
@@ -31,35 +32,60 @@ void onWsEvent(AsyncWebSocket* server, AsyncWebSocketClient* client, AwsEventTyp
                     msg += (char)data[i];
                 }
             }
-            else {
-                char buff[3];
-                for (size_t i = 0; i < info->len; i++) {
-                    sprintf(buff, "%02x ", (uint8_t)data[i]);
-                    msg += buff;
-                }
-            }
 
-            Debug("WS_EVT_DATA " + String(client->id()) + " Request: " + String(msg.c_str()), t_INFO);
+            //Debug(dbgName + "WS_EVT_DATA " + String(client->id()) + " Request: " + String(msg.c_str()), t_INFO);
             ////Serial.printf("%s\n", msg.c_str());
 
-            //if (info->opcode == WS_TEXT)
-            //    client->text("I got your text message");
-            //else
-            //    client->binary("I got your binary message");
+            DeserializationError error = deserializeJson(jsonReceiveBuffer, msg.c_str());
 
+            // Test if parsing succeeds.
+            if (error) {
+                Serial.print(F("deserializeJson() failed: "));
+                Serial.println(error.c_str());
+                return;
+            }
 
-            jsonBuffer["type"] = 2;
+            int type = jsonReceiveBuffer["type"];
+            jsonSendBuffer["type"] = type;
 
-            JsonArray value = jsonBuffer.createNestedArray("value");
+            JsonArray value = jsonSendBuffer.createNestedArray("value");
             JsonObject key = value.createNestedObject();
-            key["battery"] = random(100);
-            key["memory"] = map(ESP.getFreeHeap(), 0, ESP.getHeapSize(), 0, 100);
-            key["storage"] = random(100);
 
-            serializeJson(jsonBuffer, reply);
-            Debug("WS_EVT_DATA " + String(client->id()) + " Reply: " + reply, t_INFO);
+            switch (type) {
+                case 0:
+                    break;
+                case 1:
+                    break;
+                case 2:
+
+                    key["battery"] = random(100);
+                    key["memory"] = map(ESP.getFreeHeap(), 0, ESP.getHeapSize(), 0, 100);
+                    key["storage"] = random(100);
+                    break;
+                case 3:
+                    //int n = WiFi.scanNetworks();
+                    WiFi.scanNetworks();
+                    for (int i = 0; i <= 0; ++i) {
+                        //JsonObject key = value.createNestedObject();
+                        key.nesting = WiFi.SSID(i);
+                        key["RSSI"] = WiFi.RSSI(i);
+                        key["CH"] = WiFi.channel(i);
+                        key["AUTH"] = WiFi.encryptionType(i);
+                        key["MAC"] = WiFi.BSSIDstr(i);
+                        delay(10);
+                    }
+                    break;
+                default:
+                    break;
+            }
+
+            serializeJson(jsonSendBuffer, reply);
+            Debug(dbgName + "WS_EVT_DATA " + String(client->id()) + " Reply: " + reply, t_INFO);
             client->text(reply);
 
+        }
+        else {
+            Debug(dbgName + "WS_EVT_DATA - Message too big was ignored.", t_FAIL);
         }
     }
 }

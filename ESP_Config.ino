@@ -52,8 +52,10 @@ TaskHandle_t    Task1, Task11, Task2;
 eepromManager   eeprom;
 AsyncWebServer  server(WEBSERVER_PORT);
 AsyncWebSocket  ws("/ws");
-//StaticJsonDocument<200> jsonBuffer;//using stack
-DynamicJsonDocument jsonBuffer(2048);//using heap
+//StaticJsonDocument<200> jsonReceiveBuffer;//using stack
+//StaticJsonDocument<200> jsonSendBuffer;//using stack
+DynamicJsonDocument jsonReceiveBuffer(2048);//using heap
+DynamicJsonDocument jsonSendBuffer(2048);//using heap
 
 void setup() {
 

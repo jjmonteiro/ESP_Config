@@ -108,7 +108,7 @@ function toggleGrey(elementid){
   status.disabled = !status.disabled;
 }
 
-function runScript(e) {
+function readKeyboard(e) {
     if (e.which === 13) {
       onSend();
     }

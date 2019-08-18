@@ -90,8 +90,10 @@
           <div class="w3-light-grey w3-round-large" style="min-height:5px">
             <div id="bar-memory" class="w3-container w3-indigo w3-round-large" style="width:50%; min-height:5px"></div>
           </div>
+
           <div>
-          <p style="text-align:left;"><b><font size="6" id="val-storage">50%</font><font size="4" style="margin-left:30px;text-align:right">Storage</font></b></p>
+          <p style="text-align:left;"><b><font size="6" id="val-storage">50%</font>
+            <font size="4" style="margin-left:30px;text-align:right">Storage</font></b></p>
           </div>
           <div class="w3-light-grey w3-round-large" style="min-height:5px">
             <div id="bar-storage" class="w3-container w3-indigo w3-round-large" style="width:50%; min-height:5px"></div>
@@ -127,7 +129,7 @@
       <div class="console-container">
           <textarea id="ter-main" class="w3-round console-style console-window" readonly spellcheck="false"></textarea>
           <br><br>
-          <input id="ter-input" type="text" class="w3-round console-style" onkeypress="return runScript(event)" autocomplete="off" spellcheck="false">
+          <input id="ter-input" type="text" class="w3-round console-style" onkeyup="return runScript(event)" autocomplete="off" spellcheck="false">
       </div>
   </div>  
   
