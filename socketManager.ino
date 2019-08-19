@@ -49,34 +49,37 @@ void onWsEvent(AsyncWebSocket* server, AsyncWebSocketClient* client, AwsEventTyp
             jsonSendBuffer["type"] = type;
 
             JsonArray value = jsonSendBuffer.createNestedArray("value");
-            JsonObject key = value.createNestedObject();
+            
 
             switch (type) {
-                case 0:
-                    break;
-                case 1:
-                    break;
-                case 2:
-
-                    key["battery"] = random(100);
-                    key["memory"] = map(ESP.getFreeHeap(), 0, ESP.getHeapSize(), 0, 100);
-                    key["storage"] = random(100);
-                    break;
-                case 3:
-                    //int n = WiFi.scanNetworks();
-                    WiFi.scanNetworks();
-                    for (int i = 0; i <= 0; ++i) {
-                        //JsonObject key = value.createNestedObject();
-                        key.nesting = WiFi.SSID(i);
-                        key["RSSI"] = WiFi.RSSI(i);
-                        key["CH"] = WiFi.channel(i);
-                        key["AUTH"] = WiFi.encryptionType(i);
-                        key["MAC"] = WiFi.BSSIDstr(i);
-                        delay(10);
-                    }
-                    break;
-                default:
-                    break;
+            case 0:
+                break;
+            case 1:
+                break;
+            case 2:
+            {
+                JsonObject key = value.createNestedObject();
+                key["battery"] = random(100);
+                key["memory"] = map(ESP.getFreeHeap(), 0, ESP.getHeapSize(), 0, 100);
+                key["storage"] = random(100);
+                break;
+            }
+            case 3:
+            {
+                int n = WiFi.scanNetworks();
+                for (int i = 0; i < n; ++i) {
+                    JsonObject key = value.createNestedObject();
+                    key["SSID"] = WiFi.SSID(i);
+                    key["RSSI"] = WiFi.RSSI(i);
+                    key["CH"] = WiFi.channel(i);
+                    key["AUTH"] = WiFi.encryptionType(i);
+                    key["MAC"] = WiFi.BSSIDstr(i);
+                    delay(10);
+                }
+                break;
+            }
+            default:
+                break;
             }
 
             serializeJson(jsonSendBuffer, reply);
