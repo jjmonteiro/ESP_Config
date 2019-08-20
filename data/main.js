@@ -175,6 +175,7 @@ function startScript(id){
       updateStatus.run = setInterval(updateStatus, UPDATE_VALUES_INTERVAL);
       break;
     case 2:
+      scanWifi.run = setInterval(scanWifi, UPDATE_VALUES_INTERVAL);
     break;
     case 3:
     break;
@@ -189,6 +190,7 @@ function startScript(id){
 
 function stopScripts(){
   clearInterval(updateStatus.run);
+  clearInterval(scanWifi.run);
 }
 
 function powerMenu(){
@@ -219,13 +221,17 @@ function updateStatus(){
   jsonTX(JSON.stringify({"type":2}));
 }
 
+function scanWifi(){
+  jsonTX(JSON.stringify({"type":3}));
+}
+
 function updateTable(tableId, jsonData){
 
-  var tableHTML = "<thead><tr class='w3-black'>";
+  var tableHTML = "<tr>";
   for (var headers in jsonData[0]) {
     tableHTML += "<th>" + headers + "</th>";
   }
-  tableHTML += "</tr></thead>";
+  tableHTML += "</tr>";
   
   for (var eachItem in jsonData) {
     tableHTML += "<tr>";
@@ -235,7 +241,7 @@ function updateTable(tableId, jsonData){
     }
     tableHTML += "</tr>";
   }
-  
+
   document.getElementById(tableId).innerHTML = tableHTML;
 }
 
