@@ -57,7 +57,7 @@ function checkConnection(){
     case 1:
       reply = "connected."
       wifiOnIcon();
-      startScript(1);
+      showOnly('p1');
       //updateFields();
     break;
     case 2:
@@ -178,15 +178,15 @@ function startScript(id){
     case 2:
       scanWifi();
       scanWifi.run = setInterval(scanWifi, UPDATE_VALUES_INTERVAL);
-    break;
+      break;
     case 3:
-    break;
+      break;
     case 4:
-    break;
+      break;
     case 5:
-    break;
+      break;
     case 6:
-    break;
+      break;
   }
 }
 
