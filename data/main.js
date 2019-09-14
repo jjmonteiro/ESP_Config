@@ -3,7 +3,7 @@ var ws;
 var debug = true;
 var myIP = "%IPADDR%";
 
-var UPDATE_VALUES_INTERVAL = 2000;
+var UPDATE_VALUES_INTERVAL = 10000;
 
 function init() {
   var host;

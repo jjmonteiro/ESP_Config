@@ -73,7 +73,7 @@ void onWsEvent(AsyncWebSocket* server, AsyncWebSocketClient* client, AwsEventTyp
                     key["RSSI"] = WiFi.RSSI(i);
                     key["CH"] = WiFi.channel(i);
                     key["AUTH"] = WiFi.encryptionType(i);
-                    key["MAC"] = WiFi.BSSIDstr(i);
+                    key["MAC"] = String(WiFi.BSSIDstr(i));
                     delay(10);
                 }
                 break;
