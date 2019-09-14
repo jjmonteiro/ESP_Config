@@ -59,10 +59,10 @@ void onWsEvent(AsyncWebSocket* server, AsyncWebSocketClient* client, AwsEventTyp
             case 2:
             {
                 JsonObject key = value.createNestedObject();
-                key["battery"] = random(100);
-                key["memory"] = map(ESP.getFreeHeap(), 0, ESP.getHeapSize(), 0, 100);
-                key["storage"] = random(100);
-                break;
+                key["battery"] = random(100);//map(value, fromLow, fromHigh, toLow, toHigh)
+                key["memory"] = map((ESP.getHeapSize()-ESP.getFreeHeap()), 0, ESP.getHeapSize(), 0, 100);
+                key["storage"] = map(SPIFFS.usedBytes(), 0, SPIFFS.totalBytes(), 0, 100);
+                break; 
             }
             case 3:
             {
@@ -72,7 +72,7 @@ void onWsEvent(AsyncWebSocket* server, AsyncWebSocketClient* client, AwsEventTyp
                     key["SSID"] = WiFi.SSID(i);
                     key["RSSI"] = WiFi.RSSI(i);
                     key["CH"] = WiFi.channel(i);
-                    key["AUTH"] = WiFi.encryptionType(i);
+                    key["AUTH"] = String(translateEncryptionType(WiFi.encryptionType(i)));
                     key["MAC"] = String(WiFi.BSSIDstr(i));
                     delay(10);
                 }
@@ -83,12 +83,32 @@ void onWsEvent(AsyncWebSocket* server, AsyncWebSocketClient* client, AwsEventTyp
             }
 
             serializeJson(jsonSendBuffer, reply);
-            Debug(dbgName + "WS_EVT_DATA " + String(client->id()) + " Reply: " + reply, t_INFO);
+            Debug(dbgName + "WS_EVT_DATA: " + reply, t_INFO);
             client->text(reply);
 
         }
         else {
             Debug(dbgName + "WS_EVT_DATA - Message too big was ignored.", t_FAIL);
         }
+    }
+}
+
+String translateEncryptionType(wifi_auth_mode_t encryptionType) {
+
+    switch (encryptionType) {
+    case (WIFI_AUTH_OPEN):
+        return "Open";
+    case (WIFI_AUTH_WEP):
+        return "WEP";
+    case (WIFI_AUTH_WPA_PSK):
+        return "WPA1";
+    case (WIFI_AUTH_WPA2_PSK):
+        return "WPA2";
+    case (WIFI_AUTH_WPA_WPA2_PSK):
+        return "WPA1/2";
+    case (WIFI_AUTH_WPA2_ENTERPRISE):
+        return "WPA2/E";
+    default:
+        return "OTHER";
     }
 }

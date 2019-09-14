@@ -172,9 +172,11 @@ function startScript(id){
   stopScripts();
   switch(id){
     case 1:
+      updateStatus();
       updateStatus.run = setInterval(updateStatus, UPDATE_VALUES_INTERVAL);
       break;
     case 2:
+      scanWifi();
       scanWifi.run = setInterval(scanWifi, UPDATE_VALUES_INTERVAL);
     break;
     case 3:
