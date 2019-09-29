@@ -118,7 +118,8 @@ void wifiManager() {
                 Debug(dbgName + "Connection successful.", t_INFO);
                 Debug(dbgName + "SSID: " + String(WiFi.SSID()), t_INFO);
                 Debug(dbgName + "RSSI: " + String(WiFi.RSSI()) + "dBm", t_INFO);
-                Debug(dbgName + "WiFi.localIP(): " + String(WiFi.localIP().toString()), t_INFO);
+                Debug(dbgName + "WiFi.localIP(): " + String("http://" + WiFi.localIP().toString()), t_INFO);
+                Debug(dbgName + "WiFi.getHostname(): " + String("http://") + WiFi.getHostname(), t_INFO);
                 Debug(dbgName + "WiFi.macAddress(): " + String(WiFi.macAddress()), t_INFO);
             }
             else {

@@ -1,19 +1,20 @@
-
-
-html, body, .page {
+html, body, .page 
+{
   width: 100%;
   height: 100%;
   font-family: 'Raleway', 'lato', 'helvetica', sans-serif;
   overflow: auto;
 }
 
-.content{
+.content
+{
    position: fixed;
    width: 100%;
    height: 100%;
 }
 
-.navstyle{
+.navstyle
+{
   background-color:#333;
   color:#fff;
 }
@@ -25,12 +26,14 @@ html, body, .page {
 #p5 { background: rebeccapurple; }
 #p6 { background: darkgreen; }
 
-.ic-navbar { 
+.ic-navbar 
+{ 
   width: 18px;
   height: 18px;
 }
 
-.dashboard{
+.dashboard
+{
 max-width: 300px;
 margin: 30px auto;
 position: relative;
@@ -39,14 +42,16 @@ position: relative;
 
 /****** terminal start ********/
 
-.console-container{
+.console-container
+{
   margin: 80px auto;
-  height: 50%;
-  width: 70%;
+  height: 100%;
+  width: 98%;
   max-height: 400px;
-  max-width: 900px;
+  max-width: 800px;
 }
-.console-style{
+.console-style
+{
   width: 100%;
   font-family: 'Courier';
   font-size: 12px;
@@ -56,7 +61,8 @@ position: relative;
   border: 1px solid black;
   outline: none;
 }
-.console-window{
+.console-window
+{
   height: 100%;
   resize: none;
   overflow-y: scroll;
@@ -64,19 +70,21 @@ position: relative;
 }
 /****** terminal end ********/
   
-.table-container{
+.table-container
+{
   margin: 80px auto;
-  height: 50%;
-  width: 70%;
-  max-height: 400px;
-  max-width: 900px;
+  height: 100%;
+  width: 98%;
+  max-height: 550px;
+  max-width: 800px;
   overflow: auto;
 }
 
-tr:first-child>th{
+tr:first-child>th
+{
   position: sticky;
   top: 0;
-  background:black;
+  background:#333;
   color:white;
 }
 

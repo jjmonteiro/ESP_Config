@@ -4,16 +4,23 @@ import json
 import time
 
 networks = [
-	{"SSID":"454csdf",		"RSSI":"-12",	"CH":1,		"AUTH":3, "MAC":"32:23:65:32:90"},
-	{"SSID":"router_45tsf", "RSSI":"-78",	"CH":2,		"AUTH":2, "MAC":"32:23:65:32:90"},
-	{"SSID":"wqesdf",		"RSSI":"-21",	"CH":12,	"AUTH":2, "MAC":"32:23:65:32:90"},
-	{"SSID":"iphone2323",	"RSSI":"-34",	"CH":4,		"AUTH":1, "MAC":"32:23:65:32:90"},
-	{"SSID":"netgear3324",	"RSSI":"-14",	"CH":6,		"AUTH":0, "MAC":"32:23:65:32:90"},
-	{"SSID":"454csdf",		"RSSI":"-12",	"CH":1,		"AUTH":3, "MAC":"32:23:65:32:90"},
-	{"SSID":"router_45tsf", "RSSI":"-78",	"CH":2,		"AUTH":2, "MAC":"32:23:65:32:90"},
-	{"SSID":"wqesdf",		"RSSI":"-21",	"CH":12,	"AUTH":2, "MAC":"32:23:65:32:90"},
-	{"SSID":"iphone2323",	"RSSI":"-34",	"CH":4,		"AUTH":1, "MAC":"32:23:65:32:90"},
-	{"SSID":"netgear3324",	"RSSI":"-14",	"CH":6,		"AUTH":0, "MAC":"32:23:65:32:90"}]
+	{"SSID":"454csdf",		"RSSI":"-12",	"CH":1,		"AUTH":3},
+	{"SSID":"router_45tsf", "RSSI":"-78",	"CH":2,		"AUTH":2},
+	{"SSID":"wqesdf",		"RSSI":"-21",	"CH":12,	"AUTH":2},
+	{"SSID":"iphone2323",	"RSSI":"-34",	"CH":4,		"AUTH":1},
+	{"SSID":"netgear3324",	"RSSI":"-14",	"CH":6,		"AUTH":0},
+	{"SSID":"454csdf",		"RSSI":"-12",	"CH":1,		"AUTH":3},
+	{"SSID":"router_45tsf", "RSSI":"-78",	"CH":2,		"AUTH":2},
+	{"SSID":"wqesdf",		"RSSI":"-21",	"CH":12,	"AUTH":2},
+	{"SSID":"iphone2323",	"RSSI":"-34",	"CH":4,		"AUTH":1},
+	{"SSID":"netgear3324",	"RSSI":"-14",	"CH":6,		"AUTH":0}]
+
+filesystem = [
+	{"file":"index.html",	"size":"120",	"date":1566368674},
+	{"file":"main.js", 		"size":"78",	"date":1506458674},
+	{"file":"style.css",	"size":"21",	"date":1510244274},
+	{"file":"w3.css",		"size":"34",	"date":1506343234},
+	{"file":"iconify.js",	"size":"14",	"date":1543545674}]
 # Called for every client connecting (after handshake)
 def new_client(client, server):
 	server.send_message_to_all("New client connected: id_%d" % client['id'])
@@ -31,57 +38,60 @@ def message_received(client, server, message):
 	print("Client(%d) said: %s" % (client['id'], message))
 	#time.sleep(5)
 
-	x = {
+	reply_message = {
 		  "type" : 0,
 		  "value": 0,
 		}
 
 	try:
-		x = json.loads(message)
+		request_message = json.loads(message)
 
 	except:
 		err = "error: bad json request"
-		x["value"] = err
+		reply_message["value"] = err
 		print(err)
 
 	else:
-		if isinstance(x, dict) and "type" in x:
+		if isinstance(request_message, dict) and "type" in request_message:
 
-			cmd = x["type"]
+			cmd = request_message["type"]
 
-			if (cmd == 0):
+			if   (cmd == 0):
 				#server.send_message(client['id'], "pong")
-				x["value"] = "pong"
+				reply_message["value"] = "pong"
 
 			
 			elif (cmd == 1):
 				#server.send_message(client['id'], "pong")
-				x["value"] = randint(10000, 99999)
+				reply_message["value"] = randint(10000, 99999)
 
 			
 			elif (cmd == 2):
-				x["value"] = [{
+				reply_message["value"] = [{
 					  "battery":randint(0, 100),
 					  "memory": randint(0, 100),
 					  "storage": randint(0, 100),
 					}]
 			
 			elif (cmd == 3):
-				x["value"] = networks
+				reply_message["value"] = networks
+
+			elif (cmd == 4):
+				reply_message["value"] = filesystem
 
 			elif (cmd == 5):
 				
 				with open("received_file.dat", "w+") as file:
-					file.write(x["value"])
+					file.write(request_message["value"])
 					file.close()
-				x["value"] = True
+				reply_message["value"] = True
 
 		else:
 			err = "error: unknown json request"
-			x["value"] = err
+			reply_message["value"] = err
 			print(err)	
 
-	server.send_message_to_all(json.dumps(x));
+	server.send_message_to_all(json.dumps(reply_message));
 
 PORT=81
 server = WebsocketServer(PORT)
