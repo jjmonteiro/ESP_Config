@@ -1,73 +1,43 @@
-//***************************************************//
-//Created:   08-Nov-18 12:44:00
-//Author:    Joaquim Monteiro
-//Brief: 
-//***************************************************//
+/*******************************************************************//**
+ * @file    ESP_Config.ino
+ *
+ * COPYRIGHT (c) 2020 Joaquim Monteiro
+ *
+ * @brief
+ * @details
+ *
+ **//*********************************************************************/
 
-
+#include "Arduino.h"
+#include "SPIFFS.h"
 #include <WiFi.h>
 #include "ESPAsyncWebServer.h"
-#include "FS.h"
-#include "SPIFFS.h"
-#include "eepromCRC.h"
+#include "AsyncWebSocket.h"
 #include <ArduinoJson.h>
-#include <rom/rtc.h>
 
-//***************************************************//
-//Globals
-//***************************************************//
-#define SW_VERSION_MAJOR    1
-#define SW_VERSION_MINOR    10
-#define HW_REVISION         1
+#include "version.h"
+#include "debug.h"
+#include "eeprom_crc.h"
+//#include "shell.h"
+#include "spiffs_man.h"
+#include "task_man.h"
+#include "wifi_man.h"
+#include "web_socket.h"
+#include "web_man.h"
 
-#define SERIAL_BAUDRATE	115200
-#define WEBSERVER_PORT  80
-#define LOG(x) Serial.println(x)
-typedef enum debugTypes {
-    t_TIME,
-    t_INFO,
-    t_WARN,
-    t_ERROR,
-    t_OK,
-    t_FAIL
-};
+extern eepromManager eeprom;
+extern eepromData romdata;
 
-struct eepromData {
-    uint32_t    value1 = 0;
-    uint32_t    value2 = 0;
-    uint16_t    value3 = 0;
-    char*       hostname = "esp32";
-    char*       ssid[5][32] = { {"","","","",""} };
-    char*       psk[5][32] = { {"","","","",""} };
-    char*       ap_ssid = "esp32-123";
-    char*       ap_psk = "12345678";
-    String      str_1 = "";
-    String      str_2 = "";
-    String      str_3 = "";
-}mydata;
-
-//*************************************************//
-
-TaskHandle_t    Task1, Task11, Task2;
-eepromManager   eeprom;
-AsyncWebServer  server(WEBSERVER_PORT);
-AsyncWebSocket  ws("/ws");
-//StaticJsonDocument<200> jsonReceiveBuffer;//using stack
-//StaticJsonDocument<200> jsonSendBuffer;//using stack
-DynamicJsonDocument jsonReceiveBuffer(2048);//using heap
-DynamicJsonDocument jsonSendBuffer(2048);//using heap
-
-void setup() {
-
+void setup() 
+{
     Serial.begin(SERIAL_BAUDRATE);
     WiFi.mode(WIFI_MODE_STA);
     WiFi.setAutoConnect(false);
     WiFi.setAutoReconnect(false);
 
     printBootupInfo();
-
     eeprom.init();
-    eeprom.readEepromData(&mydata);
+    eeprom.readEepromData(&romdata);
     
     //createTasks();
 
@@ -75,12 +45,12 @@ void setup() {
     
     webManager(spiffsManager());
 
-    //myeeprom.writeEepromData(&mydata);
+    eeprom.writeEepromData(&romdata);
 }
 
 
-void loop() {
-
+void loop() 
+{
     wifiManager();
     delay(5000);
 }

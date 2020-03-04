@@ -15,25 +15,64 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <None Include="wifiManager.ino" />
-    <None Include="bootupInfo.ino" />
     <None Include="ESP_Config.ino" />
-    <None Include="taskManager.ino" />
-    <None Include="webManager.ino" />
-    <None Include="spiffsManager.ino" />
-    <None Include="debugManager.ino" />
-    <None Include="pageFail.ino" />
-    <None Include="socketManager.ino" />
+    <None Include="web_socket.h">
+      <Filter>Header Files</Filter>
+    </None>
+    <None Include="debug.h">
+      <Filter>Header Files</Filter>
+    </None>
+    <None Include="page_fail.h">
+      <Filter>Header Files</Filter>
+    </None>
+    <None Include="spiffs_man.h">
+      <Filter>Header Files</Filter>
+    </None>
+    <None Include="task_man.h">
+      <Filter>Header Files</Filter>
+    </None>
+    <None Include="web_man.h">
+      <Filter>Header Files</Filter>
+    </None>
+    <None Include="wifi_man.h">
+      <Filter>Header Files</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="__vm\.ESP_Config.vsarduino.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="eepromCRC.h">
+    <ClInclude Include="eeprom_crc.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="system_cli_handler.h">
+    <ClInclude Include="shell.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="version.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="eeprom_crc.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="debug.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="task_man.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="spiffs_man.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="wifi_man.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="web_socket.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="web_man.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

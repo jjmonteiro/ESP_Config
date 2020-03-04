@@ -1,3 +1,17 @@
+/*******************************************************************//**
+ * @file    page_fail.h
+ *
+ * COPYRIGHT (c) 2020 Joaquim Monteiro
+ *
+ * @brief
+ * @details
+ *
+ *
+**//*********************************************************************/
+
+#ifndef page_fail_h
+#define page_fail_h
+
 const char PAGEFAIL[] PROGMEM = R"=====(
 <!DOCTYPE html>
 <html>
@@ -46,3 +60,6 @@ h3, p{
 </body>
 </html>
 )=====";
+
+#endif
+/**********************************end of file**********************************/

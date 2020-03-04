@@ -128,6 +128,8 @@ C:\Users\quimm\AppData\Local\Temp\VMBuilds\ESP_Config\esp32_esp32\Release\ESP_Co
  C:\Users\quimm\AppData\Local\arduino15\packages\esp32\hardware\esp32\1.0.3-rc1\cores\esp32/Esp.h \
  C:\Users\quimm\AppData\Local\arduino15\packages\esp32\hardware\esp32\1.0.3-rc1\cores\esp32/Arduino.h \
  C:\Users\quimm\AppData\Local\arduino15\packages\esp32\hardware\esp32\1.0.3-rc1\variants\esp32/pins_arduino.h \
+ C:\Users\quimm\AppData\Local\arduino15\packages\esp32\hardware\esp32\1.0.3-rc1\libraries\SPIFFS\src/SPIFFS.h \
+ C:\Users\quimm\AppData\Local\arduino15\packages\esp32\hardware\esp32\1.0.3-rc1\libraries\FS\src/FS.h \
  C:\Users\quimm\AppData\Local\arduino15\packages\esp32\hardware\esp32\1.0.3-rc1\libraries\WiFi\src/WiFi.h \
  C:\Users\quimm\AppData\Local\arduino15\packages\esp32\hardware\esp32\1.0.3-rc1\cores\esp32/Print.h \
  C:\Users\quimm\AppData\Local\arduino15\packages\esp32\hardware\esp32\1.0.3-rc1\cores\esp32/IPv6Address.h \
@@ -179,7 +181,6 @@ C:\Users\quimm\AppData\Local\Temp\VMBuilds\ESP_Config\esp32_esp32\Release\ESP_Co
  C:\Users\quimm\AppData\Local\arduino15\packages\esp32\hardware\esp32\1.0.3-rc1\cores\esp32/Udp.h \
  C:\Users\quimm\AppData\Local\arduino15\packages\esp32\hardware\esp32\1.0.3-rc1\cores\esp32/cbuf.h \
  C:\Users\quimm\OneDrive\Documentos\Arduino\libraries\ESPAsyncWebServer\src/ESPAsyncWebServer.h \
- C:\Users\quimm\AppData\Local\arduino15\packages\esp32\hardware\esp32\1.0.3-rc1\libraries\FS\src/FS.h \
  C:\Users\quimm\OneDrive\Documentos\Arduino\libraries\ESPAsyncWebServer\src/StringArray.h \
  C:\Users\quimm\OneDrive\Documentos\Arduino\libraries\AsyncTCP\src/AsyncTCP.h \
  C:\Users\quimm\AppData\Local\arduino15\packages\esp32\hardware\esp32\1.0.3-rc1/tools/sdk/include/lwip/lwip/pbuf.h \
@@ -188,13 +189,16 @@ C:\Users\quimm\AppData\Local\Temp\VMBuilds\ESP_Config\esp32_esp32\Release\ESP_Co
  C:\Users\quimm\OneDrive\Documentos\Arduino\libraries\ESPAsyncWebServer\src/WebHandlerImpl.h \
  C:\Users\quimm\OneDrive\Documentos\Arduino\libraries\ESPAsyncWebServer\src/AsyncWebSocket.h \
  C:\Users\quimm\OneDrive\Documentos\Arduino\libraries\ESPAsyncWebServer\src/AsyncEventSource.h \
- C:\Users\quimm\AppData\Local\arduino15\packages\esp32\hardware\esp32\1.0.3-rc1\libraries\SPIFFS\src/SPIFFS.h \
- C:\Users\quimm\AppData\Local\Temp\VMBuilds\ESP_Config\esp32_esp32\Release\eepromCRC.h \
- C:\Users\quimm\AppData\Local\arduino15\packages\esp32\hardware\esp32\1.0.3-rc1\libraries\EEPROM\src/EEPROM.h \
+ C:\Users\quimm\OneDrive\Documentos\Arduino\libraries\ESPAsyncWebServer\src/AsyncWebSocket.h \
  C:\Users\quimm\OneDrive\Documentos\Arduino\libraries\ArduinoJson\src/ArduinoJson.h \
  C:\Users\quimm\OneDrive\Documentos\Arduino\libraries\ArduinoJson\src/ArduinoJson.hpp \
+ C:\Users\quimm\AppData\Local\Temp\VMBuilds\ESP_Config\esp32_esp32\Release\version.h \
+ C:\Users\quimm\AppData\Local\Temp\VMBuilds\ESP_Config\esp32_esp32\Release\debug.h \
  C:\Users\quimm\AppData\Local\arduino15\packages\esp32\hardware\esp32\1.0.3-rc1/tools/sdk/include/esp32/rom/rtc.h \
  C:\Users\quimm\AppData\Local\arduino15\packages\esp32\hardware\esp32\1.0.3-rc1/tools/sdk/include/esp32/rom/ets_sys.h \
- C:\Users\quimm\AppData\Local\arduino15\packages\esp32\hardware\esp32\1.0.3-rc1/tools/sdk/include/esp32/esp_wifi.h \
- C:\Users\quimm\AppData\Local\arduino15\packages\esp32\hardware\esp32\1.0.3-rc1/tools/sdk/include/esp32/esp_wifi_crypto_types.h \
- C:\Users\quimm\AppData\Local\arduino15\packages\esp32\hardware\esp32\1.0.3-rc1/tools/sdk/include/esp32/esp_wifi_os_adapter.h
+ C:\Users\quimm\AppData\Local\Temp\VMBuilds\ESP_Config\esp32_esp32\Release\eeprom_crc.h \
+ C:\Users\quimm\AppData\Local\Temp\VMBuilds\ESP_Config\esp32_esp32\Release\spiffs_man.h \
+ C:\Users\quimm\AppData\Local\Temp\VMBuilds\ESP_Config\esp32_esp32\Release\task_man.h \
+ C:\Users\quimm\AppData\Local\Temp\VMBuilds\ESP_Config\esp32_esp32\Release\wifi_man.h \
+ C:\Users\quimm\AppData\Local\Temp\VMBuilds\ESP_Config\esp32_esp32\Release\web_socket.h \
+ C:\Users\quimm\AppData\Local\Temp\VMBuilds\ESP_Config\esp32_esp32\Release\web_man.h

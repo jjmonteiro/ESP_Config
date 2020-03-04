@@ -1,6 +1,16 @@
-#pragma once
+/*******************************************************************//**
+ * @file    shell.h
+ *
+ * COPYRIGHT (c) 2020 Joaquim Monteiro
+ *
+ * @brief
+ * @details
+ *
+ *
+**//*********************************************************************/
 
-#pragma once
+#ifndef shell_h
+#define shell_h
 
 typedef enum system_cli_handler_t {
     //INTERNALS
@@ -45,3 +55,6 @@ typedef enum system_cli_handler_t {
     SYSTEM_CLI_,                /**< ESP32  */
 
 };
+
+#endif
+/**********************************end of file**********************************/

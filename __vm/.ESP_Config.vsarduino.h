@@ -107,13 +107,5 @@ typedef long __PTRDIFF_TYPE__;
 #define noInterrupts() cli()
 
 #include "ESP_Config.ino"
-#include "bootupInfo.ino"
-#include "debugManager.ino"
-#include "pageFail.ino"
-#include "socketManager.ino"
-#include "spiffsManager.ino"
-#include "taskManager.ino"
-#include "webManager.ino"
-#include "wifiManager.ino"
 #endif
 #endif
