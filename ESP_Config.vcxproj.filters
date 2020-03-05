@@ -16,62 +16,62 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="ESP_Config.ino" />
-    <None Include="web_socket.h">
-      <Filter>Header Files</Filter>
-    </None>
-    <None Include="debug.h">
-      <Filter>Header Files</Filter>
-    </None>
-    <None Include="page_fail.h">
-      <Filter>Header Files</Filter>
-    </None>
-    <None Include="spiffs_man.h">
-      <Filter>Header Files</Filter>
-    </None>
-    <None Include="task_man.h">
-      <Filter>Header Files</Filter>
-    </None>
-    <None Include="web_man.h">
-      <Filter>Header Files</Filter>
-    </None>
-    <None Include="wifi_man.h">
-      <Filter>Header Files</Filter>
-    </None>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="__vm\.ESP_Config.vsarduino.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="eeprom_crc.h">
+    <ClInclude Include="src\debug_api.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="shell.h">
+    <ClInclude Include="src\eeprom_crc.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="version.h">
+    <ClInclude Include="src\page_fail.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\shell.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\spiffs_man.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\task_man.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\version.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\web_man.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\web_socket.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\wifi_man.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="eeprom_crc.cpp">
+    <ClCompile Include="src\debug_api.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="debug.cpp">
+    <ClCompile Include="src\eeprom_crc.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="task_man.cpp">
+    <ClCompile Include="src\spiffs_man.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="spiffs_man.cpp">
+    <ClCompile Include="src\task_man.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="wifi_man.cpp">
+    <ClCompile Include="src\web_man.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="web_socket.cpp">
+    <ClCompile Include="src\web_socket.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="web_man.cpp">
+    <ClCompile Include="src\wifi_man.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

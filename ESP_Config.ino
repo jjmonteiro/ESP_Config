@@ -15,15 +15,15 @@
 #include "AsyncWebSocket.h"
 #include <ArduinoJson.h>
 
-#include "version.h"
-#include "debug.h"
-#include "eeprom_crc.h"
-//#include "shell.h"
-#include "spiffs_man.h"
-#include "task_man.h"
-#include "wifi_man.h"
-#include "web_socket.h"
-#include "web_man.h"
+#include "src/version.h"
+#include "src/debug_api.h"
+#include "src/eeprom_crc.h"
+//#include "src/shell.h"
+#include "src/spiffs_man.h"
+#include "src/task_man.h"
+#include "src/wifi_man.h"
+#include "src/web_socket.h"
+#include "src/web_man.h"
 
 extern eepromManager eeprom;
 extern eepromData romdata;
@@ -39,7 +39,7 @@ void setup()
     eeprom.init();
     eeprom.readEepromData(&romdata);
     
-    //createTasks();
+    createTasks();
 
     WiFi.onEvent(WiFiEvent);
     
