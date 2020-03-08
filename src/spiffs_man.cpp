@@ -17,16 +17,16 @@ bool spiffsManager()
 {
     if (!SPIFFS.begin(true)) 
     {
-        Debug(__FILENAME__, "SPIFFS not mounted!", t_FATAL);
+        DEBUG(__FILENAME__, "SPIFFS not mounted!", t_FATAL);
         return false;
     }
     else 
     {
-        Debug(__FILENAME__, "SPIFFS mounted.", t_INFO);
+        DEBUG(__FILENAME__, "SPIFFS mounted.", t_INFO);
         listDir("/");
         if (!SPIFFS.exists("/index.html")) 
         {
-            Debug(__FILENAME__, "Couldn't find startup webpage!", t_FATAL);
+            DEBUG(__FILENAME__, "Couldn't find startup webpage!", t_FATAL);
             return false;
         }
         return true;
@@ -39,7 +39,7 @@ void listDir(char* dir)
     File file = root.openNextFile();
     while (file) 
     {
-        LOG("   " + String(file.name()));
+        PRINT_LINE("   " + String(file.name()));
         file = root.openNextFile();
     }
 }

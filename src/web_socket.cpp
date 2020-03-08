@@ -26,16 +26,16 @@ void onWsEvent(AsyncWebSocket* server, AsyncWebSocketClient* client, AwsEventTyp
     String cliendID = "CLIENT_" + String(client->id()) + ": ";
 
     if (type == WS_EVT_CONNECT) {
-        Debug(__FILENAME__, "WS_EVT_CONNECT " + String(client->id()), t_INFO);
+        DEBUG(__FILENAME__, "WS_EVT_CONNECT " + String(client->id()), t_INFO);
         //Serial.printf("ws[%s][%u] connect\n", server->url(), client->id());
         //client->printf("Hello Client %u :)", client->id());
         //client->ping();
     }
     else if (type == WS_EVT_DISCONNECT) {
-        Debug(__FILENAME__, "WS_EVT_DISCONNECT " + String(client->id()), t_INFO);
+        DEBUG(__FILENAME__, "WS_EVT_DISCONNECT " + String(client->id()), t_INFO);
     }
     else if (type == WS_EVT_ERROR) {
-        Debug(__FILENAME__, "WS_EVT_ERROR " + String(client->id()) + " Code: " + String(*((uint16_t*)arg)) + " Error Data: " + String((char*)data), t_ERROR);
+        DEBUG(__FILENAME__, "WS_EVT_ERROR " + String(client->id()) + " Code: " + String(*((uint16_t*)arg)) + " Error Data: " + String((char*)data), t_ERROR);
     }
     else if (type == WS_EVT_DATA) {
         AwsFrameInfo* info = (AwsFrameInfo*)arg;
@@ -109,7 +109,7 @@ void onWsEvent(AsyncWebSocket* server, AsyncWebSocketClient* client, AwsEventTyp
 
         }
         else {
-            Debug(__FILENAME__, "WS_EVT_DATA - Message too big was ignored.", t_ERROR);
+            DEBUG(__FILENAME__, "WS_EVT_DATA - Message too big was ignored.", t_ERROR);
         }
     }
 }

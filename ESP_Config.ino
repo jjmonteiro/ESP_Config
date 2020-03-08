@@ -14,14 +14,15 @@
 #include "ESPAsyncWebServer.h"
 #include "AsyncWebSocket.h"
 #include <ArduinoJson.h>
+#include <time.h>
 
 #include "src/version.h"
 #include "src/debug_api.h"
 #include "src/eeprom_crc.h"
 //#include "src/shell.h"
 #include "src/spiffs_man.h"
-#include "src/task_man.h"
 #include "src/wifi_man.h"
+#include "src/task_man.h"
 #include "src/web_socket.h"
 #include "src/web_man.h"
 
@@ -31,36 +32,21 @@ extern eepromData romdata;
 void setup() 
 {
     Serial.begin(SERIAL_BAUDRATE);
-    WiFi.mode(WIFI_MODE_STA);
-    WiFi.setAutoConnect(false);
-    WiFi.setAutoReconnect(false);
-
     printBootupInfo();
     eeprom.init();
     eeprom.readEepromData(&romdata);
     
-    createTasks();
-
     WiFi.onEvent(WiFiEvent);
-    
-    webManager(spiffsManager());
+    WiFi.mode(WIFI_MODE_STA);
 
-    eeprom.writeEepromData(&romdata);
+
+    webManager(spiffsManager());
+    createTasks();
 }
 
 
 void loop() 
 {
-    wifiManager();
-    delay(5000);
+    yield();
 }
 
-
-
-//String PtrToString(uint8_t* str, unsigned int len) {
-//    String result;
-//    for (int i = 0; i < len; i++) {
-//        result += ((char)str[i]);
-//    }
-//    return result;
-//}

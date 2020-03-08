@@ -1,7 +1,8 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\src"
   ],
-  "SelectedNode": "\\src",
+  "SelectedNode": "\\src\\task_man.cpp",
   "PreviewInSolutionExplorer": false
 }

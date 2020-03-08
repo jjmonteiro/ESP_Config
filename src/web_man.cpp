@@ -29,7 +29,7 @@ void webManager(bool spiffs)
 {
     if (spiffs) 
     {
-        Debug(__FILENAME__, "SPIFFS server files loaded.", t_INFO);
+        DEBUG(__FILENAME__, "SPIFFS server files loaded.", t_INFO);
 
         ws.onEvent(onWsEvent);
         server.addHandler(&ws);
@@ -60,7 +60,7 @@ void webManager(bool spiffs)
         });
     }
     else {
-        Debug(__FILENAME__, "PROGMEM server files loaded.", t_INFO);
+        DEBUG(__FILENAME__, "PROGMEM server files loaded.", t_INFO);
         server.on("/", HTTP_GET, [](AsyncWebServerRequest* request) 
         {
             request->send_P(200, "text/html", PAGEFAIL);

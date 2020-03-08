@@ -59,12 +59,12 @@ void eepromManager::readEepromData(eepromData *t)
 {
     if (isCRCvalid())
     {
-        Debug(__FILENAME__, "CRC test ok.", t_INFO);
+        DEBUG(__FILENAME__, "CRC test ok.", t_INFO);
         EEPROM.get(sizeof(uint32_t), *t);
     }
     else
     {
-        Debug(__FILENAME__, "CRC test failed.", t_ERROR);
+        DEBUG(__FILENAME__, "CRC test failed.", t_ERROR);
         writeEepromData(t);
     }
 }

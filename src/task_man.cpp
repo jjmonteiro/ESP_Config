@@ -4,8 +4,7 @@
  * COPYRIGHT (c) 2020 Joaquim Monteiro
  *
  * @brief    Provides multi-tasking features with CPU core selection
- * @details
- * @example  Create a task that will be executed in the Task1code() function, with priority 1 and executed on core 0
+ * @details  Create a task that will be executed in the Task1code() function, with priority 1 and executed on core 0
  *
  *     xTaskCreatePinnedToCore(
  *     Task1code,   Task function.
@@ -20,8 +19,14 @@
 #include "Arduino.h"
 #include "task_man.h"
 #include "debug_api.h"
+#include "wifi_man.h"
+#include "eeprom_crc.h"
+#include "time.h"
 
 TaskHandle_t    Task1, Task11, Task2;
+extern eepromManager eeprom;
+extern eepromData romdata;
+extern struct tm *timeinfo;
 
 const char* getTaskName(uint8_t taskId)
 {
@@ -30,8 +35,8 @@ const char* getTaskName(uint8_t taskId)
     return randName;
 }
 
-void createTasks() {
-
+void createTasks() 
+{
     xTaskCreatePinnedToCore(Task1code, "tID_0001", 10000, NULL, 1, &Task1, 0);
     delay(100);
 
@@ -42,39 +47,52 @@ void createTasks() {
     delay(100);
 }
 
-void Task1code(void* pvParameters) {
+// update clock
+void Task1code(void* pvParameters) 
+{
     String taskName = String(pcTaskGetTaskName(pvParameters));
-    Debug(__FILENAME__, taskName + " started on CPU_" + String(xPortGetCoreID()), t_INFO);
+    DEBUG(__FILENAME__, taskName + " started on CPU_" + String(xPortGetCoreID()), t_INFO);
     const TickType_t xDelay = 1000 / portTICK_PERIOD_MS;
 
-    while (true) {
-        Debug(__FILENAME__, taskName, t_INFO);
+    while (true) 
+    {
         vTaskDelay(xDelay);
+        DEBUG(__FILENAME__, taskName, t_TRACE);
+
+        getLocalTime(timeinfo, 0);
     }
 }
 
-
-void Task11code(void* pvParameters) {
+// check connection status
+void Task11code(void* pvParameters) 
+{
     String taskName = String(pcTaskGetTaskName(pvParameters));
-    Debug(__FILENAME__, taskName + " started on CPU_" + String(xPortGetCoreID()), t_INFO);
+    DEBUG(__FILENAME__, taskName + " started on CPU_" + String(xPortGetCoreID()), t_INFO);
     const TickType_t xDelay = 5000 / portTICK_PERIOD_MS;
 
-    while (true) {
-        Debug(__FILENAME__, taskName, t_INFO);
-
+    while (true) 
+    {
         vTaskDelay(xDelay);
+        DEBUG(__FILENAME__, taskName, t_TRACE);
+
+        wifiManager();
     }
 }
 
-
-void Task2code(void* pvParameters) {
+// autosave rom data
+void Task2code(void* pvParameters) 
+{
     String taskName = String(pcTaskGetTaskName(pvParameters));
-    Debug(__FILENAME__, taskName + " started on CPU_" + String(xPortGetCoreID()), t_INFO);
-    const TickType_t xDelay = 2000 / portTICK_PERIOD_MS;
+    DEBUG(__FILENAME__, taskName + " started on CPU_" + String(xPortGetCoreID()), t_INFO);
+    const TickType_t xDelay = 60000 / portTICK_PERIOD_MS;
 
-    while (true) {
-        Debug(__FILENAME__, taskName, t_INFO);
+    while (true) 
+    {
         vTaskDelay(xDelay);
+        DEBUG(__FILENAME__, taskName, t_TRACE);
+
+        eeprom.writeEepromData(&romdata);
+        ESP.restart();
     }
 }
 

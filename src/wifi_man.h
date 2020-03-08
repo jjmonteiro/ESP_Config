@@ -12,6 +12,9 @@
 #ifndef wifi_man_h
 #define wifi_man_h
 
+#include <WiFi.h>
+#include <esp_wifi.h>
+
 String getSSID();
 void WiFiEvent(WiFiEvent_t event);
 void wifiManager();

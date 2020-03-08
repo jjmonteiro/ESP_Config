@@ -196,8 +196,10 @@ C:\Users\quimm\AppData\Local\Temp\VMBuilds\ESP_Config\esp32_esp32\Debug\ESP_Conf
  C:\Users\quimm\AppData\Local\Temp\VMBuilds\ESP_Config\esp32_esp32\Debug\src/debug_api.h \
  C:\Users\quimm\AppData\Local\Temp\VMBuilds\ESP_Config\esp32_esp32\Debug\src/eeprom_crc.h \
  C:\Users\quimm\AppData\Local\Temp\VMBuilds\ESP_Config\esp32_esp32\Debug\src/spiffs_man.h \
- C:\Users\quimm\AppData\Local\Temp\VMBuilds\ESP_Config\esp32_esp32\Debug\src/task_man.h \
  C:\Users\quimm\AppData\Local\Temp\VMBuilds\ESP_Config\esp32_esp32\Debug\src/wifi_man.h \
+ C:\Users\quimm\AppData\Local\arduino15\packages\esp32\hardware\esp32\1.0.3-rc1/tools/sdk/include/esp32/esp_wifi.h \
+ C:\Users\quimm\AppData\Local\arduino15\packages\esp32\hardware\esp32\1.0.3-rc1/tools/sdk/include/esp32/esp_wifi_crypto_types.h \
+ C:\Users\quimm\AppData\Local\arduino15\packages\esp32\hardware\esp32\1.0.3-rc1/tools/sdk/include/esp32/esp_wifi_os_adapter.h \
+ C:\Users\quimm\AppData\Local\Temp\VMBuilds\ESP_Config\esp32_esp32\Debug\src/task_man.h \
  C:\Users\quimm\AppData\Local\Temp\VMBuilds\ESP_Config\esp32_esp32\Debug\src/web_socket.h \
- C:\Users\quimm\AppData\Local\Temp\VMBuilds\ESP_Config\esp32_esp32\Debug\src/web_man.h \
- c:\program\ files\ (x86)\microsoft\ visual\ studio\2019\community\common7\ide\extensions\p1hbfuhp.cmm\Micro\ Platforms\default\debuggers\VM_DBG/VM_DBG.h
+ C:\Users\quimm\AppData\Local\Temp\VMBuilds\ESP_Config\esp32_esp32\Debug\src/web_man.h

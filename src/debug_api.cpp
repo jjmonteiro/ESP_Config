@@ -15,6 +15,10 @@
 #include "eeprom_crc.h"
 #include "version.h"
 #include <string.h>
+#include "time.h"
+
+time_t rawtime;
+struct tm* timeinfo = localtime(&rawtime);
 
 String get_reset_reason(RESET_REASON reason)
 {
@@ -41,46 +45,46 @@ String get_reset_reason(RESET_REASON reason)
 
 void printBootupInfo() {
     String separator = "--------------------------";
-    LOG();
-    LOG(separator);
-    LOG("Serial Initialized @ " + String(SERIAL_BAUDRATE));
-    LOG("EEPROM Size: " + String(EEPROM_SIZE));
-    LOG("Reboot reason: ");
-    LOG("CPU0: " + get_reset_reason(rtc_get_reset_reason(0)));
-    LOG("CPU1: " + get_reset_reason(rtc_get_reset_reason(1)));
-    LOG(separator);
+    PRINT_LINE();
+    PRINT_LINE(separator);
+    PRINT_LINE("Serial Initialized @ " + String(SERIAL_BAUDRATE));
+    PRINT_LINE("EEPROM Size: " + String(EEPROM_SIZE));
+    PRINT_LINE("Reboot reason: ");
+    PRINT_LINE("CPU0: " + get_reset_reason(rtc_get_reset_reason(0)));
+    PRINT_LINE("CPU1: " + get_reset_reason(rtc_get_reset_reason(1)));
+    PRINT_LINE(separator);
 
-    LOG("Chip Rev: " + String(ESP.getChipRevision()));
-    LOG("Sdk Ver : " + String(ESP.getSdkVersion()));
-    LOG("Cpu Freq: " + String(ESP.getCpuFreqMHz()));
-    LOG("Cycles  : " + String(ESP.getCycleCount()));
-    LOG(separator);
+    PRINT_LINE("Chip Rev: " + String(ESP.getChipRevision()));
+    PRINT_LINE("Sdk Ver : " + String(ESP.getSdkVersion()));
+    PRINT_LINE("Cpu Freq: " + String(ESP.getCpuFreqMHz()));
+    PRINT_LINE("Cycles  : " + String(ESP.getCycleCount()));
+    PRINT_LINE(separator);
 
-    LOG("Heap Size  : " + String(ESP.getHeapSize()));
-    LOG("Free Heap  : " + String(ESP.getFreeHeap()));
-    LOG("SPIRam Size: " + String(ESP.getPsramSize()));
-    LOG("SPIRam Free: " + String(ESP.getFreePsram()));
-    LOG("Flash Mode : " + String(ESP.getFlashChipMode()));
-    LOG("Flash Size : " + String(ESP.getFlashChipSize()));
-    LOG("Flash Speed: " + String(ESP.getFlashChipSpeed()));
-    LOG(separator);
-    LOG(gen_GetVersion());
-    LOG(separator);
-    LOG();
+    PRINT_LINE("Heap Size  : " + String(ESP.getHeapSize()));
+    PRINT_LINE("Free Heap  : " + String(ESP.getFreeHeap()));
+    PRINT_LINE("SPIRam Size: " + String(ESP.getPsramSize()));
+    PRINT_LINE("SPIRam Free: " + String(ESP.getFreePsram()));
+    PRINT_LINE("Flash Mode : " + String(ESP.getFlashChipMode()));
+    PRINT_LINE("Flash Size : " + String(ESP.getFlashChipSize()));
+    PRINT_LINE("Flash Speed: " + String(ESP.getFlashChipSpeed()));
+    PRINT_LINE(separator);
+    PRINT_LINE(gen_GetVersion());
+    PRINT_LINE(separator);
+    PRINT_LINE();
 }
 
-String runTime()
+// is called every second
+String timestamp(tm *timedata)
 {
-    return "00:00:00";
-    //unsigned long times = millis();
-    //uint8_t millisec = times % 100;
-    //uint8_t tseconds = times / 1000;
-    //uint8_t tminutes = tseconds / 60;
-    //uint8_t seconds = tseconds % 60;
-    //return String(tminutes + ":") + String(seconds + ":") + String(millisec);
+    //Serial.print(timeinfo, "%g:%j-%X"); //[YY:DDD-00:00:00]
+
+    char buffer[80];
+    strftime(buffer, 80, "[%g:%j-%X]", timedata);
+    //String buffer = "[YY:DDD-00:00:00]";
+    return String(buffer);
 }
 
-void Debug(String fileName, String dbgMessage, dbgLevel Type) 
+void DEBUG(String fileName, String dbgMessage, dbgLevel Type) 
 {
     if (Type >= DEBUG_LEVEL)
     {
@@ -88,31 +92,32 @@ void Debug(String fileName, String dbgMessage, dbgLevel Type)
 
         switch (Type)
         {
-        case t_DEBUG:
-            msgType = " DEBUG ";
+        case t_TRACE:
+            msgType = "[ TRACE ]";
             break;
 
         case t_INFO:
-            msgType = " INFO  ";
+            msgType = "[ INFO ]";
             break;
 
         case t_WARN:
-            msgType = " WARNG ";
+            msgType = "[ WARNG ]";
             break;
 
         case t_ERROR:
-            msgType = " ERROR ";
+            msgType = "[ ERROR ]";
             break;
 
         case t_FATAL:
-            msgType = " FATAL ";
+            msgType = "[ FATAL ]";
             break;
 
         default:
             break;
         }
-        LOG("[" + runTime() + "] " + msgType + fileName + " : " + dbgMessage);
+
+        PRINT_LINE(timestamp(timeinfo) + msgType + " " + fileName + " : " + dbgMessage);
     }
 }
-//[00:00:00] INFO wifi_man.cpp: Connection successful.
+
 /**********************************end of file**********************************/
