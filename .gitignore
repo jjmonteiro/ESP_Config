@@ -9,6 +9,9 @@
 *.user
 *.userosscache
 *.sln.docstates
+*.user
+*.filters
+CppProperties.json
 
 # User folders
 Debug/
