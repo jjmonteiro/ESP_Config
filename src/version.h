@@ -1,22 +1,16 @@
-/***************************************************************************//**
- * @file gen_version.h
- * COPYRIGHT (c) 2018 Johnson Controls
- * @brief general version header file definitions
+/*******************************************************************//**
+ * @file    version.h
  *
- * @ingroup general
+ * COPYRIGHT (c) 2020 Joaquim Monteiro
  *
- * @brief This header contains the definitions of software versions and
- * build date macros.
- * ******************************************************************************/
+ * @brief
+ * @details
+ *
+ **//*********************************************************************/
 
-#ifndef GEN_VERSION_H
-#define GEN_VERSION_H
+#ifndef version_h
+#define version_h
 
-#include <stdint.h> // required for uint8_t
-
-/// Requirements
-/// 1. Compilation Time.
-/// 2. Version number.
 #define cn_VERSION_MAJOR (0)
 #define cn_VERSION_MINOR (3)
 #define cn_VERSION_CUT (12)
@@ -181,6 +175,6 @@ inline const char * gen_GetVersion(void)
 #define cn_FW_COMPILE_MONTH       TWO_C2I_Mac(cn_BUILD_MONTH_CH0, cn_BUILD_MONTH_CH1)
 #define cn_FW_COMPILE_DAY         TWO_C2I_Mac(cn_BUILD_DAY_CH0, cn_BUILD_DAY_CH1)
 
-#endif // GEN_VERSION_H
+#endif // version_h
 /********************************* end of file *****************************/
 

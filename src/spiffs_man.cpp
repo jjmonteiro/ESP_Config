@@ -17,7 +17,7 @@ bool spiffsManager()
 {
     if (!SPIFFS.begin(true)) 
     {
-        DEBUG(__FILENAME__, "SPIFFS not mounted!", t_FATAL);
+        DEBUG(__FILENAME__, "SPIFFS not mounted!", t_ERROR);
         return false;
     }
     else 
@@ -26,7 +26,7 @@ bool spiffsManager()
         listDir("/");
         if (!SPIFFS.exists("/index.html")) 
         {
-            DEBUG(__FILENAME__, "Couldn't find startup webpage!", t_FATAL);
+            DEBUG(__FILENAME__, "Couldn't find startup webpage!", t_ERROR);
             return false;
         }
         return true;

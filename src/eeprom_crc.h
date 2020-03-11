@@ -16,9 +16,10 @@
 
 struct eepromData
 {
-    uint32_t    value1 = 0;
-    uint32_t    value2 = 0;
-    uint16_t    value3 = 0;
+    const long  gmtOffset_sec      = 0;
+    const int   daylightOffset_sec = 0;
+    const char* ntpServer = "pool.ntp.org";
+
     char*       hostname = "esp32";
     char*       ssid[5][32] = { {"","","","",""} };
     char*       psk[5][32] = { {"","","","",""} };
