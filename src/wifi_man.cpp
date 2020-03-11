@@ -17,9 +17,6 @@
 
 extern eepromData romdata;
 extern struct tm* timeinfo;
-const char* ntpServer = "pool.ntp.org";
-const long  gmtOffset_sec = 3600;
-const int   daylightOffset_sec = 3600;
 
 //ssid while not connected?
 String getSSID() 
@@ -31,15 +28,32 @@ String getSSID()
 
 void updateTime()
 {
-    configTime(gmtOffset_sec, daylightOffset_sec, ntpServer);
+    configTime(romdata.gmtOffset_sec, romdata.daylightOffset_sec, romdata.ntpServer);
     if (!getLocalTime(timeinfo)) {
-        DEBUG(__FILENAME__, "NTP clock updated failed.", t_ERROR);
+        DEBUG(__FILENAME__, "NTP clock update failed.", t_ERROR);
     }
     else
     {
         DEBUG(__FILENAME__, "NTP clock updated.", t_INFO);
     }
-    
+}
+
+void printAP()
+{
+    DEBUG(__FILENAME__, "SSID: " + String(romdata.ap_ssid), t_INFO);
+    DEBUG(__FILENAME__, "WiFi.softAPIP(): http://" + String(WiFi.softAPIP().toString()), t_INFO);
+    DEBUG(__FILENAME__, "WiFi.softAPgetHostname(): http://" + String(WiFi.softAPgetHostname()) + ".mynet", t_INFO);
+    DEBUG(__FILENAME__, "WiFi.softAPmacAddress(): " + String(WiFi.softAPmacAddress()), t_INFO);
+}
+
+void printSTA()
+{
+    DEBUG(__FILENAME__, "Connection successful.", t_INFO);
+    DEBUG(__FILENAME__, "SSID: " + String(WiFi.SSID()), t_INFO);
+    DEBUG(__FILENAME__, "RSSI: " + String(WiFi.RSSI()) + "dBm", t_INFO);
+    DEBUG(__FILENAME__, "WiFi.localIP(): http://" + WiFi.localIP().toString(), t_INFO);
+    DEBUG(__FILENAME__, "WiFi.getHostname(): http://" + String(WiFi.getHostname()) + ".mynet", t_INFO);
+    DEBUG(__FILENAME__, "WiFi.macAddress(): " + String(WiFi.macAddress()), t_INFO);
 }
 
 void WiFiEvent(WiFiEvent_t event) 
@@ -85,14 +99,6 @@ void WiFiEvent(WiFiEvent_t event)
 
     case SYSTEM_EVENT_AP_START:
         DEBUG(__FILENAME__, "SYSTEM_EVENT_AP_START", t_INFO);
-
-        WiFi.softAPsetHostname(romdata.hostname);
-        WiFi.softAP(romdata.ap_ssid, romdata.ap_psk);
-        delay(100);
-        DEBUG(__FILENAME__, "SSID: " + String(romdata.ap_ssid), t_INFO);
-        DEBUG(__FILENAME__, "WiFi.softAPgetHostname(): " + String(WiFi.softAPgetHostname()), t_INFO);
-        DEBUG(__FILENAME__, "WiFi.softAPIP(): " + String(WiFi.softAPIP().toString()), t_INFO);
-        DEBUG(__FILENAME__, "WiFi.softAPmacAddress(): " + String(WiFi.softAPmacAddress()), t_INFO);
         break;
 
     case SYSTEM_EVENT_AP_STOP:
@@ -122,47 +128,49 @@ void WiFiEvent(WiFiEvent_t event)
 
 void wifiManager() 
 {
-    if (!WiFi.isConnected()) 
+    if (!WiFi.isConnected() && (WiFi.getMode() == WIFI_MODE_STA))
     {
+        WiFi.enableAP(false);
+        
         size_t wifi_list_max = sizeof romdata.ssid / sizeof romdata.ssid[0];
 
         for (size_t index = 0; ((!WiFi.isConnected()) && (index < wifi_list_max)); index++) 
         {
-            if (index) //attempts 1 to wifi_list_max
-            {
-                DEBUG(__FILENAME__, "Connecting to list entry #" + String(index), t_INFO);
-                WiFi.begin(*romdata.ssid[index], *romdata.psk[index]);
-                WiFi.waitForConnectResult();
-            }
-            else //first attempt
+            if (index == 0)
             {
                 WiFi.begin();
                 DEBUG(__FILENAME__, "Connecting to last known AP", t_INFO);
                 WiFi.waitForConnectResult();
             }
+            else
+            {
+                DEBUG(__FILENAME__, "Connecting to list entry #" + String(index), t_INFO);
+                WiFi.begin(*romdata.ssid[index], *romdata.psk[index]);
+                WiFi.waitForConnectResult();
+            }
 
-            if (WiFi.isConnected()) 
+            if (WiFi.isConnected())
             {
                 WiFi.setHostname(romdata.hostname);
                 updateTime();
-
-                DEBUG(__FILENAME__, "Connection successful.", t_INFO);
-                DEBUG(__FILENAME__, "SSID: " + String(WiFi.SSID()), t_INFO);
-                DEBUG(__FILENAME__, "RSSI: " + String(WiFi.RSSI()) + "dBm", t_INFO);
-                DEBUG(__FILENAME__, "WiFi.localIP(): http://" + WiFi.localIP().toString(), t_INFO);
-                DEBUG(__FILENAME__, "WiFi.getHostname(): http://" + String(WiFi.getHostname()) + ".mynet", t_INFO);
-                DEBUG(__FILENAME__, "WiFi.macAddress(): " + String(WiFi.macAddress()), t_INFO);
+                printSTA();
             }
-            else 
+            else
             {
                 DEBUG(__FILENAME__, "Connection failed.", t_ERROR);
             }
         }
 
         //still not connected! switch to AP?
-        if (!WiFi.isConnected()) {
+        if (!WiFi.isConnected()) 
+        {
+            WiFi.enableSTA(false);
             WiFi.mode(WIFI_MODE_AP);
 
+            WiFi.softAPsetHostname(romdata.hostname);
+            WiFi.softAP(romdata.ap_ssid, romdata.ap_psk);
+            delay(100);
+            printAP();
         }
     }
 }

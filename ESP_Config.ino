@@ -33,14 +33,15 @@ void setup()
 {
     Serial.begin(SERIAL_BAUDRATE);
     printBootupInfo();
+
     eeprom.init();
     eeprom.readEepromData(&romdata);
-    
-    WiFi.onEvent(WiFiEvent);
+
+    WiFi.enableSTA(true);
     WiFi.mode(WIFI_MODE_STA);
+    WiFi.onEvent(WiFiEvent);
 
-
-    webManager(spiffsManager());
+    webManager(spiffsManager()); 
     createTasks();
 }
 

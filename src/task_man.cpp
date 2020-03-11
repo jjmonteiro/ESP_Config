@@ -79,12 +79,12 @@ void Task11code(void* pvParameters)
     }
 }
 
-// autosave rom data
+// autosave eeprom data
 void Task2code(void* pvParameters) 
 {
     String taskName = String(pcTaskGetTaskName(pvParameters));
     DEBUG(__FILENAME__, taskName + " started on CPU_" + String(xPortGetCoreID()), t_INFO);
-    const TickType_t xDelay = 60000 / portTICK_PERIOD_MS;
+    const TickType_t xDelay = 240000 / portTICK_PERIOD_MS;
 
     while (true) 
     {
@@ -92,7 +92,6 @@ void Task2code(void* pvParameters)
         DEBUG(__FILENAME__, taskName, t_TRACE);
 
         eeprom.writeEepromData(&romdata);
-        ESP.restart();
     }
 }
 

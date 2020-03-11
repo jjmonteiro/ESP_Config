@@ -64,7 +64,7 @@ void eepromManager::readEepromData(eepromData *t)
     }
     else
     {
-        DEBUG(__FILENAME__, "CRC test failed.", t_ERROR);
+        DEBUG(__FILENAME__, "CRC test failed. Defaults loaded.", t_ERROR);
         writeEepromData(t);
     }
 }
@@ -72,7 +72,15 @@ void eepromManager::readEepromData(eepromData *t)
 void eepromManager::writeEepromData(eepromData *t)
 {
     EEPROM.put(sizeof(uint32_t), *t);
-    EEPROM.commit() ? setCRC() : void(0);
+    if (EEPROM.commit())
+    {
+        setCRC();
+        DEBUG(__FILENAME__, "EEPROM write success.", t_TRACE);
+    }
+    else
+    {
+        DEBUG(__FILENAME__, "EEPROM write failed.", t_ERROR);
+    }
 }
 
 /**********************************end of file**********************************/
