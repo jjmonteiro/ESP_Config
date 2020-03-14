@@ -12,7 +12,7 @@
 #ifndef eeprom_crc_h
 #define eeprom_crc_h
 
-#define EEPROM_SIZE 512
+#define EEPROM_SIZE 1024
 
 struct eepromData
 {

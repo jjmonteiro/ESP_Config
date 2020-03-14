@@ -21,7 +21,7 @@ typedef enum dbgLevel {
 };
 
 #define SERIAL_BAUDRATE	115200
-#define PRINT(X) Serial.print(x)
+#define PRINT(x) Serial.print(x)
 #define PRINT_LINE(x) Serial.println(x)
 #define DEBUG_LEVEL t_INFO
 #define __FILENAME__ (strrchr(__FILE__, '/') ? strrchr(__FILE__, '/') + 1 : strrchr(__FILE__, '\\') ? strrchr(__FILE__, '\\') + 1 : __FILE__)

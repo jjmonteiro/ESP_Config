@@ -134,7 +134,7 @@ inline const char * gen_GetVersion(void)
 {
     static const char sf_completeVersion[] =
     {
-        'V', 'e', 'r', 's', 'i', 'o', 'n', ' ',
+        'v',
         cn_VERSION_MAJOR_INIT,
         '.',
         cn_VERSION_MINOR_INIT,
@@ -142,10 +142,10 @@ inline const char * gen_GetVersion(void)
         cn_VERSION_CUT_INIT,
         ' ', 'D',
         cn_BUILD_DAY_CH0, cn_BUILD_DAY_CH1,
-        '-',
+        '.',
         cn_BUILD_MONTH_CH0, cn_BUILD_MONTH_CH1,
-        '-',
-        cn_BUILD_YEAR_CH0, cn_BUILD_YEAR_CH1, cn_BUILD_YEAR_CH2, cn_BUILD_YEAR_CH3,
+        '.',
+        cn_BUILD_YEAR_CH2, cn_BUILD_YEAR_CH3,
         ' ',
         'T',
         cn_BUILD_HOUR_CH0, cn_BUILD_HOUR_CH1,
