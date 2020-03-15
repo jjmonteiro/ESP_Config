@@ -13,41 +13,43 @@
 #include "debug_api.h"
 #include "spiffs_man.h"
 
-bool spiffsManager()
+spiffsManager FileSystem;
+
+bool spiffsManager::init()
 {
-    if (!SPIFFS.begin(true)) 
+    bool result = false;
+    if (SPIFFS.begin())
     {
-        DEBUG(__FILENAME__, "SPIFFS not mounted!", t_ERROR);
-        return false;
+        DEBUG(__FILENAME__, "SPIFFS mounted.", t_INFO);
+        printRoot(t_INFO);
+        result = true;
     }
     else 
     {
-        DEBUG(__FILENAME__, "SPIFFS mounted.", t_INFO);
-        listDir("/");
-        if (!SPIFFS.exists("/index.html")) 
-        {
-            DEBUG(__FILENAME__, "Couldn't find startup webpage!", t_ERROR);
-            return false;
-        }
-        return true;
+        DEBUG(__FILENAME__, "SPIFFS not mounted!", t_ERROR);
     }
+    return result;
 }
 
-void listDir(char* dir) 
+void spiffsManager::printRoot(dbgLevel Type)
 {
-    File root = SPIFFS.open(dir);
-    File file = root.openNextFile();
-    while (file) 
+    if (DEBUG_LEVEL <= Type)
     {
-        PRINT_LINE("   " + String(file.name()));
-        file = root.openNextFile();
+        File root = SPIFFS.open("/");
+        File file = root.openNextFile();
+        if (file)
+        {
+            while (file) 
+            {
+                PRINT_LINE("   " + String(file.name()));
+                file = root.openNextFile();
+            }
+        }
+        else
+        {
+            DEBUG(__FILENAME__, "No files found.", t_ERROR);
+        }
     }
 }
-
-//void addFileToServer(String file) {
-//    server.on(file.c_str(), HTTP_GET, [](AsyncWebServerRequest* request) {
-//        request->send(SPIFFS, [&file](String a) {a = file; });
-//        });
-//}
 
 /**********************************end of file**********************************/

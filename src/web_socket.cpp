@@ -15,7 +15,9 @@
 #include "SPIFFS.h"
 #include "debug_api.h"
 #include "web_socket.h"
+#include "wifi_man.h"
 
+extern wifiManager Wifi;
 //StaticJsonDocument<200> jsonReceiveBuffer;//using stack
 //StaticJsonDocument<200> jsonSendBuffer;//using stack
 DynamicJsonDocument jsonReceiveBuffer(2048);//using heap
@@ -87,13 +89,13 @@ void onWsEvent(AsyncWebSocket* server, AsyncWebSocketClient* client, AwsEventTyp
             }
             case 3:
             {
-                int n = WiFi.scanNetworks();
+                int n = Wifi.scanNetworks();
                 for (int i = 0; i < n; ++i) {
                     JsonObject key = value.createNestedObject();
-                    key["SSID"] = WiFi.SSID(i);
-                    key["RSSI"] = WiFi.RSSI(i);
-                    key["CH"] = WiFi.channel(i);
-                    key["AUTH"] = String(translateEncryptionType(WiFi.encryptionType(i)));
+                    key["SSID"] = Wifi.SSID(i);
+                    key["RSSI"] = Wifi.RSSI(i);
+                    key["CH"] = Wifi.channel(i);
+                    key["AUTH"] = String(translateEncryptionType(Wifi.encryptionType(i)));
                     //key["MAC"] = String(WiFi.BSSIDstr(i));
                     delay(10);
                 }

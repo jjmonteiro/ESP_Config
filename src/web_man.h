@@ -15,7 +15,7 @@
 #define WEBSERVER_PORT  80
 
 void notFound(AsyncWebServerRequest* request);
-void webManager(bool spiffs);
+void webManager();
 String processor(const String& var);
 
 #endif

@@ -11,9 +11,14 @@
 #ifndef spiffs_man_h
 #define spiffs_man_h
 
-bool spiffsManager();
-void listDir(char* dir);
-//void addFileToServer(String file);
+class spiffsManager
+{
+public:
+    bool init();
+    void printRoot(dbgLevel Type);
+};
+
+extern spiffsManager FileSystem;
 
 #endif 
 /**********************************end of file**********************************/

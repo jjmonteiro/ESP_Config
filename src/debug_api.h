@@ -5,7 +5,7 @@
  *
  * @brief   Debugger reporting facility
  * @details Generic implementation and definitions for the debug facility, 
- * provided for internal use and code troubleshooting
+ *          provided for internal use and code troubleshooting
  * 
 **//*********************************************************************/
 
@@ -20,10 +20,12 @@ typedef enum dbgLevel {
     t_FATAL
 };
 
+#define DEBUG_LEVEL t_INFO
 #define SERIAL_BAUDRATE	115200
+
 #define PRINT(x) Serial.print(x)
 #define PRINT_LINE(x) Serial.println(x)
-#define DEBUG_LEVEL t_INFO
+
 #define __FILENAME__ (strrchr(__FILE__, '/') ? strrchr(__FILE__, '/') + 1 : strrchr(__FILE__, '\\') ? strrchr(__FILE__, '\\') + 1 : __FILE__)
 
 //String get_reset_reason(RESET_REASON reason);

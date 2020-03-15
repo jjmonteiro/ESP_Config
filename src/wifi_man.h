@@ -7,17 +7,26 @@
  * @details
  *
  *
-**//*********************************************************************/
+ **//*********************************************************************/
 
 #ifndef wifi_man_h
 #define wifi_man_h
 
 #include <WiFi.h>
-#include <esp_wifi.h>
 
-String getSSID();
+class wifiManager : public WiFiClass
+{
+public:
+    void init();
+    void checkConection();
+private:
+    void updateTime();
+    void printAP(dbgLevel Type);
+    void printSTA(dbgLevel Type);
+};
+
 void WiFiEvent(WiFiEvent_t event);
-void wifiManager();
+extern wifiManager Wifi;
 
 #endif
 /**********************************end of file**********************************/

@@ -26,25 +26,20 @@
 #include "src/web_socket.h"
 #include "src/web_man.h"
 
-extern eepromManager eeprom;
-extern eepromData romdata;
-
 void setup() 
 {
     Serial.begin(SERIAL_BAUDRATE);
     printBootupInfo();
 
-    eeprom.init();
-    eeprom.readEepromData(&romdata);
+    Eeprom.init();
+    Eeprom.readEepromData(&romdata);
 
-    WiFi.enableSTA(true);
-    WiFi.mode(WIFI_MODE_STA);
-    WiFi.onEvent(WiFiEvent);
+    Wifi.init();
+    FileSystem.init();
 
-    webManager(spiffsManager()); 
+    webManager(); 
     createTasks();
 }
-
 
 void loop() 
 {

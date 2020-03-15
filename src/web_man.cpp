@@ -16,72 +16,78 @@
 #include "SPIFFS.h"
 #include "page_fail.h"
 #include "web_man.h"
+#include "wifi_man.h"
 
-AsyncWebServer  server(WEBSERVER_PORT);
-AsyncWebSocket  ws("/ws");
+AsyncWebServer server(WEBSERVER_PORT);
+AsyncWebSocket ws("/ws");
+extern wifiManager Wifi;
 
 void notFound(AsyncWebServerRequest* request) 
 {
     request->send(404, "text/plain", "Not found");
 }
 
-void webManager(bool spiffs) 
+String processor(const String& var)
 {
-    if (spiffs) 
+    if (var == "IPADDR")
     {
-        DEBUG(__FILENAME__, "SPIFFS server files loaded.", t_INFO);
+        if (Wifi.getMode() == WIFI_MODE_STA)
+        {
+            return Wifi.localIP().toString();
+        }
+        else
+        {
+            return Wifi.softAPIP().toString();
+        }
+    }
+}
 
+void webManager() 
+{
+    if (SPIFFS.exists("/index.html"))
+    {
+        File root = SPIFFS.open("/");
+        File file = root.openNextFile();        
         ws.onEvent(onWsEvent);
         server.addHandler(&ws);
 
-        server.on("/", HTTP_GET, [](AsyncWebServerRequest* request) 
+        server.on("/", HTTP_GET, [](AsyncWebServerRequest* request)
         {
             request->send(SPIFFS, "/index.html");
         });
 
-        server.on("/main.js", HTTP_GET, [](AsyncWebServerRequest* request) 
+        server.on("/main.js", HTTP_GET, [](AsyncWebServerRequest* request)
         {
-            request->send(SPIFFS, "/main.js", String(), false, processor);//updates main.js with current ip address
+            // DO NOT RENAME "processor". This method updates main.js with current IP address
+            request->send(SPIFFS, "/main.js", String(), false, processor);
         });
 
-        server.on("/w3.css", HTTP_GET, [](AsyncWebServerRequest* request) 
+        if (file)
         {
-            request->send(SPIFFS, "/w3.css");
-        });
+            while (file)
+            {
+                DEBUG(__FILENAME__, "Loading webserver file: " + String(file.name()), t_TRACE);
+                server.on(file.name(), HTTP_GET, [file](AsyncWebServerRequest* request)
+                {
+                    request->send(SPIFFS, file.name());
+                });
+                file = root.openNextFile();
+            }
+        }
 
-        server.on("/style.css", HTTP_GET, [](AsyncWebServerRequest* request) 
-        {
-            request->send(SPIFFS, "/style.css");
-        });
-
-        server.on("/iconify.min.js", HTTP_GET, [](AsyncWebServerRequest* request) 
-        {
-            request->send(SPIFFS, "/iconify.min.js");
-        });
+        DEBUG(__FILENAME__, "SPIFFS webserver files loaded.", t_INFO);
     }
-    else {
-        DEBUG(__FILENAME__, "PROGMEM server files loaded.", t_INFO);
+    else 
+    {
         server.on("/", HTTP_GET, [](AsyncWebServerRequest* request) 
         {
             request->send_P(200, "text/html", PAGEFAIL);
         });
-    }
 
+        DEBUG(__FILENAME__, "PROGMEM webserver files loaded.", t_ERROR);
+    }
     server.onNotFound(notFound);
     server.begin();
-}
-
-
-String processor(const String& var) {
-
-    if (var == "IPADDR") {
-        if (WiFi.getMode() == WIFI_MODE_STA) {
-            return WiFi.localIP().toString();
-        }
-        else {
-            return WiFi.softAPIP().toString();
-        }
-    }
 }
 
 /**********************************end of file**********************************/

@@ -7,7 +7,7 @@
  * @details
  *
  *
-**//*********************************************************************/
+ **//*********************************************************************/
 
 #include "Arduino.h"
 #include "debug_api.h"
@@ -17,16 +17,17 @@
 
 extern eepromData romdata;
 extern struct tm* timeinfo;
+wifiManager Wifi;
 
-//ssid while not connected?
-String getSSID() 
+void wifiManager::init()
 {
-    wifi_config_t conf;
-    esp_wifi_get_config(WIFI_IF_STA, &conf);
-    return String(reinterpret_cast<const char*>(conf.sta.ssid));
+    //WiFi.config(INADDR_NONE, INADDR_NONE, INADDR_NONE); // IP,GATEWAY,SUBNET
+    (DEBUG_LEVEL == t_TRACE) ? Wifi.onEvent(WiFiEvent) : 0;
+    Wifi.mode(WIFI_MODE_STA);
+    Wifi.checkConection();
 }
 
-void updateTime()
+void wifiManager::updateTime()
 {
     configTime(romdata.gmtOffset_sec, romdata.daylightOffset_sec, romdata.ntpServer);
     if (!getLocalTime(timeinfo)) {
@@ -38,87 +39,92 @@ void updateTime()
     }
 }
 
-void printAP()
+void wifiManager::printAP(dbgLevel Type)
 {
-    DEBUG(__FILENAME__, "SSID: " + String(romdata.ap_ssid), t_INFO);
-    DEBUG(__FILENAME__, "WiFi.softAPIP(): http://" + String(WiFi.softAPIP().toString()), t_INFO);
-    DEBUG(__FILENAME__, "WiFi.softAPgetHostname(): http://" + String(WiFi.softAPgetHostname()) + ".mynet", t_INFO);
-    DEBUG(__FILENAME__, "WiFi.softAPmacAddress(): " + String(WiFi.softAPmacAddress()), t_INFO);
+    if (DEBUG_LEVEL <= Type)
+    {
+
+        PRINT_LINE("   SSID: " + String(romdata.ap_ssid));
+        PRINT_LINE("   WiFi.softAPIP(): http://" + String(Wifi.softAPIP().toString()));
+        PRINT_LINE("   WiFi.softAPgetHostname(): http://" + String(Wifi.softAPgetHostname()) + ".mynet");
+        PRINT_LINE("   WiFi.softAPmacAddress(): " + String(Wifi.softAPmacAddress()));
+    }
 }
 
-void printSTA()
+void wifiManager::printSTA(dbgLevel Type)
 {
-    DEBUG(__FILENAME__, "Connection successful.", t_INFO);
-    DEBUG(__FILENAME__, "SSID: " + String(WiFi.SSID()), t_INFO);
-    DEBUG(__FILENAME__, "RSSI: " + String(WiFi.RSSI()) + "dBm", t_INFO);
-    DEBUG(__FILENAME__, "WiFi.localIP(): http://" + WiFi.localIP().toString(), t_INFO);
-    DEBUG(__FILENAME__, "WiFi.getHostname(): http://" + String(WiFi.getHostname()) + ".mynet", t_INFO);
-    DEBUG(__FILENAME__, "WiFi.macAddress(): " + String(WiFi.macAddress()), t_INFO);
+    if (DEBUG_LEVEL <= Type)
+    {
+        PRINT_LINE("   SSID: " + String(Wifi.SSID()));
+        PRINT_LINE("   RSSI: " + String(Wifi.RSSI()) + "dBm");
+        PRINT_LINE("   WiFi.localIP(): http://" + Wifi.localIP().toString());
+        PRINT_LINE("   WiFi.getHostname(): http://" + String(Wifi.getHostname()) + ".mynet");
+        PRINT_LINE("   WiFi.macAddress(): " + String(Wifi.macAddress()));
+    }
 }
 
-void WiFiEvent(WiFiEvent_t event) 
+void WiFiEvent(WiFiEvent_t event)
 {
     switch (event)
     {
     case SYSTEM_EVENT_WIFI_READY:
-        DEBUG(__FILENAME__, "SYSTEM_EVENT_WIFI_READY", t_INFO);
-        //WiFi.config(INADDR_NONE, INADDR_NONE, INADDR_NONE); // IP,GATEWAY,SUBNET
+        DEBUG(__FILENAME__, "SYSTEM_EVENT_WIFI_READY", t_TRACE);
         break;
 
     case SYSTEM_EVENT_SCAN_DONE:
-        DEBUG(__FILENAME__, "SYSTEM_EVENT_SCAN_DONE", t_INFO);
+        DEBUG(__FILENAME__, "SYSTEM_EVENT_SCAN_DONE", t_TRACE);
         break;
 
     case SYSTEM_EVENT_STA_START:
-        DEBUG(__FILENAME__, "SYSTEM_EVENT_STA_START", t_INFO);
+        DEBUG(__FILENAME__, "SYSTEM_EVENT_STA_START", t_TRACE);
         break;
 
     case SYSTEM_EVENT_STA_STOP:
-        DEBUG(__FILENAME__, "SYSTEM_EVENT_STA_STOP", t_INFO);
+        DEBUG(__FILENAME__, "SYSTEM_EVENT_STA_STOP", t_TRACE);
         break;
 
     case SYSTEM_EVENT_STA_CONNECTED:
-        DEBUG(__FILENAME__, "SYSTEM_EVENT_STA_CONNECTED", t_INFO);
+        DEBUG(__FILENAME__, "SYSTEM_EVENT_STA_CONNECTED", t_TRACE);
         break;
 
     case SYSTEM_EVENT_STA_DISCONNECTED:
-        DEBUG(__FILENAME__, "SYSTEM_EVENT_STA_DISCONNECTED", t_INFO);
+        DEBUG(__FILENAME__, "SYSTEM_EVENT_STA_DISCONNECTED", t_TRACE);
         break;
 
     case SYSTEM_EVENT_STA_AUTHMODE_CHANGE:
-        DEBUG(__FILENAME__, "SYSTEM_EVENT_STA_AUTHMODE_CHANGE", t_INFO);
+        DEBUG(__FILENAME__, "SYSTEM_EVENT_STA_AUTHMODE_CHANGE", t_TRACE);
         break;
 
     case SYSTEM_EVENT_STA_GOT_IP:
-        DEBUG(__FILENAME__, "SYSTEM_EVENT_STA_GOT_IP", t_INFO);
+        DEBUG(__FILENAME__, "SYSTEM_EVENT_STA_GOT_IP", t_TRACE);
         break;
 
     case SYSTEM_EVENT_STA_LOST_IP:
-        DEBUG(__FILENAME__, "SYSTEM_EVENT_STA_LOST_IP", t_INFO);
+        DEBUG(__FILENAME__, "SYSTEM_EVENT_STA_LOST_IP", t_TRACE);
         break;
 
     case SYSTEM_EVENT_AP_START:
-        DEBUG(__FILENAME__, "SYSTEM_EVENT_AP_START", t_INFO);
+        DEBUG(__FILENAME__, "SYSTEM_EVENT_AP_START", t_TRACE);
         break;
 
     case SYSTEM_EVENT_AP_STOP:
-        DEBUG(__FILENAME__, "SYSTEM_EVENT_AP_STOP", t_INFO);
+        DEBUG(__FILENAME__, "SYSTEM_EVENT_AP_STOP", t_TRACE);
         break;
 
     case SYSTEM_EVENT_AP_STACONNECTED:
-        DEBUG(__FILENAME__, "SYSTEM_EVENT_AP_STACONNECTED", t_INFO);
+        DEBUG(__FILENAME__, "SYSTEM_EVENT_AP_STACONNECTED", t_TRACE);
         break;
 
     case SYSTEM_EVENT_AP_STADISCONNECTED:
-        DEBUG(__FILENAME__, "SYSTEM_EVENT_AP_STADISCONNECTED", t_INFO);
+        DEBUG(__FILENAME__, "SYSTEM_EVENT_AP_STADISCONNECTED", t_TRACE);
         break;
 
     case SYSTEM_EVENT_AP_STAIPASSIGNED:
-        DEBUG(__FILENAME__, "SYSTEM_EVENT_AP_STAIPASSIGNED", t_INFO);
+        DEBUG(__FILENAME__, "SYSTEM_EVENT_AP_STAIPASSIGNED", t_TRACE);
         break;
 
     case SYSTEM_EVENT_AP_PROBEREQRECVED:
-        DEBUG(__FILENAME__, "SYSTEM_EVENT_AP_PROBEREQRECVED", t_INFO);
+        DEBUG(__FILENAME__, "SYSTEM_EVENT_AP_PROBEREQRECVED", t_TRACE);
         break;
 
     default:
@@ -126,34 +132,34 @@ void WiFiEvent(WiFiEvent_t event)
     }
 }
 
-void wifiManager() 
+void wifiManager::checkConection()
 {
-    if (!WiFi.isConnected() && (WiFi.getMode() == WIFI_MODE_STA))
+    if (!Wifi.isConnected())
     {
-        WiFi.enableAP(false);
-        
-        size_t wifi_list_max = sizeof romdata.ssid / sizeof romdata.ssid[0];
+        //WiFi.enableAP(false);
+        //WiFi.mode(WIFI_MODE_STA);
+        //size_t wifi_list_max = sizeof romdata.ssid / sizeof romdata.ssid[0];
 
-        for (size_t index = 0; ((!WiFi.isConnected()) && (index < wifi_list_max)); index++) 
+        //for (size_t index = 0; ((!WiFi.isConnected()) && (index < wifi_list_max)); index++) 
         {
-            if (index == 0)
+            //if (index == 0)
             {
-                WiFi.begin();
                 DEBUG(__FILENAME__, "Connecting to last known AP", t_INFO);
-                WiFi.waitForConnectResult();
+                Wifi.begin();
+                Wifi.waitForConnectResult();
             }
-            else
-            {
-                DEBUG(__FILENAME__, "Connecting to list entry #" + String(index), t_INFO);
-                WiFi.begin(*romdata.ssid[index], *romdata.psk[index]);
-                WiFi.waitForConnectResult();
-            }
+            //else
+            //{
+            //    DEBUG(__FILENAME__, "Connecting to list entry #" + String(index), t_INFO);
+            //    WiFi.begin(*romdata.ssid[index], *romdata.psk[index]);
+            //    WiFi.waitForConnectResult();
+            //}
 
-            if (WiFi.isConnected())
+            if (Wifi.isConnected())
             {
-                WiFi.setHostname(romdata.hostname);
+                Wifi.setHostname(romdata.hostname);
+                printSTA(t_INFO);
                 updateTime();
-                printSTA();
             }
             else
             {
@@ -162,15 +168,16 @@ void wifiManager()
         }
 
         //still not connected! switch to AP?
-        if (!WiFi.isConnected()) 
+        if (!Wifi.isConnected()) 
         {
-            WiFi.enableSTA(false);
-            WiFi.mode(WIFI_MODE_AP);
+            DEBUG(__FILENAME__, "Starting access point mode.", t_INFO);
+            //WiFi.enableSTA(false);
+            Wifi.mode(WIFI_MODE_AP);
 
-            WiFi.softAPsetHostname(romdata.hostname);
-            WiFi.softAP(romdata.ap_ssid, romdata.ap_psk);
+            Wifi.softAPsetHostname(romdata.hostname);
+            Wifi.softAP(romdata.ap_ssid, romdata.ap_psk);
             delay(100);
-            printAP();
+            printAP(t_INFO);
         }
     }
 }

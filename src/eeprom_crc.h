@@ -42,6 +42,9 @@ private:
     void setCRC();
 };
 
+extern eepromManager Eeprom;
+extern eepromData romdata;
+
 #endif
 /**********************************end of file**********************************/
 

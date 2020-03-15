@@ -14,7 +14,7 @@
 #include "debug_api.h"
 #include "eeprom_crc.h"
 
-eepromManager eeprom;
+eepromManager Eeprom;
 eepromData romdata;
 
 bool eepromManager::isCRCvalid(void) 
