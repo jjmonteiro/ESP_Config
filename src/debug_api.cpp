@@ -15,18 +15,7 @@
 #include "eeprom_crc.h"
 #include "version.h"
 #include <string.h>
-#include "time.h"
-
-#define KB " KB"
-#define MB " MB"
-#define MH " MHz"
-#define KB_DIVISOR (1024.0)
-#define MB_DIVISOR (1024.0 * 1024.0)
-#define MH_DIVISOR (1000000.0)
-#define TIMESTAMP_BUFFER_SIZE 18
-
-time_t rawtime;
-struct tm* timeinfo = localtime(&rawtime);
+#include "timer_man.h"
 
 String get_reset_reason(RESET_REASON reason)
 {
@@ -87,7 +76,7 @@ String timestamp()
 {
     // timestamp format: [YY:DDD-HH:MM:SS]
     char buffer[TIMESTAMP_BUFFER_SIZE];
-    strftime(buffer, TIMESTAMP_BUFFER_SIZE, "[%g:%j-%X]", timeinfo);
+    strftime(buffer, TIMESTAMP_BUFFER_SIZE, "[%g:%j-%X]", Timer.getTime());
     return String(buffer);
 }
 

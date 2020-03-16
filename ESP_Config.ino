@@ -25,6 +25,7 @@
 #include "src/task_man.h"
 #include "src/web_socket.h"
 #include "src/web_man.h"
+#include "src/timer_man.h"
 
 void setup() 
 {

@@ -20,7 +20,6 @@
 
 AsyncWebServer server(WEBSERVER_PORT);
 AsyncWebSocket ws("/ws");
-extern wifiManager Wifi;
 
 void notFound(AsyncWebServerRequest* request) 
 {

@@ -20,7 +20,6 @@ public:
     void init();
     void checkConection();
 private:
-    void updateTime();
     void printAP(dbgLevel Type);
     void printSTA(dbgLevel Type);
 };

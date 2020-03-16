@@ -21,13 +21,9 @@
 #include "debug_api.h"
 #include "wifi_man.h"
 #include "eeprom_crc.h"
-#include "time.h"
+#include "timer_man.h"
 
-TaskHandle_t    Task1, Task11, Task2;
-extern eepromManager Eeprom;
-extern eepromData romdata;
-extern struct tm *timeinfo;
-extern wifiManager Wifi;
+TaskHandle_t Task1, Task11, Task2;
 
 const char* getTaskName(uint8_t taskId)
 {
@@ -60,7 +56,7 @@ void Task1code(void* pvParameters)
         vTaskDelay(xDelay);
         DEBUG(__FILENAME__, taskName, t_TRACE);
 
-        getLocalTime(timeinfo, 0);
+        Timer.updateLocalTime();
     }
 }
 
