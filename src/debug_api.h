@@ -1,11 +1,11 @@
 /*******************************************************************//**
- * @file    debug.h
+ * @file     debug_api.h
  *
  * COPYRIGHT (c) 2020 Joaquim Monteiro
  *
- * @brief   Debugger reporting facility
- * @details Generic implementation and definitions for the debug facility, 
- *          provided for internal use and code troubleshooting
+ * @brief    Debug reporting facility
+ * @details  Generic implementation and definitions for the debug facility, 
+ *           provided for internal use and code troubleshooting
  * 
 **//*********************************************************************/
 

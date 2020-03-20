@@ -1,21 +1,37 @@
 /*******************************************************************//**
- * @file    eeprom_crc.cpp
+ * @file     eeprom_crc.cpp
  *
  * COPYRIGHT (c) 2020 Joaquim Monteiro
  *
- * @brief
- * @details
- *
+ * @brief    EEPROM handling facility
+ * @details  Provides a CRC safe EEPROM interface for reading and writing
+ *           application and user data.
  *
 **//*********************************************************************/
 
 #include "Arduino.h"
 #include <EEPROM.h>
+#include <rom/rtc.h>
 #include "debug_api.h"
 #include "eeprom_crc.h"
 
 eepromManager Eeprom;
 eepromData romdata;
+
+void eepromManager::debug(dbgLevel Type)
+{
+    if (DEBUG_LEVEL <= Type)
+    {
+        PRINT_LINE("   gmtOffset_sec: " + String(romdata.gmtOffset_sec));
+        PRINT_LINE("   dstOffset_sec: " + String(romdata.dstOffset_sec));
+        PRINT_LINE("   ntpServer: " + String(romdata.ntpServer));
+        PRINT_LINE("   sta_ssid: " + String(romdata.sta_ssid));
+        PRINT_LINE("   sta_psk: " + String(romdata.sta_psk));
+        PRINT_LINE("   hostname: " + String(romdata.hostname));
+        PRINT_LINE("   ap_ssid: " + String(romdata.ap_ssid));
+        PRINT_LINE("   ap_psk: " + String(romdata.ap_psk));
+    }
+}
 
 bool eepromManager::isCRCvalid(void) 
 {
@@ -53,6 +69,8 @@ void eepromManager::setCRC()
 void eepromManager::init() 
 {
     EEPROM.begin(EEPROM_SIZE);
+    // if CPU crashes attempt to recover by clearing eeprom
+    (rtc_get_reset_reason(0) == 12) ? writeEepromData(&romdata) : readEepromData(&romdata);
 }
 
 void eepromManager::readEepromData(eepromData *t)
@@ -61,20 +79,21 @@ void eepromManager::readEepromData(eepromData *t)
     {
         DEBUG(__FILENAME__, "CRC test ok.", t_INFO);
         EEPROM.get(sizeof(uint32_t), *t);
+        eepromManager::debug(t_TRACE);
     }
     else
     {
         DEBUG(__FILENAME__, "CRC test failed. Defaults loaded.", t_ERROR);
-        writeEepromData(t);
+        eepromManager::writeEepromData(t);
     }
 }
 
 void eepromManager::writeEepromData(eepromData *t)
 {
-    EEPROM.put(sizeof(uint32_t), *t);
+    EEPROM.put(sizeof(uint32_t), t);
     if (EEPROM.commit())
     {
-        setCRC();
+        eepromManager::setCRC();
         DEBUG(__FILENAME__, "EEPROM write success.", t_TRACE);
     }
     else

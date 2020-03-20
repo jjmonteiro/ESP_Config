@@ -1,10 +1,10 @@
 /*******************************************************************//**
- * @file    wifi_man.cpp
+ * @file     wifi_man.cpp
  *
  * COPYRIGHT (c) 2020 Joaquim Monteiro
  *
  * @brief
- * @details
+ * @details  
  *
  *
  **//*********************************************************************/
@@ -16,6 +16,7 @@
 #include "timer_man.h"
 
 wifiManager Wifi;
+extern eepromData romdata;
 
 void WiFiEvent(WiFiEvent_t event)
 {
@@ -141,14 +142,15 @@ void wifiManager::checkConection()
         {
             Wifi.setHostname(romdata.hostname);
             printSTA(t_INFO);
-            Timer.updateNTP();
+            Timer.updateNTP(romdata.gmtOffset_sec, romdata.dstOffset_sec, romdata.ntpServer);
             Wifi.SSID().toCharArray(romdata.sta_ssid, Wifi.SSID().length()+1);
             Wifi.psk().toCharArray(romdata.sta_psk, Wifi.psk().length()+1);
         }
         else
         {
             DEBUG(__FILENAME__, "Connection failed.", t_ERROR);
-            Wifi.disconnect();
+            WiFi.disconnect(true);
+            WiFi.mode(WIFI_OFF);
         }
 
         // still not connected! switch to AP.

@@ -1,10 +1,10 @@
 /*******************************************************************//**
- * @file    spiffs_man.cpp
+ * @file     timer_man.cpp
  *
  * COPYRIGHT (c) 2020 Joaquim Monteiro
  *
- * @brief
- * @details
+ * @brief    Time tracking facility
+ * @details  Provides date and time keeping functionality with NTP support
  *
  **//*********************************************************************/
 
@@ -18,20 +18,23 @@ timerManager Timer;
 
 void timerManager::init()
 {
-
     timeinfo = localtime(&rawtime);
 }
 
+bool timerManager::updateLocalTime()
+{
+    return getLocalTime(timeinfo, 0);
+}
 
 tm* timerManager::getTime()
 {
     return timeinfo;
 }
 
-void timerManager::updateNTP()
+void timerManager::updateNTP(long gmt_offset, int dst_offset, const char* ntp_server)
 {
-    configTime(romdata.gmtOffset_sec, romdata.daylightOffset_sec, romdata.ntpServer);
-    if (!updateLocalTime())
+    configTime(gmt_offset, dst_offset, ntp_server);
+    if (!getLocalTime(timeinfo))
     {
         DEBUG(__FILENAME__, "NTP clock update failed.", t_ERROR);
     }
@@ -39,11 +42,6 @@ void timerManager::updateNTP()
     {
         DEBUG(__FILENAME__, "NTP clock updated.", t_INFO);
     }
-}
-
-bool timerManager::updateLocalTime()
-{
-    getLocalTime(timeinfo, 0);
 }
 
 /**********************************end of file**********************************/

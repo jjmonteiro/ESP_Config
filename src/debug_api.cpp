@@ -1,11 +1,11 @@
 /*******************************************************************//**
- * @file    debug.h
+ * @file     debug_api.cpp
  *
  * COPYRIGHT (c) 2020 Joaquim Monteiro
  *
- * @brief   Debugger reporting facility
- * @details Generic implementation and definitions for the debug facility,
- * provided for internal use and code troubleshooting
+ * @brief    Debug reporting facility
+ * @details  Generic implementation and definitions for the debug facility,
+ *           provided for internal use and code troubleshooting
  *
 **//*********************************************************************/
 
@@ -72,7 +72,7 @@ void printBootupInfo() {
     PRINT_LINE();
 }
 
-String timestamp()
+String getTimestamp()
 {
     // timestamp format: [YY:DDD-HH:MM:SS]
     char buffer[TIMESTAMP_BUFFER_SIZE];
@@ -112,7 +112,7 @@ void DEBUG(String fileName, String dbgMessage, dbgLevel Type)
             break;
         }
 
-        PRINT_LINE(timestamp() + msgType + " " + fileName + " : " + dbgMessage);
+        PRINT_LINE(getTimestamp() + msgType + " " + fileName + " : " + dbgMessage);
     }
 }
 

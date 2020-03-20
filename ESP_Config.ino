@@ -1,5 +1,5 @@
 /*******************************************************************//**
- * @file    ESP_Config.ino
+ * @file     ESP_Config.ino
  *
  * COPYRIGHT (c) 2020 Joaquim Monteiro
  *
@@ -32,9 +32,8 @@ void setup()
     Serial.begin(SERIAL_BAUDRATE);
     printBootupInfo();
 
+    Timer.init();
     Eeprom.init();
-    Eeprom.readEepromData(&romdata);
-
     Wifi.init();
     FileSystem.init();
 
