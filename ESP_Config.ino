@@ -1,5 +1,5 @@
 /*******************************************************************//**
- * @file    ESP_Config.ino
+ * @file     ESP_Config.ino
  *
  * COPYRIGHT (c) 2020 Joaquim Monteiro
  *
@@ -25,15 +25,15 @@
 #include "src/task_man.h"
 #include "src/web_socket.h"
 #include "src/web_man.h"
+#include "src/timer_man.h"
 
 void setup() 
 {
     Serial.begin(SERIAL_BAUDRATE);
     printBootupInfo();
 
+    Timer.init();
     Eeprom.init();
-    Eeprom.readEepromData(&romdata);
-
     Wifi.init();
     FileSystem.init();
 

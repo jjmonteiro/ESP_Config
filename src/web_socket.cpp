@@ -17,7 +17,6 @@
 #include "web_socket.h"
 #include "wifi_man.h"
 
-extern wifiManager Wifi;
 //StaticJsonDocument<200> jsonReceiveBuffer;//using stack
 //StaticJsonDocument<200> jsonSendBuffer;//using stack
 DynamicJsonDocument jsonReceiveBuffer(2048);//using heap

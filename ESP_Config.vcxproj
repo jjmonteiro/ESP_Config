@@ -116,6 +116,7 @@
     <ClInclude Include="src\web_man.h" />
     <ClInclude Include="src\web_socket.h" />
     <ClInclude Include="src\wifi_man.h" />
+    <ClInclude Include="src\timer_man.h" />
     <ClInclude Include="__vm\.ESP_Config.vsarduino.h" />
   </ItemGroup>
   <ItemGroup>
@@ -126,6 +127,7 @@
     <ClCompile Include="src\web_man.cpp" />
     <ClCompile Include="src\web_socket.cpp" />
     <ClCompile Include="src\wifi_man.cpp" />
+    <ClCompile Include="src\timer_man.cpp" />
   </ItemGroup>
   <PropertyGroup>
     <DebuggerFlavor>VisualMicroDebugger</DebuggerFlavor>

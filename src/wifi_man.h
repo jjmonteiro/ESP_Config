@@ -1,10 +1,10 @@
 /*******************************************************************//**
- * @file    wifi_man.h
+ * @file     wifi_man.h
  *
  * COPYRIGHT (c) 2020 Joaquim Monteiro
  *
- * @brief
- * @details
+ * @brief   
+ * @details  
  *
  *
  **//*********************************************************************/
@@ -20,7 +20,6 @@ public:
     void init();
     void checkConection();
 private:
-    void updateTime();
     void printAP(dbgLevel Type);
     void printSTA(dbgLevel Type);
 };
