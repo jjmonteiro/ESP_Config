@@ -9,13 +9,14 @@
  *
 **//*********************************************************************/
 
-#include "Arduino.h"
+#include <Arduino.h>
+#include <string.h>
 #include "debug_api.h"
-#include <rom/rtc.h>
 #include "eeprom_crc.h"
 #include "version.h"
-#include <string.h>
 #include "timer_man.h"
+
+#if defined ESP32
 
 String get_reset_reason(RESET_REASON reason)
 {
@@ -59,22 +60,56 @@ void printBootupInfo() {
 
     PRINT_LINE("Eeprom Size: " + String(EEPROM_SIZE / KB_DIVISOR, 2) + KB);
     PRINT_LINE("Heap Size  : " + String(ESP.getHeapSize() / KB_DIVISOR, 2) + KB);
+    PRINT_LINE("Heap Used  : " + String(ESP_USED_HEAP / KB_DIVISOR, 2) + KB);
     PRINT_LINE("Heap Free  : " + String(ESP.getFreeHeap() / KB_DIVISOR, 2) + KB);
-    PRINT_LINE("Heap Max   : " + String(ESP.getMaxAllocHeap() / KB_DIVISOR, 2) + KB);
     PRINT_LINE("Sketch Size: " + String(ESP.getSketchSize() / KB_DIVISOR, 2) + KB);
-    PRINT_LINE("Sketch Free: " + String(ESP.getFreeSketchSpace() / MB_DIVISOR, 2) + MB);
-    PRINT_LINE("Flash Size : " + String(ESP.getFlashChipSize() / MB_DIVISOR, 2) + MB);
+    PRINT_LINE("Sketch Free: " + String(ESP.getFreeSketchSpace() / KB_DIVISOR, 2) + KB);
+    PRINT_LINE("Flash Size : " + String(ESP.getFlashChipSize() / KB_DIVISOR, 2) + KB);
     PRINT_LINE("Flash Speed: " + String(ESP.getFlashChipSpeed() / MH_DIVISOR, 1) + MH);
 
     PRINT_LINE(separator);
-    PRINT_LINE(gen_GetVersion());
+    PRINT_LINE(getVersion());
     PRINT_LINE(separator);
     PRINT_LINE();
 }
+#else
+
+void printBootupInfo() {
+    String separator = "--------------------------";
+    PRINT_LINE();
+    PRINT_LINE(separator);
+    PRINT_LINE("Serial COM : " + String(SERIAL_BAUDRATE));
+    PRINT_LINE("CPU reset  : " + String(ESP.getResetReason()));
+    PRINT_LINE(separator);
+
+    PRINT_LINE("Sdk Ver    : " + String(ESP.getSdkVersion()));
+    PRINT_LINE("Chip ID    : " + String(ESP.getChipId()));
+    PRINT_LINE("Flash ID   : " + String(ESP.getFlashChipId()));
+    PRINT_LINE("Flash Mode : " + String(ESP.getFlashChipMode()));
+    PRINT_LINE("CPU Freq   : " + String(ESP.getCpuFreqMHz()) + MH);
+    PRINT_LINE("Cycles     : " + String(ESP.getCycleCount()));
+    PRINT_LINE(separator);
+
+    PRINT_LINE("Eeprom Size: " + String(EEPROM_SIZE / KB_DIVISOR, 2) + KB);
+    PRINT_LINE("Heap Size  : " + String(ESP_HEAP_SIZE / KB_DIVISOR, 2) + KB);
+    PRINT_LINE("Heap Used  : " + String(ESP_USED_HEAP / KB_DIVISOR, 2) + KB);
+    PRINT_LINE("Heap Free  : " + String(ESP.getFreeHeap() / KB_DIVISOR, 2) + KB);
+    PRINT_LINE("Sketch Size: " + String(ESP.getSketchSize() / KB_DIVISOR, 2) + KB);
+    PRINT_LINE("Sketch Free: " + String(ESP.getFreeSketchSpace() / KB_DIVISOR, 2) + KB);
+    PRINT_LINE("Flash Size : " + String(ESP.getFlashChipSize() / KB_DIVISOR, 2) + KB);
+    PRINT_LINE("Flash Speed: " + String(ESP.getFlashChipSpeed() / MH_DIVISOR, 1) + MH);
+
+    PRINT_LINE(separator);
+    PRINT_LINE(getVersion());
+    PRINT_LINE(separator);
+    PRINT_LINE();
+}
+#endif
 
 String getTimestamp()
 {
     // timestamp format: [YY:DDD-HH:MM:SS]
+    Timer.updateLocalTime();
     char buffer[TIMESTAMP_BUFFER_SIZE];
     strftime(buffer, TIMESTAMP_BUFFER_SIZE, "[%g:%j-%X]", Timer.getTime());
     return String(buffer);
@@ -93,7 +128,7 @@ void DEBUG(String fileName, String dbgMessage, dbgLevel Type)
             break;
 
         case t_INFO:
-            msgType = "[ INFO ]";
+            msgType = "[ DEBUG ]";
             break;
 
         case t_WARN:

@@ -8,11 +8,21 @@
  *
  **//*********************************************************************/
 
-#include "Arduino.h"
-#include "SPIFFS.h"
+#define ESP32  // board selector: ESP32 or ESP01
+
+#if defined ESP32
 #include <WiFi.h>
-#include "ESPAsyncWebServer.h"
-#include "AsyncWebSocket.h"
+#include <SPIFFS.h>
+#else
+#include <ESP8266WiFi.h>
+#include <ESPAsyncTCP.h>
+#include <FS.h>
+#include <Scheduler.h>
+#endif
+#include <Arduino.h>
+#include <EEPROM.h>
+#include <ESPAsyncWebServer.h>
+#include <AsyncWebSocket.h>
 #include <ArduinoJson.h>
 #include <time.h>
 

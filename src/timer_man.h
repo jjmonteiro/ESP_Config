@@ -18,6 +18,7 @@ public:
     tm*  getTime();
     void updateNTP(long gmt_offset, int dst_offset, const char* ntp_server);
     bool updateLocalTime();
+    bool updateTimeServer();
 private:
     time_t rawtime;
     tm* timeinfo;
