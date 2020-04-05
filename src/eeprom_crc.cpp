@@ -10,8 +10,10 @@
 **//*********************************************************************/
 
 #include "Arduino.h"
-#include <EEPROM.h>
+#if defined ESP32
 #include <rom/rtc.h>
+#endif
+#include <EEPROM.h>
 #include "debug_api.h"
 #include "eeprom_crc.h"
 
@@ -30,10 +32,11 @@ void eepromManager::debug(dbgLevel Type)
         PRINT_LINE("   hostname: " + String(romdata.hostname));
         PRINT_LINE("   ap_ssid: " + String(romdata.ap_ssid));
         PRINT_LINE("   ap_psk: " + String(romdata.ap_psk));
+        PRINT_LINE("   ctr_value: " + String(romdata.ctr_value));
     }
 }
 
-bool eepromManager::isCRCvalid(void) 
+bool eepromManager::isCRCvalid() 
 {
     uint32_t crc;
     EEPROM.get(0, crc);
@@ -69,8 +72,13 @@ void eepromManager::setCRC()
 void eepromManager::init() 
 {
     EEPROM.begin(EEPROM_SIZE);
-    // if CPU crashes attempt to recover by clearing eeprom
-    (rtc_get_reset_reason(0) == 12) ? writeEepromData(&romdata) : readEepromData(&romdata);
+    readEepromData(&romdata);
+    if (romdata.ctr_value != 150682)
+    {
+        DEBUG(__FILENAME__, "CTR value check failed. Defaults loaded.", t_ERROR);
+        eepromData loadDefaults;
+        writeEepromData(&loadDefaults);
+    }
 }
 
 void eepromManager::readEepromData(eepromData *t)
@@ -78,7 +86,7 @@ void eepromManager::readEepromData(eepromData *t)
     if (isCRCvalid())
     {
         DEBUG(__FILENAME__, "CRC test ok.", t_INFO);
-        EEPROM.get(sizeof(uint32_t), *t);
+        EEPROM.get(sizeof(uint32_t), t);
         eepromManager::debug(t_TRACE);
     }
     else

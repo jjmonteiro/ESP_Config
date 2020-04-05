@@ -9,11 +9,11 @@
  *
 **//*********************************************************************/
 
-#include "Arduino.h"
-#include "ESPAsyncWebServer.h"
+#include <Arduino.h>
+#include <ESPAsyncWebServer.h>
+#include "spiffs_man.h"
 #include "web_socket.h"
 #include "debug_api.h"
-#include "SPIFFS.h"
 #include "page_fail.h"
 #include "web_man.h"
 #include "wifi_man.h"
@@ -43,35 +43,35 @@ String processor(const String& var)
 
 void webManager() 
 {
-    if (SPIFFS.exists("/index.html"))
+    if (FileSystem.exists("/index.html"))
     {
-        File root = SPIFFS.open("/");
-        File file = root.openNextFile();        
+        auto thisDir = FileSystem.openRoot();
+        auto thisFile = FileSystem.openNext(thisDir);
+
         ws.onEvent(onWsEvent);
         server.addHandler(&ws);
 
         server.on("/", HTTP_GET, [](AsyncWebServerRequest* request)
         {
-            request->send(SPIFFS, "/index.html");
+            request->send(FileSystem, "/index.html");
         });
 
         server.on("/main.js", HTTP_GET, [](AsyncWebServerRequest* request)
         {
             // DO NOT RENAME "processor". This method updates main.js with current IP address
-            request->send(SPIFFS, "/main.js", String(), false, processor);
+            request->send(FileSystem, "/main.js", String(), false, processor);
         });
 
-        if (file)
+        while (thisFile)
         {
-            while (file)
+            String sfileName = FileSystem.getFilename(thisDir, thisFile);
+
+            DEBUG(__FILENAME__, "Loading webserver file: " + sfileName, t_TRACE);
+            server.on(sfileName.c_str(), HTTP_GET, [sfileName](AsyncWebServerRequest* request)
             {
-                DEBUG(__FILENAME__, "Loading webserver file: " + String(file.name()), t_TRACE);
-                server.on(file.name(), HTTP_GET, [file](AsyncWebServerRequest* request)
-                {
-                    request->send(SPIFFS, file.name());
-                });
-                file = root.openNextFile();
-            }
+                request->send(FileSystem, sfileName.c_str());
+            });
+            thisFile = FileSystem.openNext(thisDir);
         }
 
         DEBUG(__FILENAME__, "SPIFFS webserver files loaded.", t_INFO);

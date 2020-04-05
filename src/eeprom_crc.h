@@ -16,14 +16,15 @@
 
 struct eepromData
 {
-    const long   gmtOffset_sec = 0;
-    const int    dstOffset_sec = 0;
-    const char*  ntpServer = "pool.ntp.org";
-    char         sta_ssid[32];
-    char         sta_psk[32];
-    const char*  hostname = "esp32";
-    const char*  ap_ssid = "esp32-123";
-    const char*  ap_psk = "12345678";
+    const int     ctr_value = 150682;
+    const long    gmtOffset_sec = 0;
+    const int     dstOffset_sec = 0;
+    const char*   ntpServer = "pool.ntp.org";
+    char          sta_ssid[32] = "(-_-)";
+    char          sta_psk[32] = "monteiro";
+    const char*   hostname = "espModule";
+    const char*   ap_ssid = "espModule";
+    const char*   ap_psk = "";
 };
 
 class eepromManager

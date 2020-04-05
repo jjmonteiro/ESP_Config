@@ -9,15 +9,15 @@
  *
  **//*********************************************************************/
 
-#include "Arduino.h"
+#include <Arduino.h>
 #include "debug_api.h"
 #include "wifi_man.h"
 #include "eeprom_crc.h"
 #include "timer_man.h"
 
 wifiManager Wifi;
-extern eepromData romdata;
 
+#if defined ESP32
 void WiFiEvent(WiFiEvent_t event)
 {
     const dbgLevel cn_EventLevel = t_INFO;
@@ -87,12 +87,68 @@ void WiFiEvent(WiFiEvent_t event)
         break;
     }
 }
+#else
+void WiFiEvent(WiFiEvent_t event)
+{
+    const dbgLevel cn_EventLevel = t_TRACE;
+    switch (event)
+    {
+    case WIFI_EVENT_STAMODE_CONNECTED:
+        DEBUG(__FILENAME__, "WIFI_EVENT_STAMODE_CONNECTED", cn_EventLevel);
+        break;
 
+    case WIFI_EVENT_STAMODE_DISCONNECTED:
+        DEBUG(__FILENAME__, "WIFI_EVENT_STAMODE_DISCONNECTED", cn_EventLevel);
+        break;
+
+    case WIFI_EVENT_STAMODE_AUTHMODE_CHANGE:
+        DEBUG(__FILENAME__, "WIFI_EVENT_STAMODE_AUTHMODE_CHANGE", cn_EventLevel);
+        break;
+
+    case WIFI_EVENT_STAMODE_GOT_IP:
+        DEBUG(__FILENAME__, "WIFI_EVENT_STAMODE_GOT_IP", cn_EventLevel);
+        break;
+
+    case WIFI_EVENT_STAMODE_DHCP_TIMEOUT:
+        DEBUG(__FILENAME__, "WIFI_EVENT_STAMODE_DHCP_TIMEOUT", cn_EventLevel);
+        break;
+
+    case WIFI_EVENT_SOFTAPMODE_STACONNECTED:
+        DEBUG(__FILENAME__, "WIFI_EVENT_SOFTAPMODE_STACONNECTED", cn_EventLevel);
+        break;
+
+    case WIFI_EVENT_SOFTAPMODE_STADISCONNECTED:
+        DEBUG(__FILENAME__, "WIFI_EVENT_SOFTAPMODE_STADISCONNECTED", cn_EventLevel);
+        break;
+
+    case WIFI_EVENT_SOFTAPMODE_PROBEREQRECVED:
+        DEBUG(__FILENAME__, "WIFI_EVENT_SOFTAPMODE_PROBEREQRECVED", cn_EventLevel);
+        break;
+
+    case WIFI_EVENT_MODE_CHANGE:
+        DEBUG(__FILENAME__, "WIFI_EVENT_MODE_CHANGE", cn_EventLevel);
+        break;
+
+    case WIFI_EVENT_SOFTAPMODE_DISTRIBUTE_STA_IP:
+        DEBUG(__FILENAME__, "WIFI_EVENT_SOFTAPMODE_DISTRIBUTE_STA_IP", cn_EventLevel);
+        break;
+
+    case WIFI_EVENT_MAX:
+        DEBUG(__FILENAME__, "WIFI_EVENT_MAX", cn_EventLevel);
+        break;
+
+    default:
+        break;
+    }
+}
+#endif
 void wifiManager::init()
 {
     //WiFi.config(INADDR_NONE, INADDR_NONE, INADDR_NONE); // IP,GATEWAY,SUBNET
     Wifi.onEvent(WiFiEvent);
     Wifi.mode(WIFI_MODE_STA);
+    Wifi.disconnect();
+    delay(100);
     Wifi.checkConection();
 }
 
@@ -122,47 +178,81 @@ void wifiManager::printSTA(dbgLevel Type)
 
 void wifiManager::checkConection()
 {
-    if (!Wifi.isConnected() && Wifi.mode(WIFI_MODE_STA))
+    if (Wifi.getMode() == WIFI_MODE_STA)
     {
         if (!Wifi.isConnected())
         {
             DEBUG(__FILENAME__, "Connecting to last known AP", t_INFO);
             Wifi.begin();
             Wifi.waitForConnectResult();
-        }
 
-        //if (!Wifi.isConnected())
-        //{
-        //    DEBUG(__FILENAME__, "Connecting to saved AP: " + String(romdata.sta_ssid), t_INFO);
-        //    Wifi.begin(romdata.sta_ssid, romdata.sta_psk);
-        //    Wifi.waitForConnectResult();
-        //}
+            if (!Wifi.isConnected())
+            {
+                DEBUG(__FILENAME__, "Connecting to saved AP: " + String(romdata.sta_ssid), t_INFO);
+                Wifi.begin(romdata.sta_ssid, romdata.sta_psk);
+                Wifi.waitForConnectResult();
+            }
 
-        if (Wifi.isConnected())
-        {
-            Wifi.setHostname(romdata.hostname);
-            printSTA(t_INFO);
-            Timer.updateNTP(romdata.gmtOffset_sec, romdata.dstOffset_sec, romdata.ntpServer);
-            Wifi.SSID().toCharArray(romdata.sta_ssid, Wifi.SSID().length()+1);
-            Wifi.psk().toCharArray(romdata.sta_psk, Wifi.psk().length()+1);
-        }
-        else
-        {
-            DEBUG(__FILENAME__, "Connection failed.", t_ERROR);
-            WiFi.disconnect(true);
-            WiFi.mode(WIFI_OFF);
+            if (Wifi.isConnected())
+            {
+                Wifi.setHostname(romdata.hostname);
+                printSTA(t_INFO);
+                Timer.updateNTP(romdata.gmtOffset_sec, romdata.dstOffset_sec, romdata.ntpServer);
+                Wifi.SSID().toCharArray(romdata.sta_ssid, Wifi.SSID().length() + 1);
+                Wifi.psk().toCharArray(romdata.sta_psk, Wifi.psk().length() + 1);
+            }
+            else
+            {
+                DEBUG(__FILENAME__, "Connection failed.", t_ERROR);
+                Wifi.disconnect();
+                Wifi.mode(WIFI_OFF);
+                delay(100);
+            }
         }
 
         // still not connected! switch to AP.
         if (!Wifi.isConnected()) 
         {
             DEBUG(__FILENAME__, "Starting access point mode.", t_INFO);
+            Wifi.disconnect();
             Wifi.mode(WIFI_MODE_AP);
-            Wifi.softAPsetHostname(romdata.hostname);
-            Wifi.softAP(romdata.ap_ssid, romdata.ap_psk);
-            printAP(t_INFO);
+            delay(100);
+            if (Wifi.softAP(romdata.ap_ssid, romdata.ap_psk))
+            {
+                printAP(t_INFO);
+            }
+            else
+            {
+                DEBUG(__FILENAME__, "Access point startup failed.", t_ERROR);
+            }
         }
     }
+}
+
+String translateEncryptionType(uint8_t encryptionType)
+{
+    switch (encryptionType)
+    {
+    case (WIFI_AUTH_OPEN):
+        return "Open";
+    case (WIFI_AUTH_WEP):
+        return "WEP";
+    case (WIFI_AUTH_WPA_PSK):
+        return "WPA1";
+    case (WIFI_AUTH_WPA2_PSK):
+        return "WPA2";
+    case (WIFI_AUTH_WPA_WPA2_PSK):
+        return "WPA1/2";
+    case (WIFI_AUTH_WPA2_ENTERPRISE):
+        return "WPA2/E";
+    default:
+        return "OTHER";
+    }
+}
+
+String wifiManager::getEncriptionType(uint8_t network_item)
+{
+    return translateEncryptionType(Wifi.encryptionType(network_item));
 }
 
 /**********************************end of file**********************************/

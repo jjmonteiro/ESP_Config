@@ -11,6 +11,12 @@
 
 #ifndef debug_h
 #define debug_h
+#if defined ESP32
+#include <rom/rtc.h>
+#define ESP_HEAP_SIZE ESP.getHeapSize()
+#else
+#define ESP_HEAP_SIZE 54224
+#endif
 
 typedef enum dbgLevel {
     t_TRACE,
@@ -20,14 +26,15 @@ typedef enum dbgLevel {
     t_FATAL
 };
 
-#define DEBUG_LEVEL t_INFO
+#define DEBUG_LEVEL t_TRACE
 #define SERIAL_BAUDRATE	115200
-#define KB_DIVISOR (1024.0)
-#define MB_DIVISOR (1024.0 * 1024.0)
-#define MH_DIVISOR (1000000.0)
 #define TIMESTAMP_BUFFER_SIZE 18
+#define ESP_USED_HEAP (ESP_HEAP_SIZE-ESP.getFreeHeap())
+
+#define KB_DIVISOR 1024.0
+#define MH_DIVISOR 1000000.0
+
 #define KB " KB"
-#define MB " MB"
 #define MH " MHz"
 
 #define PRINT(x) Serial.print(x)

@@ -11,12 +11,41 @@
 #ifndef spiffs_man_h
 #define spiffs_man_h
 
-class spiffsManager
+#if defined ESP32
+#include <SPIFFS.h>
+#include "debug_api.h"
+
+class spiffsManager : public fs::SPIFFSFS
 {
 public:
+    spiffsManager() : fs::SPIFFSFS(SPIFFS) {};
     bool init();
-    void printRoot(dbgLevel Type);
+    void printRoot(dbgLevel level);
+    File openRoot();
+    File openNext(File currentFile);
+    String getFilename(File currentDir, File currentFile);
+    size_t getUsedBytes();
+    size_t getTotalBytes();
 };
+
+#else
+#include <FS.h>
+#include "debug_api.h"
+
+class spiffsManager : public FS
+{
+public:
+    spiffsManager() : fs::FS(SPIFFS) {};
+    bool init();
+    void printRoot(dbgLevel level);
+    Dir openRoot();
+    bool openNext(Dir currentFile);
+    String getFilename(Dir currentDir, bool currentFile);
+    size_t getUsedBytes();
+    size_t getTotalBytes();
+};
+
+#endif
 
 extern spiffsManager FileSystem;
 
