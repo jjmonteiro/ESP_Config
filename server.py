@@ -16,11 +16,11 @@ networks = [
 	{"SSID":"netgear3324",	"RSSI":"-14",	"CH":6,		"AUTH":0}]
 
 filesystem = [
-	{"file":"index.html",	"size":"120",	"date":1566368674},
-	{"file":"main.js", 		"size":"78",	"date":1506458674},
-	{"file":"style.css",	"size":"21",	"date":1510244274},
-	{"file":"w3.css",		"size":"34",	"date":1506343234},
-	{"file":"iconify.js",	"size":"14",	"date":1543545674}]
+	{"File":"index.html",	"Size":"12032"},
+	{"File":"main.js", 		"Size":"78233"},
+	{"File":"style.css",	"Size":"21232"},
+	{"File":"w3.css",		"Size":"34323"},
+	{"File":"iconify.js",	"Size":"14232"}]
 # Called for every client connecting (after handshake)
 def new_client(client, server):
 	server.send_message_to_all("New client connected: id_%d" % client['id'])
@@ -55,6 +55,7 @@ def message_received(client, server, message):
 		if isinstance(request_message, dict) and "type" in request_message:
 
 			cmd = request_message["type"]
+			reply_message["type"] = cmd;
 
 			if   (cmd == 0):
 				#server.send_message(client['id'], "pong")

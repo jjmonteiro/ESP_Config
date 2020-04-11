@@ -25,7 +25,7 @@ File spiffsManager::openNext(File currentFile)
     return currentFile.openNextFile();
 }
 
-String spiffsManager::getFilename(File currentDir, File currentFile)
+String spiffsManager::getFileName(File currentDir, File currentFile)
 {
     return String(currentFile.name());
 }
@@ -40,6 +40,12 @@ size_t spiffsManager::getTotalBytes()
     return FileSystem.totalBytes();
 }
 
+String spiffsManager::getFileSize(File currentDir, File currentFile)
+{
+    int filesize = currentFile.size();
+    return String(filesize);
+}
+
 #else
 
 Dir spiffsManager::openRoot()
@@ -50,7 +56,7 @@ bool spiffsManager::openNext(Dir currentFile)
 {
     return currentFile.next();
 }
-String spiffsManager::getFilename(Dir currentDir, bool currentFile)
+String spiffsManager::getFileName(Dir currentDir, bool currentFile)
 {
     return String(currentDir.fileName());
 }
@@ -67,6 +73,12 @@ size_t spiffsManager::getTotalBytes()
     FSInfo storageInfo;
     FileSystem.info(storageInfo);
     return storageInfo.totalBytes;
+}
+
+String spiffsManager::getFileSize(Dir currentDir, bool currentFile)
+{
+    int filesize = currentDir.fileSize();
+    return String(filesize);
 }
 
 #endif
@@ -97,7 +109,12 @@ void spiffsManager::printRoot(dbgLevel level)
 
     while (thisFile)
     {
-        (DEBUG_LEVEL <= level) ? PRINT_LINE("   " + getFilename(thisDir, thisFile)) : (0);
+        if (DEBUG_LEVEL <= level)
+        {
+            String filename = getFileName(thisDir, thisFile);
+            String filesize = getFileSize(thisDir, thisFile);
+            PRINT_LINE("   " + filename + " - " + filesize);
+        }
         ifileCount++;
         thisFile = openNext(thisDir);
     }

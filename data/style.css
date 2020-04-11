@@ -19,7 +19,7 @@ html, body, .page
   color:#fff;
 }
 
-#p1 { background: #b3d9ff; }
+#p1 { background: lightblue; }
 #p2 { background: tomato; }
 #p3 { background: gold; }
 #p4 { background: deeppink; }
@@ -46,13 +46,13 @@ position: relative;
 {
   margin: 80px auto;
   height: 100%;
-  width: 98%;
+  width: 70%;
   max-height: 400px;
   max-width: 800px;
 }
 .console-style
 {
-  width: 100%;
+  width: 95%;
   font-family: 'Courier';
   font-size: 12px;
   color: black;
@@ -68,13 +68,13 @@ position: relative;
   overflow-y: scroll;
   overflow-x: hidden;  
 }
-/****** terminal end ********/
+/****** table start ********/
   
 .table-container
 {
   margin: 80px auto;
   height: 100%;
-  width: 98%;
+  width: 70%;
   max-height: 550px;
   max-width: 800px;
   overflow: auto;
@@ -87,9 +87,5 @@ tr:first-child>th
   background:#333;
   color:white;
 }
-
-
-
-
 
 

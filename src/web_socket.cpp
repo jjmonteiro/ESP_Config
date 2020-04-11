@@ -17,10 +17,10 @@
 #include "wifi_man.h"
 #include "spiffs_man.h"
 
-//StaticJsonDocument<200> jsonReceiveBuffer;//using stack
-//StaticJsonDocument<200> jsonSendBuffer;//using stack
-DynamicJsonDocument jsonIncomingBuffer(JSON_INCOMING_BUFFER);//using heap
-DynamicJsonDocument jsonOutgoingBuffer(JSON_OUTGOING_BUFFER);//using heap
+//StaticJsonDocument<JSON_INCOMING_BUFFER> jsonIncomingBuffer; //using stack
+//StaticJsonDocument<JSON_OUTGOING_BUFFER> jsonOutgoingBuffer; //using stack
+DynamicJsonDocument jsonIncomingBuffer(JSON_INCOMING_BUFFER); //using heap
+DynamicJsonDocument jsonOutgoingBuffer(JSON_OUTGOING_BUFFER); //using heap
 
 void onWsEvent(AsyncWebSocket* server, AsyncWebSocketClient* client, AwsEventType type, void* arg, uint8_t* data, size_t len) 
 {
@@ -77,11 +77,11 @@ void onWsEvent(AsyncWebSocket* server, AsyncWebSocketClient* client, AwsEventTyp
 
             switch (web_request_type)
             {
-            case 0:
+            case SYSTEM_GET_PING:
                 break;
-            case 1:
+            case SYSTEM_GET_VERSION:
                 break;
-            case 2:
+            case SYSTEM_GET_STATS:
             {
                 JsonObject key = value.createNestedObject();
                 const uint8_t cn_UPPER_MAP_LIMIT = 100;
@@ -91,7 +91,7 @@ void onWsEvent(AsyncWebSocket* server, AsyncWebSocketClient* client, AwsEventTyp
                 key["storage"] = map(FileSystem.getUsedBytes(), 0, FileSystem.getTotalBytes(), 0, cn_UPPER_MAP_LIMIT);
                 break;
             }
-            case 3:
+            case WIFI_GET_NETWORKS:
             {
                 int numNetworks = WiFi.scanComplete();
 
@@ -113,6 +113,21 @@ void onWsEvent(AsyncWebSocket* server, AsyncWebSocketClient* client, AwsEventTyp
                     WiFi.scanDelete();
                     WiFi.scanNetworks(true);
                 }
+                break;
+            }
+            case FILESYSTEM_GET_FILES:
+            {
+                auto thisDir = FileSystem.openRoot();
+                auto thisFile = FileSystem.openNext(thisDir);
+                while (thisFile)
+                {
+                    String sfileName = FileSystem.getFileName(thisDir, thisFile);
+                    JsonObject key = value.createNestedObject();
+                    key["Name"] = sfileName;
+                    key["Size"] = FileSystem.getFileSize(thisDir, thisFile);
+                    thisFile = FileSystem.openNext(thisDir);
+                }
+                break;
             }
             default:
                 break;
