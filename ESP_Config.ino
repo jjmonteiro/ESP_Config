@@ -17,6 +17,7 @@
 #include <ESP8266WiFi.h>
 #include <ESPAsyncTCP.h>
 #include <FS.h>
+#include <LittleFS.h>
 #include <Scheduler.h>
 #endif
 #include <Arduino.h>

@@ -23,9 +23,10 @@ public:
     void printRoot(dbgLevel level);
     File openRoot();
     File openNext(File currentFile);
-    String getFilename(File currentDir, File currentFile);
+    String getFileName(File currentDir, File currentFile);
     size_t getUsedBytes();
     size_t getTotalBytes();
+    String getFileSize(File currentDir, File currentFile);
 };
 
 #else
@@ -40,9 +41,10 @@ public:
     void printRoot(dbgLevel level);
     Dir openRoot();
     bool openNext(Dir currentFile);
-    String getFilename(Dir currentDir, bool currentFile);
+    String getFileName(Dir currentDir, bool currentFile);
     size_t getUsedBytes();
     size_t getTotalBytes();
+    String getFileSize(Dir currentDir, bool currentFile);
 };
 
 #endif

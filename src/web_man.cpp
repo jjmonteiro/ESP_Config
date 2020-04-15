@@ -64,7 +64,7 @@ void webManager()
 
         while (thisFile)
         {
-            String sfileName = FileSystem.getFilename(thisDir, thisFile);
+            String sfileName = FileSystem.getFileName(thisDir, thisFile);
 
             DEBUG(__FILENAME__, "Loading webserver file: " + sfileName, t_TRACE);
             server.on(sfileName.c_str(), HTTP_GET, [sfileName](AsyncWebServerRequest* request)

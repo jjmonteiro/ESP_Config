@@ -17,9 +17,11 @@
 
 enum
 {
-    BACKEND_PING,
-    SYSTEM_STATS,
-    WIFI_SCAN,
+    SYSTEM_GET_PING,
+    SYSTEM_GET_VERSION,
+    SYSTEM_GET_STATS,
+    WIFI_GET_NETWORKS,
+    FILESYSTEM_GET_FILES
 
 
 } web_request_type;
